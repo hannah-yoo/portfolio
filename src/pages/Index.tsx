@@ -36,7 +36,7 @@ const Index = () => {
             </h1>
             <div className="mt-8 h-4 w-32 bg-brutalist-red" />
             <p className="mt-6 text-xs tracking-widest text-brutalist-muted">
-              ARTIST &amp; DESIGNER / EST. 2015
+              ARTIST &amp; DESIGNER / EST. 2022
             </p>
           </div>
 
