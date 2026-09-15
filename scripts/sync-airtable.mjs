@@ -179,29 +179,35 @@ const normalizeRecord = async ({ id, fields }, index) => {
 };
 
 async function syncAirtable() {
+  const isCI = Boolean(process.env.CI || process.env.GITHUB_ACTIONS);
+  console.log(`\n[Sync] PORTFOLIO_TOKEN status: ${token ? `Found (length: ${token.length})` : "NOT FOUND"}`);
+
   if (!token) {
-    console.warn("\n⚠️  [Sync] PORTFOLIO_TOKEN is not set.");
-    console.warn("👉 To fetch from Airtable, add your token to .env:");
+    if (isCI) {
+      throw new Error(
+        "❌ PORTFOLIO_TOKEN is missing in GitHub Actions! Please check repository secrets or environment secrets."
+      );
+    }
+    console.warn("\n⚠️  [Sync] PORTFOLIO_TOKEN is not set locally.");
+    console.warn("👉 Add your token to .env to fetch artworks from Airtable:");
     console.warn("   PORTFOLIO_TOKEN=patXXXXXXXXXXXXXXX.XXXXXXXXXXXXX\n");
 
-    // Don't erase existing data if already synced!
-    try {
-      if (existsSync(outputPath)) {
+    if (existsSync(outputPath)) {
+      try {
         const existing = JSON.parse(await readFile(outputPath, "utf8"));
         if (Array.isArray(existing) && existing.length > 0) {
           console.log(`ℹ️  [Sync] Preserving ${existing.length} existing project(s) in airtable-projects.json.\n`);
           return;
         }
-      }
-    } catch {}
+      } catch {}
+    }
 
-    // Fallback: create empty array so build doesn't crash on import
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, "[]\n");
     return;
   }
 
-  console.log(`\n🔄 [Sync] Fetching from Airtable (Base: ${baseId}, Table: ${tableName})...`);
+  console.log(`🔄 [Sync] Fetching from Airtable (Base: ${baseId}, Table: ${tableName})...`);
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
   const records = [];
   let offset;
@@ -241,6 +247,9 @@ async function syncAirtable() {
     console.log(`✅ [Sync] Successfully synced ${projects.length} project(s) to src/data/airtable-projects.json\n`);
   } catch (err) {
     console.error(`\n❌ [Sync] Error fetching from Airtable:`, err.message);
+    if (isCI) {
+      throw err;
+    }
     if (existsSync(outputPath)) {
       console.warn("ℹ️  [Sync] Keeping existing cached airtable-projects.json.\n");
     } else {
