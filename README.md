@@ -1,4 +1,5 @@
-Apersonal portfolio website of Hannah Yoo, a freelance graphic designer and visual artist.
+# A personal portfolio website of Hannah Yoo
+I'm a freelance graphic designer and visual artist.
 
 # ./tailwind-plus folder:
 
