@@ -65,12 +65,16 @@ const Index = () => {
                           to={`/projects/${project.slug}`}
                           className="group block transition-all"
                         >
-                          <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink">
-                            <img
-                              src={project.heroImage}
-                              alt={project.title}
-                              className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
-                            />
+                          <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink flex items-center justify-center p-6 text-center text-sm text-brutalist-muted">
+                            {project.heroImage ? (
+                              <img
+                                src={project.heroImage}
+                                alt={project.title}
+                                className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
+                              />
+                            ) : (
+                              "To be indicated"
+                            )}
                           </div>
                           <div className="p-4 flex justify-between items-center">
                             <div>

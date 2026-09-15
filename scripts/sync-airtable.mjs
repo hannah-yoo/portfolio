@@ -58,26 +58,28 @@ const asImages = (value, title) => {
 const asBoolean = (value) =>
   value === true || (typeof value === "string" && value.trim().toLowerCase() === "true");
 
+const TO_BE_INDICATED = "To be indicated";
+
 const normalizeRecord = ({ id, fields }) => {
-  const title = asText(findField(fields, fieldAliases.title), "Untitled project");
+  const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
   const heroValue = findField(fields, fieldAliases.heroImage);
   const images = asImages(findField(fields, fieldAliases.images), title);
   const heroImages = asImages(heroValue, title);
-  const heroImage = heroImages[0]?.url || images[0]?.url || "https://placehold.co/1200x750?text=Portfolio";
+  const heroImage = heroImages[0]?.url || images[0]?.url || "";
   const category = asText(findField(fields, fieldAliases.category), "design").toLowerCase();
 
   return {
     id,
     slug: slugify(title),
     title,
-    subtitle: asText(findField(fields, fieldAliases.subtitle), "Portfolio project"),
-    year: asText(findField(fields, fieldAliases.year), String(new Date().getFullYear())),
-    description: asText(findField(fields, fieldAliases.description), "Project details coming soon."),
-    role: asText(findField(fields, fieldAliases.role), "Designer"),
-    team: asText(findField(fields, fieldAliases.team), "Independent"),
-    timeline: asText(findField(fields, fieldAliases.timeline), "Ongoing"),
+    subtitle: asText(findField(fields, fieldAliases.subtitle), TO_BE_INDICATED),
+    year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
+    description: asText(findField(fields, fieldAliases.description), TO_BE_INDICATED),
+    role: asText(findField(fields, fieldAliases.role), TO_BE_INDICATED),
+    team: asText(findField(fields, fieldAliases.team), TO_BE_INDICATED),
+    timeline: asText(findField(fields, fieldAliases.timeline), TO_BE_INDICATED),
     heroImage,
-    images: images.length > 0 ? images : [{ id: `${id}-hero`, url: heroImage, alt: title, width: "full" }],
+    images,
     gridWidth: 6,
     featured: asBoolean(findField(fields, fieldAliases.featured)),
     category: category.includes("fine") || category.includes("art") ? "fine-arts" : "design",
@@ -86,7 +88,7 @@ const normalizeRecord = ({ id, fields }) => {
 
 if (!token) {
   await writeFile(outputPath, "[]\n");
-  console.log("PORTFOLIO_TOKEN is not set; using local fallback portfolio data.");
+  console.log("PORTFOLIO_TOKEN is not set; no Airtable projects were synced.");
 } else {
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
   const records = [];

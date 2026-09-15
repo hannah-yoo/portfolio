@@ -63,11 +63,17 @@ const ProjectDetail = () => {
           <FadeIn>
             <div className="border-4 border-brutalist-ink overflow-hidden">
               <AspectRatio ratio={16 / 9}>
-                <img
-                  src={project.heroImage}
-                  alt={`${project.title} hero image`}
-                  className="w-full h-full object-cover"
-                />
+                {project.heroImage ? (
+                  <img
+                    src={project.heroImage}
+                    alt={`${project.title} hero image`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-sm text-brutalist-muted">
+                    To be indicated
+                  </div>
+                )}
               </AspectRatio>
             </div>
           </FadeIn>
@@ -206,10 +212,10 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
     <figure>
       <div className="border-4 border-brutalist-ink overflow-hidden">
         <AspectRatio ratio={16 / 9} ref={ref}>
-          {!imageLoaded && (
+          {!imageLoaded && src && (
             <div className="absolute inset-0 w-full h-full bg-brutalist-ink/10 animate-pulse" />
           )}
-          {isIntersecting && (
+          {isIntersecting && src ? (
             <img
               src={src}
               alt={alt}
@@ -221,7 +227,11 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
                 imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
               )}
             />
-          )}
+          ) : !src ? (
+            <div className="absolute inset-0 flex items-center justify-center text-sm text-brutalist-muted">
+              To be indicated
+            </div>
+          ) : null}
         </AspectRatio>
       </div>
       {caption && (
