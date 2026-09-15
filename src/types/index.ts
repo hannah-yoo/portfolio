@@ -24,6 +24,8 @@ export interface ProjectImage {
   caption?: string;
 }
 
+export type ProjectCategory = "fine-arts" | "design";
+
 export interface Project {
   id: string;
   slug: string;
@@ -38,6 +40,8 @@ export interface Project {
   images: ProjectImage[];
   gridWidth: 3 | 6 | 12;
   featured: boolean;
+  /** Which work section this project belongs to */
+  category: ProjectCategory;
 }
 
 export interface Testimonial {

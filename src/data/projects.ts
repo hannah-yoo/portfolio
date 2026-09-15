@@ -55,6 +55,7 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 12,
+    category: "design",
     featured: true,
   },
   {
@@ -85,6 +86,7 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 6,
+    category: "design",
     featured: true,
   },
   {
@@ -119,6 +121,7 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 6,
+    category: "design",
     featured: true,
   },
   {
@@ -141,6 +144,7 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 3,
+    category: "design",
     featured: false,
   },
   {
@@ -175,6 +179,7 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 6,
+    category: "design",
     featured: true,
   },
   {
@@ -197,6 +202,30 @@ export const projects: Project[] = [
       },
     ],
     gridWidth: 3,
+    category: "fine-arts",
+    featured: false,
+  },
+  {
+    id: "7",
+    slug: "painting-studies",
+    title: "Painting Studies",
+    subtitle: "Acrylic on Canvas",
+    year: "2022",
+    description: "A collection of personal painting studies exploring color, texture, and form. This ongoing practice sits outside of commercial work and feeds directly back into the studio's visual language.",
+    role: "Artist",
+    team: "Solo Project",
+    timeline: "Ongoing",
+    heroImage: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjQ2NzIwMjh8&ixlib=rb-4.1.0&q=80&w=1080", // Photo by Steve Johnson on Unsplash
+    images: [
+      {
+        id: "7-1",
+        url: "https://images.unsplash.com/photo-1549289524-06cf8837ace5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDA2OTF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NjQ2NzIwMjh8&ixlib=rb-4.1.0&q=80&w=1080", // Photo by Ricardo Gomez Angel on Unsplash
+        alt: "Abstract painting study",
+        width: "full",
+      },
+    ],
+    gridWidth: 6,
+    category: "fine-arts",
     featured: false,
   },
 ];
