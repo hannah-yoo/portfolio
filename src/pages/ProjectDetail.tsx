@@ -6,7 +6,7 @@ import { getProjectBySlug, getNextProject } from "@/data/projects";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn, resolveAssetUrl } from "@/lib/utils";
 
 /**
  * ProjectDetail Page
@@ -65,7 +65,7 @@ const ProjectDetail = () => {
               <AspectRatio ratio={16 / 9}>
                 {project.heroImage ? (
                   <img
-                    src={project.heroImage}
+                    src={resolveAssetUrl(project.heroImage)}
                     alt={`${project.title} hero image`}
                     className="w-full h-full object-cover"
                   />
@@ -217,7 +217,7 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
           )}
           {isIntersecting && src ? (
             <img
-              src={src}
+              src={resolveAssetUrl(src)}
               alt={alt}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}

@@ -1,36 +1,78 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const token = process.env.PORTFOLIO_TOKEN;
-const baseId = "app1rO1j6Asf3Ltjp";
-const tableName = "Artworks_eng";
-const outputPath = new URL("../src/data/airtable-projects.json", import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, "..");
+
+// Automatically load local .env / .env.local if present
+for (const envFileName of [".env.local", ".env"]) {
+  const envFilePath = path.join(rootDir, envFileName);
+  if (existsSync(envFilePath)) {
+    try {
+      process.loadEnvFile(envFilePath);
+    } catch {
+      // ignore parsing errors
+    }
+  }
+}
+
+const token =
+  process.env.PORTFOLIO_TOKEN ||
+  process.env.AIRTABLE_API_KEY ||
+  process.env.AIRTABLE_TOKEN ||
+  process.env.AIRTABLE_PAT;
+
+const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
+const tableName = process.env.AIRTABLE_TABLE_NAME || "Artworks_eng";
+const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
+const mediaDir = path.join(rootDir, "public", "airtable-media");
 
 const fieldAliases = {
-  title: ["title", "name", "artwork", "project", "작품명"],
-  subtitle: ["subtitle", "summary", "short description", "부제"],
-  year: ["year", "date", "연도"],
-  description: ["description", "body", "details", "설명"],
-  role: ["role", "services", "역할"],
-  team: ["team", "팀"],
-  timeline: ["timeline", "duration", "기간"],
-  heroImage: ["hero image", "hero", "cover", "image", "thumbnail", "대표 이미지"],
-  images: ["images", "detail images", "gallery", "상세 이미지"],
-  category: ["category", "type", "분류"],
-  featured: ["featured", "대표"],
+  title: ["title", "name", "artwork", "artwork name", "project", "project name", "작품명", "제목"],
+  subtitle: ["subtitle", "summary", "short description", "sub title", "부제", "한줄설명"],
+  year: ["year", "date", "created", "연도", "제작연도", "날짜"],
+  description: ["description", "body", "details", "note", "설명", "작품설명"],
+  role: ["role", "services", "역할", "분야"],
+  team: ["team", "client", "팀", "클라이언트"],
+  timeline: ["timeline", "duration", "period", "기간"],
+  heroImage: [
+    "hero image",
+    "hero",
+    "cover",
+    "cover image",
+    "image",
+    "thumbnail",
+    "main image",
+    "대표 이미지",
+    "커버",
+    "썸네일",
+  ],
+  images: ["images", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
+  category: ["category", "type", "tag", "tags", "분류", "카테고리"],
+  featured: ["featured", "highlight", "대표", "추천"],
 };
+
+const normalizeKey = (key) => key.trim().toLowerCase().replace(/[\s_\-]+/g, " ");
 
 const slugify = (value) =>
   String(value)
     .trim()
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/[^a-z0-9가-힣]+/g, "-")
     .replace(/^-|-$/g, "") || "untitled-project";
 
 const findField = (fields, aliases) => {
-  const fieldName = Object.keys(fields).find((name) =>
-    aliases.some((alias) => name.trim().toLowerCase() === alias)
-  );
-  return fieldName ? fields[fieldName] : undefined;
+  const fieldNames = Object.keys(fields);
+  for (const alias of aliases) {
+    const normAlias = normalizeKey(alias);
+    const found = fieldNames.find((name) => normalizeKey(name) === normAlias);
+    if (found && fields[found] !== undefined && fields[found] !== null && fields[found] !== "") {
+      return fields[found];
+    }
+  }
+  return undefined;
 };
 
 const asText = (value, fallback = "") => {
@@ -39,38 +81,88 @@ const asText = (value, fallback = "") => {
   return value === undefined || value === null || value === "" ? fallback : String(value);
 };
 
-const asImages = (value, title) => {
-  const values = Array.isArray(value) ? value : value ? [value] : [];
-  return values
-    .map((item, index) => {
-      const url = typeof item === "object" ? item.url : item;
-      if (!url) return null;
-      return {
-        id: `${slugify(title)}-${index + 1}`,
-        url,
-        alt: typeof item === "object" && item.filename ? item.filename : title,
-        width: "full",
-      };
-    })
-    .filter(Boolean);
-};
-
 const asBoolean = (value) =>
   value === true || (typeof value === "string" && value.trim().toLowerCase() === "true");
 
+// Downloads image locally so Airtable expiring attachment URLs don't break after 2 hours
+const downloadAndCacheMedia = async (url, filename) => {
+  if (!url || typeof url !== "string") return "";
+  // If not an airtable attachment URL, keep original
+  if (!url.includes("airtableusercontent.com") && !url.includes("airtable.com")) {
+    return url;
+  }
+
+  try {
+    await mkdir(mediaDir, { recursive: true });
+    const extMatch = url.match(/\.([a-zA-Z0-9]+)(\?|$)/);
+    const ext = extMatch ? extMatch[1] : "jpg";
+    const cleanFilename = `${filename}.${ext}`;
+    const destinationPath = path.join(mediaDir, cleanFilename);
+
+    const res = await fetch(url);
+    if (res.ok) {
+      const buffer = await res.arrayBuffer();
+      await writeFile(destinationPath, Buffer.from(buffer));
+      return `airtable-media/${cleanFilename}`;
+    }
+  } catch (err) {
+    console.warn(`[Sync] Warning: Failed to download ${filename} locally:`, err.message);
+  }
+  return url;
+};
+
+const extractImages = async (value, projectSlug) => {
+  const values = Array.isArray(value) ? value : value ? [value] : [];
+  const processed = [];
+
+  for (let index = 0; index < values.length; index++) {
+    const item = values[index];
+    const rawUrl = typeof item === "object" ? item.url : item;
+    if (!rawUrl) continue;
+
+    const imgId = `${projectSlug}-${index + 1}`;
+    const cachedUrl = await downloadAndCacheMedia(rawUrl, imgId);
+
+    processed.push({
+      id: imgId,
+      url: cachedUrl,
+      alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
+      width: "full",
+    });
+  }
+
+  return processed;
+};
+
 const TO_BE_INDICATED = "To be indicated";
 
-const normalizeRecord = ({ id, fields }) => {
+const normalizeRecord = async ({ id, fields }, index) => {
   const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
+  const slug = title !== TO_BE_INDICATED ? slugify(title) : `project-${index + 1}`;
+
   const heroValue = findField(fields, fieldAliases.heroImage);
-  const images = asImages(findField(fields, fieldAliases.images), title);
-  const heroImages = asImages(heroValue, title);
-  const heroImage = heroImages[0]?.url || images[0]?.url || "";
-  const category = asText(findField(fields, fieldAliases.category), "design").toLowerCase();
+  const images = await extractImages(findField(fields, fieldAliases.images), slug);
+
+  let heroImage = "";
+  if (heroValue) {
+    const heroExtracted = await extractImages(heroValue, `${slug}-hero`);
+    heroImage = heroExtracted[0]?.url || "";
+  }
+  if (!heroImage && images[0]?.url) {
+    heroImage = images[0].url;
+  }
+
+  const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
+  const category =
+    categoryRaw.includes("fine") || categoryRaw.includes("art") || categoryRaw.includes("일러스트")
+      ? "fine-arts"
+      : categoryRaw.includes("design") || categoryRaw.includes("디자인")
+      ? "design"
+      : "fine-arts";
 
   return {
     id,
-    slug: slugify(title),
+    slug,
     title,
     subtitle: asText(findField(fields, fieldAliases.subtitle), TO_BE_INDICATED),
     year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
@@ -82,36 +174,80 @@ const normalizeRecord = ({ id, fields }) => {
     images,
     gridWidth: 6,
     featured: asBoolean(findField(fields, fieldAliases.featured)),
-    category: category.includes("fine") || category.includes("art") ? "fine-arts" : "design",
+    category,
   };
 };
 
-if (!token) {
-  await writeFile(outputPath, "[]\n");
-  console.log("PORTFOLIO_TOKEN is not set; no Airtable projects were synced.");
-} else {
+async function syncAirtable() {
+  if (!token) {
+    console.warn("\n⚠️  [Sync] PORTFOLIO_TOKEN is not set.");
+    console.warn("👉 To fetch from Airtable, add your token to .env:");
+    console.warn("   PORTFOLIO_TOKEN=patXXXXXXXXXXXXXXX.XXXXXXXXXXXXX\n");
+
+    // Don't erase existing data if already synced!
+    try {
+      if (existsSync(outputPath)) {
+        const existing = JSON.parse(await readFile(outputPath, "utf8"));
+        if (Array.isArray(existing) && existing.length > 0) {
+          console.log(`ℹ️  [Sync] Preserving ${existing.length} existing project(s) in airtable-projects.json.\n`);
+          return;
+        }
+      }
+    } catch {}
+
+    // Fallback: create empty array so build doesn't crash on import
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, "[]\n");
+    return;
+  }
+
+  console.log(`\n🔄 [Sync] Fetching from Airtable (Base: ${baseId}, Table: ${tableName})...`);
   const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
   const records = [];
   let offset;
 
-  do {
-    const requestUrl = new URL(url);
-    if (offset) requestUrl.searchParams.set("offset", offset);
-    const response = await fetch(requestUrl, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  try {
+    do {
+      const requestUrl = new URL(url);
+      if (offset) requestUrl.searchParams.set("offset", offset);
 
-    if (!response.ok) {
-      throw new Error(`Airtable request failed (${response.status} ${response.statusText})`);
+      const response = await fetch(requestUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Airtable API error (HTTP ${response.status} ${response.statusText}): ${errorText}`);
+      }
+
+      const payload = await response.json();
+      records.push(...(payload.records || []));
+      offset = payload.offset;
+    } while (offset);
+
+    if (records.length === 0) {
+      console.warn("⚠️  [Sync] Airtable returned 0 records. Check if the table has data.");
+    } else {
+      console.log(`✓ [Sync] Received ${records.length} record(s). Sample fields:`, Object.keys(records[0]?.fields || {}));
     }
 
-    const payload = await response.json();
-    records.push(...(payload.records || []));
-    offset = payload.offset;
-  } while (offset);
+    const projects = [];
+    for (let i = 0; i < records.length; i++) {
+      projects.push(await normalizeRecord(records[i], i));
+    }
 
-  const projects = records.map(normalizeRecord);
-  await mkdir(new URL("../src/data/", import.meta.url), { recursive: true });
-  await writeFile(outputPath, `${JSON.stringify(projects, null, 2)}\n`);
-  console.log(`Synced ${projects.length} project(s) from Airtable.`);
+    await mkdir(path.dirname(outputPath), { recursive: true });
+    await writeFile(outputPath, `${JSON.stringify(projects, null, 2)}\n`);
+    console.log(`✅ [Sync] Successfully synced ${projects.length} project(s) to src/data/airtable-projects.json\n`);
+  } catch (err) {
+    console.error(`\n❌ [Sync] Error fetching from Airtable:`, err.message);
+    if (existsSync(outputPath)) {
+      console.warn("ℹ️  [Sync] Keeping existing cached airtable-projects.json.\n");
+    } else {
+      await mkdir(path.dirname(outputPath), { recursive: true });
+      await writeFile(outputPath, "[]\n");
+    }
+  }
 }
+
+await syncAirtable();

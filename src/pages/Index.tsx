@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getAllProjects } from "@/data/projects";
 import { ProjectCategory } from "@/types";
+import { resolveAssetUrl } from "@/lib/utils";
 
 // Work categories shown on the homepage, in display order
 const CATEGORIES: { id: ProjectCategory; label: string }[] = [
@@ -44,12 +45,20 @@ const Index = () => {
           {/* Right Panel - Scrollable Projects + Footer */}
           <div className="lg:h-[90vh] lg:overflow-y-auto" id="work">
             <div className="p-6 space-y-10">
-              {CATEGORIES.map((category) => {
-                const categoryProjects = projects.filter(
-                  (project) => project.category === category.id
-                );
-                if (categoryProjects.length === 0) return null;
-                return (
+              {projects.length === 0 ? (
+                <div className="border-4 border-dashed border-brutalist-ink/30 p-8 text-center">
+                  <p className="text-xs font-bold tracking-widest text-brutalist-ink">NO PROJECTS LOADED</p>
+                  <p className="mt-2 text-xs text-brutalist-muted">
+                    Set PORTFOLIO_TOKEN in .env and run npm run sync to load projects from Airtable.
+                  </p>
+                </div>
+              ) : (
+                CATEGORIES.map((category) => {
+                  const categoryProjects = projects.filter(
+                    (project) => project.category === category.id
+                  );
+                  if (categoryProjects.length === 0) return null;
+                  return (
                   <div key={category.id}>
                     <h2 className="mb-6 flex items-center gap-4 text-xs font-bold tracking-widest text-brutalist-ink">
                       <span>{category.label}</span>
@@ -68,7 +77,7 @@ const Index = () => {
                           <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink flex items-center justify-center p-6 text-center text-sm text-brutalist-muted">
                             {project.heroImage ? (
                               <img
-                                src={project.heroImage}
+                                src={resolveAssetUrl(project.heroImage)}
                                 alt={project.title}
                                 className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
                               />
@@ -94,7 +103,8 @@ const Index = () => {
                     </div>
                   </div>
                 );
-              })}
+              })
+            )}
             </div>
 
             {/* Footer inside scroll area */}
