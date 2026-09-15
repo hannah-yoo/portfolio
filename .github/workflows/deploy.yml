@@ -16,8 +16,9 @@ concurrency:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     env:
-      PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN || vars.PORTFOLIO_TOKEN || vars.AIRTABLE_API_KEY }}
+      PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,7 +35,7 @@ jobs:
       - name: Build with Airtable content
         run: npm run build
         env:
-          PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN || vars.PORTFOLIO_TOKEN || vars.AIRTABLE_API_KEY }}
+          PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN }}
           BASE_URL: /portfolio/
 
       - name: Upload Pages artifact
