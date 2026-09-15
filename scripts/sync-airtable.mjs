@@ -18,11 +18,14 @@ for (const envFileName of [".env.local", ".env"]) {
   }
 }
 
-const token =
+const rawToken =
   process.env.PORTFOLIO_TOKEN ||
   process.env.AIRTABLE_API_KEY ||
   process.env.AIRTABLE_TOKEN ||
-  process.env.AIRTABLE_PAT;
+  process.env.AIRTABLE_PAT ||
+  "";
+
+const token = rawToken.trim().replace(/^["']|["']$/g, "");
 
 const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
 const tableName = process.env.AIRTABLE_TABLE_NAME || "Artworks_eng";
