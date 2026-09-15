@@ -32,7 +32,7 @@ const ProjectDetail = () => {
         {/* Navigation - same as Index */}
         <nav className="flex items-center justify-between border-b-4 border-brutalist-ink px-6 py-4">
           <Link to="/" className="text-xl font-bold text-brutalist-ink">
-            JLM*
+            HY*
           </Link>
           <div className="flex gap-1">
             <Link to="/#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">

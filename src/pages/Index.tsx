@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getAllProjects } from "@/data/projects";
+import { ProjectCategory } from "@/types";
+
+// Work categories shown on the homepage, in display order
+const CATEGORIES: { id: ProjectCategory; label: string }[] = [
+  { id: "fine-arts", label: "FINE ARTS & ILLUSTRATIONS" },
+  { id: "design", label: "DESIGN" },
+];
 
 const Index = () => {
   const projects = getAllProjects();
@@ -11,7 +18,7 @@ const Index = () => {
         {/* Navigation */}
         <nav className="flex items-center justify-between border-b-4 border-brutalist-ink px-6 py-4">
           <Link to="/" className="text-xl font-bold text-brutalist-ink">
-            JLM*
+            HY*
           </Link>
           <div className="flex gap-1">
             <a href="#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">WORK</a>
@@ -25,45 +32,64 @@ const Index = () => {
           {/* Left Panel - Fixed Hero */}
           <div className="flex flex-col justify-center border-b-4 lg:border-b-0 lg:border-r-4 border-brutalist-ink p-8 lg:p-12">
             <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none text-brutalist-ink">
-              JULIA<br />LOYD<br />MOHR
+              HANNAH<br />YOO
             </h1>
             <div className="mt-8 h-4 w-32 bg-brutalist-red" />
             <p className="mt-6 text-xs tracking-widest text-brutalist-muted">
-              DESIGNER / EST. 2015
+              ARTIST &amp; DESIGNER / EST. 2015
             </p>
           </div>
 
           {/* Right Panel - Scrollable Projects + Footer */}
           <div className="lg:h-[90vh] lg:overflow-y-auto" id="work">
-            <div className="p-6 space-y-6">
-              {projects.map((project) => (
-                <Link
-                  key={project.id}
-                  to={`/projects/${project.slug}`}
-                  className="group block transition-all"
-                >
-                  <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink">
-                    <img
-                      src={project.heroImage}
-                      alt={project.title}
-                      className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-4 flex justify-between items-center">
-                    <div>
-                      <h3 className="text-sm font-bold text-brutalist-ink group-hover:text-brutalist-red">
-                        {project.title.toUpperCase()}
-                      </h3>
-                      <p className="text-xs text-brutalist-muted">
-                        {project.subtitle}
-                      </p>
+            <div className="p-6 space-y-10">
+              {CATEGORIES.map((category) => {
+                const categoryProjects = projects.filter(
+                  (project) => project.category === category.id
+                );
+                if (categoryProjects.length === 0) return null;
+                return (
+                  <div key={category.id}>
+                    <h2 className="mb-6 flex items-center gap-4 text-xs font-bold tracking-widest text-brutalist-ink">
+                      <span>{category.label}</span>
+                      <span className="h-[3px] flex-1 bg-brutalist-ink" />
+                      <span className="text-brutalist-muted">
+                        {String(categoryProjects.length).padStart(2, "0")}
+                      </span>
+                    </h2>
+                    <div className="space-y-6">
+                      {categoryProjects.map((project) => (
+                        <Link
+                          key={project.id}
+                          to={`/projects/${project.slug}`}
+                          className="group block transition-all"
+                        >
+                          <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink">
+                            <img
+                              src={project.heroImage}
+                              alt={project.title}
+                              className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
+                            />
+                          </div>
+                          <div className="p-4 flex justify-between items-center">
+                            <div>
+                              <h3 className="text-sm font-bold text-brutalist-ink group-hover:text-brutalist-red">
+                                {project.title.toUpperCase()}
+                              </h3>
+                              <p className="text-xs text-brutalist-muted">
+                                {project.subtitle}
+                              </p>
+                            </div>
+                            <span className="text-xs font-bold text-brutalist-muted">
+                              {project.year}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
                     </div>
-                    <span className="text-xs font-bold text-brutalist-muted">
-                      {project.year}
-                    </span>
                   </div>
-                </Link>
-              ))}
+                );
+              })}
             </div>
 
             {/* Footer inside scroll area */}
@@ -116,7 +142,7 @@ const Index = () => {
 
               {/* Copyright */}
               <div className="border-t-4 border-brutalist-ink px-6 py-4 flex justify-between items-center">
-                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} JULIA LOYD MOHR</span>
+                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} HANNAH YOO</span>
                 <div className="flex gap-4">
                   <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">IG</a>
                   <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">BE</a>
