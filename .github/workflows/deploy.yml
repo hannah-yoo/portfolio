@@ -34,6 +34,9 @@ jobs:
 
       - name: Build with Airtable content
         run: npm run build
+        env:
+          PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN }}
+          BASE_URL: /portfolio/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

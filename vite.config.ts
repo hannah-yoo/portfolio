@@ -19,21 +19,26 @@ const copy404Plugin = () => ({
 });
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: "./",
-  server: {
-    host: "::",
-    port: 8080,
-  },
-  plugins: [
-    tailwindcss(),
-    react(),
-    mode === "development" && componentTagger(),
-    copy404Plugin(),
-  ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+export default defineConfig(({ mode }) => {
+  const isProd = mode === "production";
+  const base = process.env.BASE_URL || (process.env.GITHUB_ACTIONS || isProd ? "/portfolio/" : "/");
+
+  return {
+    base,
+    server: {
+      host: "::",
+      port: 8080,
     },
-  },
-}));
+    plugins: [
+      tailwindcss(),
+      react(),
+      mode === "development" && componentTagger(),
+      copy404Plugin(),
+    ].filter(Boolean),
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+  };
+});
