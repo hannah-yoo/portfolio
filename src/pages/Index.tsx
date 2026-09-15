@@ -5,8 +5,8 @@ import { ProjectCategory } from "@/types";
 
 // Work categories shown on the homepage, in display order
 const CATEGORIES: { id: ProjectCategory; label: string }[] = [
-  { id: "fine-arts", label: "FINE ARTS & ILLUSTRATIONS" },
-  { id: "design", label: "DESIGN" },
+  { id: "fine-arts", label: "Fine Arts & Illustrations" },
+  { id: "design", label: "Design" },
 ];
 
 const Index = () => {
@@ -14,16 +14,16 @@ const Index = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-brutalist-cream font-mono">
+      <div className="min-h-screen overflow-x-hidden bg-brutalist-cream font-mono">
         {/* Navigation */}
         <nav className="flex items-center justify-between border-b-4 border-brutalist-ink px-6 py-4">
           <Link to="/" className="text-xl font-bold text-brutalist-ink">
             HY*
           </Link>
           <div className="flex gap-1">
-            <a href="#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">WORK</a>
-            <a href="#about" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">INFO</a>
-            <a href="#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">MAIL</a>
+            <a href="#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Work</a>
+            <a href="#about" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Info</a>
+            <a href="#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Mail</a>
           </div>
         </nav>
 
@@ -31,12 +31,13 @@ const Index = () => {
         <div className="relative grid min-h-[90vh] grid-cols-1 lg:grid-cols-2">
           {/* Left Panel - Fixed Hero */}
           <div className="flex flex-col justify-center border-b-4 lg:border-b-0 lg:border-r-4 border-brutalist-ink p-8 lg:p-12">
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-none text-brutalist-ink">
-              HANNAH<br />YOO
+            <h1 className="max-w-full text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
+              <span className="block whitespace-nowrap">Hannah</span>
+              <span className="block whitespace-nowrap">Yoo</span>
             </h1>
             <div className="mt-8 h-4 w-32 bg-brutalist-red" />
             <p className="mt-6 text-xs tracking-widest text-brutalist-muted">
-              ARTIST &amp; DESIGNER / EST. 2022
+              Artist &amp; Designer / Est. 2022
             </p>
           </div>
 
@@ -74,7 +75,7 @@ const Index = () => {
                           <div className="p-4 flex justify-between items-center">
                             <div>
                               <h3 className="text-sm font-bold text-brutalist-ink group-hover:text-brutalist-red">
-                                {project.title.toUpperCase()}
+                                {project.title}
                               </h3>
                               <p className="text-xs text-brutalist-muted">
                                 {project.subtitle}
@@ -97,37 +98,37 @@ const Index = () => {
               {/* Services Grid */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-8 lg:p-12">
                 <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">BRAND</h3>
-                  <p className="mt-3 text-xs uppercase tracking-wide leading-relaxed text-brutalist-muted">IDENTITY SYSTEMS THAT DEFINE YOUR VISUAL LANGUAGE</p>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Brand</h3>
+                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Identity systems that define your visual language</p>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">DIGITAL</h3>
-                  <p className="mt-3 text-xs uppercase tracking-wide leading-relaxed text-brutalist-muted">WEB EXPERIENCES BUILT FOR IMPACT</p>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Digital</h3>
+                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Web experiences built for impact</p>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">PRINT</h3>
-                  <p className="mt-3 text-xs uppercase tracking-wide leading-relaxed text-brutalist-muted">TANGIBLE DESIGN THAT LEAVES A MARK</p>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Print</h3>
+                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Tangible design that leaves a mark</p>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">MOTION</h3>
-                  <p className="mt-3 text-xs uppercase tracking-wide leading-relaxed text-brutalist-muted">DYNAMIC VISUALS THAT TELL STORIES</p>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Motion</h3>
+                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Dynamic visuals that tell stories</p>
                 </div>
               </div>
 
               {/* Contact CTA Section */}
               <div className="p-8 border-t-4 border-brutalist-ink" id="contact">
                 <div className="mb-6">
-                  <h4 className="text-xl font-bold text-brutalist-ink">LET'S WORK TOGETHER</h4>
-                  <p className="mt-1 text-xs text-brutalist-muted uppercase tracking-wide">DROP A MESSAGE AND I'LL GET BACK TO YOU WITHIN 24 HOURS</p>
+                  <h4 className="text-xl font-bold text-brutalist-ink">Let's work together</h4>
+                  <p className="mt-1 text-xs text-brutalist-muted tracking-wide">Drop a message and I'll get back to you within 24 hours</p>
                 </div>
                 <form className="space-y-4 max-w-xl">
                   <input
                     type="email"
-                    placeholder="YOUR@EMAIL.COM"
+                    placeholder="your@email.com"
                     className="w-full border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red"
                   />
                   <textarea
-                    placeholder="YOUR MESSAGE"
+                    placeholder="Your message"
                     rows={4}
                     className="w-full border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red resize-none"
                   />
@@ -135,14 +136,14 @@ const Index = () => {
                     type="submit"
                     className="border-4 border-brutalist-ink bg-brutalist-ink px-6 py-3 text-sm font-bold text-brutalist-cream transition-colors hover:bg-brutalist-red hover:border-brutalist-red"
                   >
-                    SEND →
+                    Send →
                   </button>
                 </form>
               </div>
 
               {/* Copyright */}
               <div className="border-t-4 border-brutalist-ink px-6 py-4 flex justify-between items-center">
-                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} HANNAH YOO</span>
+                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} Hannah Yoo</span>
                 <div className="flex gap-4">
                   <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">IG</a>
                   <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">BE</a>
@@ -152,8 +153,6 @@ const Index = () => {
             </footer>
           </div>
 
-          {/* Corner accent */}
-          <div className="absolute bottom-0 left-0 h-32 w-32 bg-brutalist-teal hidden lg:block" />
         </div>
       </div>
     </PageTransition>

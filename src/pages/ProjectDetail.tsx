@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * ProjectDetail Page
  * 
  * Brutalist-styled project case study page.
- * Consistent with Index page: heavy borders, uppercase mono type, red accents
+ * Consistent with Index page: heavy borders, mono type, red accents
  */
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -28,7 +28,7 @@ const ProjectDetail = () => {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-brutalist-cream font-mono">
+      <div className="min-h-screen overflow-x-hidden bg-brutalist-cream font-mono">
         {/* Navigation - same as Index */}
         <nav className="flex items-center justify-between border-b-4 border-brutalist-ink px-6 py-4">
           <Link to="/" className="text-xl font-bold text-brutalist-ink">
@@ -36,13 +36,13 @@ const ProjectDetail = () => {
           </Link>
           <div className="flex gap-1">
             <Link to="/#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              WORK
+              Work
             </Link>
             <Link to="/#about" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              INFO
+              Info
             </Link>
             <Link to="/#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              MAIL
+              Mail
             </Link>
           </div>
         </nav>
@@ -51,7 +51,7 @@ const ProjectDetail = () => {
         <section className="px-6 pt-12 pb-6 lg:px-12">
           <FadeIn>
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-brutalist-ink leading-none">
-              {project.title.toUpperCase()}
+              {project.title}
             </h1>
             {/* Red accent bar - matches Index */}
             <div className="mt-6 h-4 w-32 bg-brutalist-red" />
@@ -79,20 +79,20 @@ const ProjectDetail = () => {
             <div className="grid md:grid-cols-2 gap-12">
               {/* Left: Role & Tagline */}
               <div>
-                <p className="text-xs font-bold text-brutalist-muted uppercase tracking-widest mb-2">
-                  {project.role?.split(',')[0]?.toUpperCase()}
+                <p className="text-xs font-bold text-brutalist-muted tracking-widest mb-2">
+                  {project.role?.split(',')[0]}
                 </p>
                 {project.subtitle && (
                   <h2 className="text-xl font-bold text-brutalist-ink">
-                    {project.subtitle.toUpperCase()}
+                    {project.subtitle}
                   </h2>
                 )}
               </div>
 
               {/* Right: Services/Deliverables + Description */}
               <div>
-                <p className="text-xs font-bold text-brutalist-muted uppercase tracking-widest mb-2">
-                  SERVICES / DELIVERABLES
+                <p className="text-xs font-bold text-brutalist-muted tracking-widest mb-2">
+                  Services / Deliverables
                 </p>
                 <ul className="space-y-1 mb-6">
                   {deliverables.map((item, index) => (
@@ -169,14 +169,14 @@ const ProjectDetail = () => {
         <footer className="border-t-4 border-brutalist-ink">
           <div className="px-6 py-4 flex justify-between items-center">
             <span className="text-xs font-bold text-brutalist-muted">
-              © {new Date().getFullYear()} PORTFOLIO
+              © {new Date().getFullYear()} Portfolio
             </span>
             <div className="flex gap-4">
               <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">
-                INSTAGRAM
+                Instagram
               </a>
               <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">
-                BEHANCE
+                Behance
               </a>
             </div>
           </div>
@@ -225,7 +225,7 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
         </AspectRatio>
       </div>
       {caption && (
-        <figcaption className="mt-3 text-xs font-bold text-brutalist-muted uppercase tracking-widest">
+        <figcaption className="mt-3 text-xs font-bold text-brutalist-muted tracking-widest">
           {caption}
         </figcaption>
       )}

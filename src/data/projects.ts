@@ -1,4 +1,5 @@
 import { Project } from "@/types";
+import airtableProjects from "./airtable-projects.json";
 
 /**
  * Portfolio projects data
@@ -12,7 +13,7 @@ import { Project } from "@/types";
  * 
  * Replace placeholder images with actual project screenshots.
  */
-export const projects: Project[] = [
+const fallbackProjects: Project[] = [
   {
     id: "1",
     slug: "brand-identity-refresh",
@@ -229,6 +230,9 @@ export const projects: Project[] = [
     featured: false,
   },
 ];
+
+export const projects: Project[] =
+  airtableProjects.length > 0 ? airtableProjects : fallbackProjects;
 
 /**
  * Get all projects

@@ -211,6 +211,8 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
 
   body {
