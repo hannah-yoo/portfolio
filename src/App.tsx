@@ -60,12 +60,15 @@ function AnimatedRoutes() {
   );
 }
 
+const rawBase = import.meta.env.BASE_URL || "/";
+const routerBasename = rawBase.endsWith("/") && rawBase.length > 1 ? rawBase.slice(0, -1) : rawBase;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <BrowserRouter basename={routerBasename === "/" ? undefined : routerBasename}>
         <SkipToContent />
         <AnimatedRoutes />
       </BrowserRouter>
