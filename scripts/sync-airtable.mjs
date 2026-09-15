@@ -184,6 +184,7 @@ async function syncAirtable() {
 
   if (!token) {
     if (isCI) {
+      console.log("::error title=Missing Airtable Token::PORTFOLIO_TOKEN is missing or empty in GitHub Actions! Please verify your Repository Secret name.");
       throw new Error(
         "❌ PORTFOLIO_TOKEN is missing in GitHub Actions! Please check repository secrets or environment secrets."
       );
@@ -248,6 +249,7 @@ async function syncAirtable() {
   } catch (err) {
     console.error(`\n❌ [Sync] Error fetching from Airtable:`, err.message);
     if (isCI) {
+      console.log(`::error title=Airtable API Failure::${err.message}`);
       throw err;
     }
     if (existsSync(outputPath)) {
