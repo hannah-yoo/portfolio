@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
+import { getCv, loadCv, CvContent } from "@/data/cv";
 import { getAllProjects, loadProjects } from "@/data/projects";
 import { Project, ProjectCategory } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
@@ -19,8 +20,12 @@ const CATEGORIES: { id: ProjectCategory; label: string }[] = [
   { id: "design", label: "Design" },
 ];
 
+const limitSentences = (text: string, limit = 5) =>
+  (text.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || []).slice(0, limit).join(" ").trim();
+
 const Index = () => {
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
+  const [cvContent, setCvContent] = useState<CvContent>(getCv());
   const [trail, setTrail] = useState<TrailPoint[]>([]);
   const [selectedProjectSlug, setSelectedProjectSlug] = useState<string | null>(null);
   const [selectedMarker, setSelectedMarker] = useState<{ x: number; y: number } | null>(null);
@@ -31,6 +36,12 @@ const Index = () => {
     void loadProjects().then((nextProjects) => {
       if (active) {
         setProjects(nextProjects);
+      }
+    });
+
+    void loadCv().then((nextCv) => {
+      if (active) {
+        setCvContent(nextCv);
       }
     });
 
@@ -213,6 +224,30 @@ const Index = () => {
               })
             )}
             </div>
+
+            <section className="border-t-4 border-brutalist-ink px-6 py-10" aria-labelledby="cv-heading">
+              <div className="mb-8 flex items-end justify-between gap-4">
+                <h2 id="cv-heading" className="text-3xl font-bold text-brutalist-ink sm:text-5xl">CV</h2>
+                <span className="text-[10px] font-bold tracking-[0.28em] text-brutalist-muted">PROFILE / SELECTED</span>
+              </div>
+              <p className="max-w-2xl text-sm leading-7 text-brutalist-ink">
+                {limitSentences(cvContent.intro)}
+              </p>
+              <div className="mt-10 divide-y-2 divide-brutalist-ink/20 border-y-2 border-brutalist-ink/20">
+                {cvContent.entries.map((entry) => (
+                  <article key={entry.id} className="grid gap-3 py-5 sm:grid-cols-[7rem_1fr] sm:gap-6">
+                    <p className="text-xs font-bold tracking-wide text-brutalist-red">{entry.year}</p>
+                    <div>
+                      <h3 className="text-sm font-bold text-brutalist-ink">{entry.title}</h3>
+                      <p className="mt-1 text-xs font-bold text-brutalist-muted">{entry.organization}</p>
+                      {entry.description && (
+                        <p className="mt-3 max-w-xl text-xs leading-6 text-brutalist-muted">{entry.description}</p>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
 
             {/* Footer inside scroll area */}
             <footer className="border-t-4 border-brutalist-ink mt-8" id="about">

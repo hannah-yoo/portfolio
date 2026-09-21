@@ -30,6 +30,8 @@ const token = rawToken.trim().replace(/^["']|["']$/g, "");
 const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
 const tableName = process.env.AIRTABLE_TABLE_NAME || "Artworks_eng";
 const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
+const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv_eng";
+const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
 const mediaDir = path.join(rootDir, "public", "airtable-media");
 
 const fieldAliases = {
@@ -87,6 +89,15 @@ const asText = (value, fallback = "") => {
 const asBoolean = (value) =>
   value === true || (typeof value === "string" && value.trim().toLowerCase() === "true");
 
+const cvFieldAliases = {
+  intro: ["intro", "introduction", "about", "bio", "소개"],
+  order: ["order", "sort", "순서"],
+  year: ["year", "period", "연도", "기간"],
+  title: ["title", "role", "position", "degree", "활동", "직함", "학위"],
+  organization: ["organization", "company", "school", "client", "기관", "회사", "학교"],
+  description: ["description", "details", "note", "설명", "상세"],
+};
+
 // Downloads image locally so Airtable expiring attachment URLs don't break after 2 hours
 const downloadAndCacheMedia = async (url, filename) => {
   if (!url || typeof url !== "string") return "";
@@ -138,6 +149,37 @@ const extractImages = async (value, projectSlug) => {
 };
 
 const TO_BE_INDICATED = "To be indicated";
+
+const normalizeCvRecords = (records) => {
+  let intro = "";
+  const entries = [];
+
+  records.forEach(({ id, fields }, index) => {
+    const safeFields = fields || {};
+    const recordIntro = asText(findField(safeFields, cvFieldAliases.intro));
+    if (recordIntro && !intro) intro = recordIntro;
+
+    const title = asText(findField(safeFields, cvFieldAliases.title));
+    const organization = asText(findField(safeFields, cvFieldAliases.organization));
+    const year = asText(findField(safeFields, cvFieldAliases.year));
+    const description = asText(findField(safeFields, cvFieldAliases.description));
+    if (title || organization || year || description) {
+      entries.push({
+        id: String(id || `cv-${index + 1}`),
+        order: Number(findField(safeFields, cvFieldAliases.order)) || index + 1,
+        year,
+        title,
+        organization,
+        description,
+      });
+    }
+  });
+
+  return {
+    intro,
+    entries: entries.sort((first, second) => first.order - second.order),
+  };
+};
 
 const normalizeRecord = async ({ id, fields }, index) => {
   const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
@@ -249,6 +291,32 @@ async function syncAirtable() {
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, `${JSON.stringify(projects, null, 2)}\n`);
     console.log(`✅ [Sync] Successfully synced ${projects.length} project(s) to src/data/airtable-projects.json\n`);
+
+    try {
+      const cvUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(cvTableName)}`;
+      const cvRecords = [];
+      let cvOffset;
+
+      do {
+        const cvRequestUrl = new URL(cvUrl);
+        if (cvOffset) cvRequestUrl.searchParams.set("offset", cvOffset);
+        const cvResponse = await fetch(cvRequestUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!cvResponse.ok) {
+          throw new Error(`Airtable CV API error (HTTP ${cvResponse.status} ${cvResponse.statusText})`);
+        }
+        const cvPayload = await cvResponse.json();
+        cvRecords.push(...(cvPayload.records || []));
+        cvOffset = cvPayload.offset;
+      } while (cvOffset);
+
+      await writeFile(cvOutputPath, `${JSON.stringify(normalizeCvRecords(cvRecords), null, 2)}\n`);
+      console.log(`✅ [Sync] Successfully synced CV from ${cvTableName}\n`);
+    } catch (cvError) {
+      console.warn(`⚠️  [Sync] Could not sync CV table ${cvTableName}: ${cvError.message}`);
+      console.warn("ℹ️  [Sync] Keeping existing airtable-cv.json.\n");
+    }
   } catch (err) {
     console.error(`\n❌ [Sync] Error fetching from Airtable:`, err.message);
     if (isCI) {
