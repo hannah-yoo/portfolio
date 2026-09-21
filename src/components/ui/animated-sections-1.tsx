@@ -19,20 +19,7 @@ interface AnimatedSectionsProps {
   headerTitle?: string;
 }
 
-const defaultSections: SectionData[] = [
-  {
-    text: "Whispers of Radiance",
-    img: "https://raw.githubusercontent.com/66HEX/free-photos/main/img1.jpeg"
-  },
-  {
-    text: "Ethereal Moments",
-    img: "https://raw.githubusercontent.com/66HEX/free-photos/main/img3.jpeg"
-  },
-  {
-    text: "Silent Beauty",
-    img: "https://raw.githubusercontent.com/66HEX/free-photos/main/img5.jpeg"
-  }
-];
+const defaultSections: SectionData[] = [];
 
 const AnimatedSections: React.FC<AnimatedSectionsProps> = ({
   sections = defaultSections,

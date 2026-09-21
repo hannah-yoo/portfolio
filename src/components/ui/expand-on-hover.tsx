@@ -52,53 +52,15 @@ import "swiper/css/autoplay";
 import { cn } from "@/lib/utils";
 
 const Skiper52 = () => {
-  const images = [
-    {
-      src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
-      alt: "Mountain landscape",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800",
-      alt: "Abstract illustration",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=800",
-      alt: "City skyline at night",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?w=800",
-      alt: "Modern architecture",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1521747116042-5a810fda9664?w=800",
-      alt: "Laptop workspace",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
-      alt: "Ocean waves",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1754136362561-fd8b431c78e4?q=80&w=1065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      alt: "Forest path",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?w=800",
-      alt: "Colorful building",
-      code: "# 23",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800",
-      alt: "Sunset view",
-      code: "# 23",
-    },
-  ];
+  const images: Array<{ src: string; alt: string; code: string }> = [];
+
+  if (images.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[#f5f4f3] text-xs font-bold uppercase tracking-[0.3em] text-black/50">
+        NO IMAGES
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full w-full items-center justify-center overflow-hidden bg-[#f5f4f3]">

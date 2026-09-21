@@ -2,11 +2,12 @@ import { useParams, Navigate, Link } from "react-router-dom";
 import { ProjectNav } from "@/components/projects/ProjectNav";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
-import { getProjectBySlug, getNextProject } from "@/data/projects";
+import { getAllProjects, getProjectBySlug, getNextProject, loadProjects } from "@/data/projects";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn, resolveAssetUrl } from "@/lib/utils";
+import { Project } from "@/types";
 
 /**
  * ProjectDetail Page
@@ -16,14 +17,30 @@ import { cn, resolveAssetUrl } from "@/lib/utils";
  */
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const project = slug ? getProjectBySlug(slug) : undefined;
+  const [projects, setProjects] = useState<Project[]>(getAllProjects());
+
+  useEffect(() => {
+    let active = true;
+
+    void loadProjects().then((nextProjects) => {
+      if (active) {
+        setProjects(nextProjects);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const project = slug ? getProjectBySlug(slug) || projects.find((item) => item.slug === slug) : undefined;
   const nextProject = slug ? getNextProject(slug) : null;
 
   if (!project) {
     return <Navigate to="/404" replace />;
   }
 
-  // Build services/deliverables list
+  const media = project.images ?? [];
   const deliverables = [project.role, project.team, project.timeline].filter(Boolean);
 
   return (
@@ -119,13 +136,13 @@ const ProjectDetail = () => {
         <section className="px-6 pb-12 lg:px-12">
           <FadeInStagger staggerDelay={0.15}>
             <div className="space-y-8">
-              {project.images.map((image, index) => {
-                const nextImage = project.images[index + 1];
+              {media.map((image, index) => {
+                const nextImage = media[index + 1];
                 const isHalfWidth = image.width === "half";
                 const nextIsHalfWidth = nextImage?.width === "half";
                 
                 // Skip if this is the second of a pair
-                if (index > 0 && project.images[index - 1]?.width === "half" && isHalfWidth) {
+                if (index > 0 && media[index - 1]?.width === "half" && isHalfWidth) {
                   return null;
                 }
 

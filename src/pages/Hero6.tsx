@@ -1,12 +1,6 @@
 import { Link } from "react-router-dom";
 
-const projects = [
-  { id: 1, title: "BRAND IDENTITY", client: "NORDIC STUDIOS", year: "2024", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600&q=80" },
-  { id: 2, title: "VISUAL SYSTEM", client: "ARCH COLLECTIVE", year: "2024", image: "https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=600&q=80" },
-  { id: 3, title: "ART DIRECTION", client: "MONO MAGAZINE", year: "2023", image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80" },
-  { id: 4, title: "PACKAGING", client: "FORMA GOODS", year: "2023", image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=600&q=80" },
-  { id: 5, title: "EDITORIAL", client: "PULSE MEDIA", year: "2023", image: "https://images.unsplash.com/photo-1557682250-33bd709cbe85?w=600&q=80" },
-];
+const projects: Array<{ id: number; title: string; client: string; year: string; image: string }> = [];
 
 /**
  * Hero 6: Brutalist - Raw Contrast
@@ -43,37 +37,36 @@ export default function Hero6() {
         {/* Right Panel - Scrollable Projects + Footer */}
         <div className="h-[90vh] overflow-y-auto">
           <div className="p-6 space-y-6">
-            {projects.map((project) => (
-              <Link
-                key={project.id}
-                to="#"
-                className="group block transition-all"
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4 flex justify-between items-center">
-                  <div>
-                    <h3 className="text-sm font-bold text-brutalist-ink group-hover:text-brutalist-red">
-                      {project.title}
-                    </h3>
-                    <p className="text-xs text-brutalist-muted">
-                      {project.client}
-                    </p>
+            {projects.length === 0 ? (
+              <div className="border-4 border-dashed border-brutalist-ink/40 p-8 text-center text-xs font-bold tracking-[0.2em] text-brutalist-muted">
+                NO PROJECTS LOADED
+              </div>
+            ) : (
+              projects.map((project) => (
+                <Link
+                  key={project.id}
+                  to="#"
+                  className="group block transition-all"
+                >
+                  <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink bg-brutalist-ink/5" />
+                  <div className="p-4 flex justify-between items-center">
+                    <div>
+                      <h3 className="text-sm font-bold text-brutalist-ink group-hover:text-brutalist-red">
+                        {project.title}
+                      </h3>
+                      <p className="text-xs text-brutalist-muted">
+                        {project.client}
+                      </p>
+                    </div>
+                    <span className="text-xs font-bold text-brutalist-muted">
+                      {project.year}
+                    </span>
                   </div>
-                  <span className="text-xs font-bold text-brutalist-muted">
-                    {project.year}
-                  </span>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            )}
           </div>
 
-          {/* Footer inside scroll area */}
           <footer className="border-t-4 border-brutalist-ink mt-8">
             {/* Large Text Columns */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-8 lg:p-12">

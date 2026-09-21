@@ -51,31 +51,18 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const slides = [
-  {
-    img: "https://cdn.cosmos.so/8b0252bd-cb64-45f4-aef8-672c7f628f76?format=jpeg",
-    text: ["BETWEEN SHADOW", "AND LIGHT"],
-  },
-  {
-    img: "https://cdn.cosmos.so/7b3f4c48-ec63-4bac-b472-910c037a0eb4?format=jpeg",
-    text: ["SILENCE SPEAKS", "THROUGH FORM"],
-  },
-  {
-    img: "https://cdn.cosmos.so/444502b9-4cb9-4f14-a068-f0213df08729?format=jpeg",
-    text: ["ESSENCE BEYOND", "PERCEPTION"],
-  },
-  {
-    img: "https://cdn.cosmos.so/ef511e17-a35b-42e6-9122-2754bbd2ad7e?format=jpeg",
-    text: ["TRUTH IN", "EMPTINESS"],
-  },
-  {
-    img: "https://cdn.cosmos.so/cf68a397-080a-437a-994e-69dedd9e6e06?format=jpeg",
-    text: ["SURRENDER TO", "THE VOID"],
-  },
-];
+const slides: Array<{ img: string; text: string[] }> = [];
 
 export default function Component() {
   const [current, setCurrent] = useState(0);
+
+  if (slides.length === 0) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-black text-sm font-bold uppercase tracking-[0.35em] text-white/70">
+        NO SLIDES
+      </div>
+    );
+  }
 
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
   const prevSlide = () =>

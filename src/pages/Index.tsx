@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
-import { getAllProjects } from "@/data/projects";
-import { ProjectCategory } from "@/types";
+import { getAllProjects, loadProjects } from "@/data/projects";
+import { Project, ProjectCategory } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
 
 // Work categories shown on the homepage, in display order
@@ -11,7 +12,21 @@ const CATEGORIES: { id: ProjectCategory; label: string }[] = [
 ];
 
 const Index = () => {
-  const projects = getAllProjects();
+  const [projects, setProjects] = useState<Project[]>(getAllProjects());
+
+  useEffect(() => {
+    let active = true;
+
+    void loadProjects().then((nextProjects) => {
+      if (active) {
+        setProjects(nextProjects);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <PageTransition>
