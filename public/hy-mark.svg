@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>HY star mark</title>
+  <rect width="64" height="64" fill="#f7f3df"/>
+  <path d="M10 14h8v13h10V14h8v36h-8V35H18v15h-8z" fill="#181818"/>
+  <path d="M42 13l1.8 5.2L49 20l-5.2 1.8L42 27l-1.8-5.2L35 20l5.2-1.8z" fill="#dc2626"/>
+  <path d="M42 35l1.2 3.5L47 40l-3.8 1.5L42 45l-1.2-3.5L37 40l3.8-1.5z" fill="#dc2626"/>
+</svg>

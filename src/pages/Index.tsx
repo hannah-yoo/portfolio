@@ -128,7 +128,7 @@ const Index = () => {
         {/* Hero Content - Two Column Layout */}
         <div className="relative grid min-h-[90vh] grid-cols-1 lg:grid-cols-2">
           {/* Left Panel - Fixed Hero */}
-          <div className="relative flex flex-col justify-center border-b-4 lg:border-b-0 lg:border-r-4 border-brutalist-ink p-8 lg:p-12 overflow-hidden">
+          <div className="relative border-b-4 lg:h-[90vh] lg:overflow-y-auto lg:border-b-0 lg:border-r-4 border-brutalist-ink overflow-x-hidden">
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10),transparent_55%)]" />
               {trail.map((point) => (
@@ -164,8 +164,8 @@ const Index = () => {
                 />
               )}
             </div>
-            <div className="relative z-10">
-              <h1 className="hero-name mx-auto w-full max-w-full text-center text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
+            <div className="relative z-10 flex min-h-[90vh] flex-col justify-center px-8 py-12 lg:px-12">
+              <h1 className="hero-name w-full max-w-full text-left text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
                 <span className="block whitespace-nowrap">Hannah</span>
                 <span className="block whitespace-nowrap">Yoo</span>
               </h1>
@@ -179,6 +179,73 @@ const Index = () => {
                 </p>
               )}
             </div>
+
+            <section className="relative z-10 border-t-4 border-brutalist-ink px-8 py-10 lg:px-12" aria-labelledby="cv-heading">
+              <div className="mb-8 flex items-end justify-between gap-4">
+                <h2 id="cv-heading" className="text-3xl font-bold text-brutalist-ink sm:text-5xl">CV</h2>
+                <span className="text-[10px] font-bold tracking-[0.28em] text-brutalist-muted">PROFILE / SELECTED</span>
+              </div>
+              <p className="max-w-2xl text-sm leading-7 text-brutalist-ink">
+                {limitSentences(cvContent.intro)}
+              </p>
+              <div className="mt-10 divide-y-2 divide-brutalist-ink/20 border-y-2 border-brutalist-ink/20">
+                {cvContent.entries.map((entry) => (
+                  <article key={entry.id} className="grid gap-3 py-5 sm:grid-cols-[7rem_1fr] sm:gap-6">
+                    <p className="text-xs font-bold tracking-wide text-brutalist-red">{entry.year}</p>
+                    <div>
+                      <h3 className="text-sm font-bold text-brutalist-ink">{entry.title}</h3>
+                      <p className="mt-1 text-xs font-bold text-brutalist-muted">{entry.organization}</p>
+                      {entry.description && (
+                        <p className="mt-3 max-w-xl text-xs leading-6 text-brutalist-muted">{entry.description}</p>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <footer className="relative z-10 border-t-4 border-brutalist-ink" id="about">
+              <div className="grid grid-cols-2 gap-6 p-8 lg:grid-cols-4 lg:p-12">
+                <div>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Brand</h3>
+                  <p className="mt-3 text-xs leading-relaxed tracking-wide text-brutalist-muted">Identity systems that define your visual language</p>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Digital</h3>
+                  <p className="mt-3 text-xs leading-relaxed tracking-wide text-brutalist-muted">Web experiences built for impact</p>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Print</h3>
+                  <p className="mt-3 text-xs leading-relaxed tracking-wide text-brutalist-muted">Tangible design that leaves a mark</p>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Motion</h3>
+                  <p className="mt-3 text-xs leading-relaxed tracking-wide text-brutalist-muted">Dynamic visuals that tell stories</p>
+                </div>
+              </div>
+
+              <div className="border-t-4 border-brutalist-ink p-8" id="contact">
+                <div className="mb-6">
+                  <h4 className="text-xl font-bold text-brutalist-ink">Let's work together</h4>
+                  <p className="mt-1 text-xs tracking-wide text-brutalist-muted">Drop a message and I'll get back to you within 24 hours</p>
+                </div>
+                <form className="max-w-xl space-y-4">
+                  <input type="email" placeholder="your@email.com" className="w-full border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red" />
+                  <textarea placeholder="Your message" rows={4} className="w-full resize-none border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red" />
+                  <button type="submit" className="border-4 border-brutalist-ink bg-brutalist-ink px-6 py-3 text-sm font-bold text-brutalist-cream transition-colors hover:border-brutalist-red hover:bg-brutalist-red">Send →</button>
+                </form>
+              </div>
+
+              <div className="flex items-center justify-between border-t-4 border-brutalist-ink px-6 py-4">
+                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} Hannah Yoo</span>
+                <div className="flex flex-wrap justify-end gap-4">
+                  <a href="https://www.instagram.com/hannah.yoo.hy" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Instagram</a>
+                  <a href="https://www.linkedin.com/in/hannah-yoo-hy/" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">LinkedIn</a>
+                  <a href="https://www.behance.net/hannah_yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Behance</a>
+                  <a href="https://github.com/hannah-yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">GitHub</a>
+                </div>
+              </div>
+            </footer>
           </div>
 
           {/* Right Panel - Scrollable Projects + Footer */}
@@ -248,89 +315,6 @@ const Index = () => {
             )}
             </div>
 
-            <section className="border-t-4 border-brutalist-ink px-6 py-10" aria-labelledby="cv-heading">
-              <div className="mb-8 flex items-end justify-between gap-4">
-                <h2 id="cv-heading" className="text-3xl font-bold text-brutalist-ink sm:text-5xl">CV</h2>
-                <span className="text-[10px] font-bold tracking-[0.28em] text-brutalist-muted">PROFILE / SELECTED</span>
-              </div>
-              <p className="max-w-2xl text-sm leading-7 text-brutalist-ink">
-                {limitSentences(cvContent.intro)}
-              </p>
-              <div className="mt-10 divide-y-2 divide-brutalist-ink/20 border-y-2 border-brutalist-ink/20">
-                {cvContent.entries.map((entry) => (
-                  <article key={entry.id} className="grid gap-3 py-5 sm:grid-cols-[7rem_1fr] sm:gap-6">
-                    <p className="text-xs font-bold tracking-wide text-brutalist-red">{entry.year}</p>
-                    <div>
-                      <h3 className="text-sm font-bold text-brutalist-ink">{entry.title}</h3>
-                      <p className="mt-1 text-xs font-bold text-brutalist-muted">{entry.organization}</p>
-                      {entry.description && (
-                        <p className="mt-3 max-w-xl text-xs leading-6 text-brutalist-muted">{entry.description}</p>
-                      )}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            {/* Footer inside scroll area */}
-            <footer className="border-t-4 border-brutalist-ink mt-8" id="about">
-              {/* Services Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 p-8 lg:p-12">
-                <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Brand</h3>
-                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Identity systems that define your visual language</p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Digital</h3>
-                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Web experiences built for impact</p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Print</h3>
-                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Tangible design that leaves a mark</p>
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-brutalist-ink lg:text-3xl">Motion</h3>
-                  <p className="mt-3 text-xs tracking-wide leading-relaxed text-brutalist-muted">Dynamic visuals that tell stories</p>
-                </div>
-              </div>
-
-              {/* Contact CTA Section */}
-              <div className="p-8 border-t-4 border-brutalist-ink" id="contact">
-                <div className="mb-6">
-                  <h4 className="text-xl font-bold text-brutalist-ink">Let's work together</h4>
-                  <p className="mt-1 text-xs text-brutalist-muted tracking-wide">Drop a message and I'll get back to you within 24 hours</p>
-                </div>
-                <form className="space-y-4 max-w-xl">
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="w-full border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red"
-                  />
-                  <textarea
-                    placeholder="Your message"
-                    rows={4}
-                    className="w-full border-4 border-brutalist-ink bg-transparent px-4 py-3 text-sm font-bold text-brutalist-ink placeholder:text-brutalist-placeholder focus:outline-none focus:ring-2 focus:ring-brutalist-red resize-none"
-                  />
-                  <button
-                    type="submit"
-                    className="border-4 border-brutalist-ink bg-brutalist-ink px-6 py-3 text-sm font-bold text-brutalist-cream transition-colors hover:bg-brutalist-red hover:border-brutalist-red"
-                  >
-                    Send →
-                  </button>
-                </form>
-              </div>
-
-              {/* Copyright */}
-              <div className="border-t-4 border-brutalist-ink px-6 py-4 flex justify-between items-center">
-                <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} Hannah Yoo</span>
-                <div className="flex gap-4">
-                  <a href="https://www.instagram.com/hannah.yoo.hy" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Instagram</a>
-                  <a href="https://www.linkedin.com/in/hannah-yoo-hy/" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">LinkedIn</a>
-                  <a href="https://www.behance.net/hannah_yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Behance</a>
-                  <a href="https://github.com/hannah-yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">GitHub</a>
-                </div>
-              </div>
-            </footer>
           </div>
 
         </div>
