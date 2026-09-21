@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getCv, loadCv, CvContent } from "@/data/cv";
@@ -12,6 +12,7 @@ type TrailPoint = {
   y: number;
   intensity: number;
   selected: boolean;
+  createdAt: number;
 };
 
 // Work categories shown on the homepage, in display order
@@ -29,6 +30,8 @@ const Index = () => {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
   const [selectedProjectSlug, setSelectedProjectSlug] = useState<string | null>(null);
   const [selectedMarker, setSelectedMarker] = useState<{ x: number; y: number } | null>(null);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const lastPointerRef = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -51,40 +54,58 @@ const Index = () => {
   }, []);
 
   const addTrailPoint = (x: number, y: number, selected = false) => {
-    const mirroredX = 100 - x;
     const intensity = selected ? 1 : 0.28 + Math.random() * 0.42;
 
     setTrail((current) => [
       ...current,
       {
         id: Date.now() + Math.random(),
-        x: mirroredX,
+        x,
         y,
         intensity,
         selected,
+        createdAt: Date.now(),
       },
-    ].slice(-18));
+    ]);
   };
 
   const handleProjectPointer = (event: React.MouseEvent<HTMLAnchorElement>, projectSlug?: string) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const rightPanel = rightPanelRef.current;
+    const y = rightPanel
+      ? ((rightPanel.scrollTop + event.clientY - rightPanel.getBoundingClientRect().top) / rightPanel.scrollHeight) * 100
+      : ((event.clientY - rect.top) / rect.height) * 100;
 
     if (projectSlug) {
       setSelectedProjectSlug(projectSlug);
     }
+    lastPointerRef.current = { x, y };
     addTrailPoint(x, y, Boolean(projectSlug));
   };
 
   const handleProjectClick = (event: React.MouseEvent<HTMLAnchorElement>, projectSlug: string) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const rightPanel = rightPanelRef.current;
+    const y = rightPanel
+      ? ((rightPanel.scrollTop + event.clientY - rightPanel.getBoundingClientRect().top) / rightPanel.scrollHeight) * 100
+      : ((event.clientY - rect.top) / rect.height) * 100;
 
     setSelectedProjectSlug(projectSlug);
-    setSelectedMarker({ x: 100 - x, y });
+    setSelectedMarker({ x, y });
+    lastPointerRef.current = { x, y };
     addTrailPoint(x, y, true);
+  };
+
+  const handleRightPanelScroll = () => {
+    const rightPanel = rightPanelRef.current;
+    const lastPointer = lastPointerRef.current;
+    if (!rightPanel || !lastPointer) return;
+
+    const scrollRange = Math.max(rightPanel.scrollHeight - rightPanel.clientHeight, 1);
+    const scrollProgress = rightPanel.scrollTop / scrollRange;
+    addTrailPoint(lastPointer.x, Math.min(100, Math.max(0, scrollProgress * 100)), false);
   };
 
   const selectedProject = selectedProjectSlug ? projects.find((project) => project.slug === selectedProjectSlug) : null;
@@ -117,12 +138,14 @@ const Index = () => {
                   style={{
                     left: `${point.x}%`,
                     top: `${point.y}%`,
-                    width: `${point.selected ? 112 : 42 + point.intensity * 46}px`,
-                    height: `${point.selected ? 112 : 42 + point.intensity * 46}px`,
+                    width: `${point.selected ? 38 : 14 + point.intensity * 15}px`,
+                    height: `${point.selected ? 38 : 14 + point.intensity * 15}px`,
                     opacity: point.selected ? 1 : point.intensity,
+                    animation: point.selected ? undefined : "trail-fade 180s linear forwards",
+                    animationDelay: point.selected ? undefined : `${-(Date.now() - point.createdAt)}ms`,
                     transform: "translate(-50%, -50%)",
                     boxShadow: point.selected
-                      ? "0 0 0 1px rgba(220,38,38,0.45), 0 0 32px rgba(220,38,38,0.35)"
+                      ? "0 0 0 1px rgba(220,38,38,0.45), 0 0 18px rgba(220,38,38,0.35)"
                       : "0 0 0 1px rgba(220,38,38,0.25)",
                   }}
                 />
@@ -133,16 +156,16 @@ const Index = () => {
                   style={{
                     left: `${selectedMarker.x}%`,
                     top: `${selectedMarker.y}%`,
-                    width: "138px",
-                    height: "138px",
+                    width: "46px",
+                    height: "46px",
                     transform: "translate(-50%, -50%)",
-                    boxShadow: "0 0 0 1px rgba(220,38,38,0.6), 0 0 48px rgba(220,38,38,0.5)",
+                    boxShadow: "0 0 0 1px rgba(220,38,38,0.6), 0 0 24px rgba(220,38,38,0.5)",
                   }}
                 />
               )}
             </div>
             <div className="relative z-10">
-              <h1 className="max-w-full text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
+              <h1 className="hero-name mx-auto w-full max-w-full text-center text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
                 <span className="block whitespace-nowrap">Hannah</span>
                 <span className="block whitespace-nowrap">Yoo</span>
               </h1>
@@ -159,7 +182,7 @@ const Index = () => {
           </div>
 
           {/* Right Panel - Scrollable Projects + Footer */}
-          <div className="lg:h-[90vh] lg:overflow-y-auto" id="work">
+          <div ref={rightPanelRef} onScroll={handleRightPanelScroll} className="lg:h-[90vh] lg:overflow-y-auto" id="work">
             <div className="p-6 space-y-10">
               {projects.length === 0 ? (
                 <div className="border-4 border-dashed border-brutalist-ink/30 p-8 text-center">
@@ -301,9 +324,10 @@ const Index = () => {
               <div className="border-t-4 border-brutalist-ink px-6 py-4 flex justify-between items-center">
                 <span className="text-xs font-bold text-brutalist-muted">© {new Date().getFullYear()} Hannah Yoo</span>
                 <div className="flex gap-4">
-                  <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">IG</a>
-                  <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">BE</a>
-                  <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">LI</a>
+                  <a href="https://www.instagram.com/hannah.yoo.hy" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Instagram</a>
+                  <a href="https://www.linkedin.com/in/hannah-yoo-hy/" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">LinkedIn</a>
+                  <a href="https://www.behance.net/hannah_yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">Behance</a>
+                  <a href="https://github.com/hannah-yoo" target="_blank" rel="noreferrer" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-red">GitHub</a>
                 </div>
               </div>
             </footer>

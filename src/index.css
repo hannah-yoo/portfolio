@@ -221,6 +221,21 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  @keyframes trail-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.08;
+    }
+  }
+
+  .hero-name {
+    font-kerning: normal;
+    letter-spacing: -0.04em;
+    text-rendering: optimizeLegibility;
+  }
+
   .hide-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;
