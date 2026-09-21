@@ -5,6 +5,14 @@ import { getAllProjects, loadProjects } from "@/data/projects";
 import { Project, ProjectCategory } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
 
+type TrailPoint = {
+  id: number;
+  x: number;
+  y: number;
+  intensity: number;
+  selected: boolean;
+};
+
 // Work categories shown on the homepage, in display order
 const CATEGORIES: { id: ProjectCategory; label: string }[] = [
   { id: "fine-arts", label: "Fine Arts & Illustrations" },
@@ -13,6 +21,9 @@ const CATEGORIES: { id: ProjectCategory; label: string }[] = [
 
 const Index = () => {
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
+  const [trail, setTrail] = useState<TrailPoint[]>([]);
+  const [selectedProjectSlug, setSelectedProjectSlug] = useState<string | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -27,6 +38,45 @@ const Index = () => {
       active = false;
     };
   }, []);
+
+  const addTrailPoint = (x: number, y: number, selected = false) => {
+    const mirroredX = 100 - x;
+    const intensity = selected ? 1 : 0.28 + Math.random() * 0.42;
+
+    setTrail((current) => [
+      ...current,
+      {
+        id: Date.now() + Math.random(),
+        x: mirroredX,
+        y,
+        intensity,
+        selected,
+      },
+    ].slice(-18));
+  };
+
+  const handleProjectPointer = (event: React.MouseEvent<HTMLAnchorElement>, projectSlug?: string) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+    if (projectSlug) {
+      setSelectedProjectSlug(projectSlug);
+    }
+    addTrailPoint(x, y, Boolean(projectSlug));
+  };
+
+  const handleProjectClick = (event: React.MouseEvent<HTMLAnchorElement>, projectSlug: string) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+    setSelectedProjectSlug(projectSlug);
+    setSelectedMarker({ x: 100 - x, y });
+    addTrailPoint(x, y, true);
+  };
+
+  const selectedProject = selectedProjectSlug ? projects.find((project) => project.slug === selectedProjectSlug) : null;
 
   return (
     <PageTransition>
@@ -46,15 +96,55 @@ const Index = () => {
         {/* Hero Content - Two Column Layout */}
         <div className="relative grid min-h-[90vh] grid-cols-1 lg:grid-cols-2">
           {/* Left Panel - Fixed Hero */}
-          <div className="flex flex-col justify-center border-b-4 lg:border-b-0 lg:border-r-4 border-brutalist-ink p-8 lg:p-12">
-            <h1 className="max-w-full text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
-              <span className="block whitespace-nowrap">Hannah</span>
-              <span className="block whitespace-nowrap">Yoo</span>
-            </h1>
-            <div className="mt-8 h-4 w-32 bg-brutalist-red" />
-            <p className="mt-6 text-xs tracking-widest text-brutalist-muted">
-              Artist &amp; Designer / Est. 2022
-            </p>
+          <div className="relative flex flex-col justify-center border-b-4 lg:border-b-0 lg:border-r-4 border-brutalist-ink p-8 lg:p-12 overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.10),transparent_55%)]" />
+              {trail.map((point) => (
+                <div
+                  key={point.id}
+                  className="absolute rounded-full border border-brutalist-red/80 bg-brutalist-red/15"
+                  style={{
+                    left: `${point.x}%`,
+                    top: `${point.y}%`,
+                    width: `${point.selected ? 112 : 42 + point.intensity * 46}px`,
+                    height: `${point.selected ? 112 : 42 + point.intensity * 46}px`,
+                    opacity: point.selected ? 1 : point.intensity,
+                    transform: "translate(-50%, -50%)",
+                    boxShadow: point.selected
+                      ? "0 0 0 1px rgba(220,38,38,0.45), 0 0 32px rgba(220,38,38,0.35)"
+                      : "0 0 0 1px rgba(220,38,38,0.25)",
+                  }}
+                />
+              ))}
+              {selectedMarker && (
+                <div
+                  className="absolute rounded-full border-2 border-brutalist-red bg-brutalist-red/30"
+                  style={{
+                    left: `${selectedMarker.x}%`,
+                    top: `${selectedMarker.y}%`,
+                    width: "138px",
+                    height: "138px",
+                    transform: "translate(-50%, -50%)",
+                    boxShadow: "0 0 0 1px rgba(220,38,38,0.6), 0 0 48px rgba(220,38,38,0.5)",
+                  }}
+                />
+              )}
+            </div>
+            <div className="relative z-10">
+              <h1 className="max-w-full text-[clamp(3.5rem,12vw,10rem)] font-bold leading-none text-brutalist-ink">
+                <span className="block whitespace-nowrap">Hannah</span>
+                <span className="block whitespace-nowrap">Yoo</span>
+              </h1>
+              <div className="mt-8 h-4 w-32 bg-brutalist-red" />
+              <p className="mt-6 text-xs tracking-widest text-brutalist-muted">
+                Artist &amp; Designer / Est. 2022
+              </p>
+              {selectedProject && (
+                <p className="mt-4 max-w-xs text-[10px] font-bold uppercase tracking-[0.28em] text-brutalist-red">
+                  Tracking {selectedProject.title}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Right Panel - Scrollable Projects + Footer */}
@@ -88,6 +178,8 @@ const Index = () => {
                           key={project.id}
                           to={`/projects/${project.slug}`}
                           className="group block transition-all"
+                          onMouseMove={(event) => handleProjectPointer(event, project.slug)}
+                          onClick={(event) => handleProjectClick(event, project.slug)}
                         >
                           <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink flex items-center justify-center p-6 text-center text-sm text-brutalist-muted">
                             {project.heroImage ? (
