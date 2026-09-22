@@ -3,6 +3,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { ProjectImageFrame } from "./ProjectImageFrame";
 
 interface ProjectHeroProps {
   image: string;
@@ -45,13 +46,13 @@ export const ProjectHero = ({
         <div className="absolute inset-0 w-full h-full rounded-lg bg-neutral-200 animate-pulse" />
       )}
       {isIntersecting && (
-        <img
+        <ProjectImageFrame
           src={image}
           alt={alt}
           loading="lazy"
           onLoad={() => setImageLoaded(true)}
-          className={cn(
-            "w-full h-full object-cover rounded-lg",
+          imageClassName={cn(
+            "rounded-lg",
             "transition-all duration-500",
             imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
           )}

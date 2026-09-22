@@ -39,6 +39,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />
+        <Route path="/cv" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
         <Route path="/design-system" element={<DesignSystem />} />

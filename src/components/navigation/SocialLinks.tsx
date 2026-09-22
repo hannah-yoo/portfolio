@@ -43,7 +43,7 @@ export const SocialLinks = () => {
               href={link.href}
               target={link.name !== "Email" ? "_blank" : undefined}
               rel={link.name !== "Email" ? "noopener noreferrer" : undefined}
-              className="text-neutral-600 hover:text-brand-black transition-colors"
+              className="text-brutalist-red hover:text-brutalist-ink transition-colors"
               aria-label={link.name}
             >
               <link.icon className="h-5 w-5" />

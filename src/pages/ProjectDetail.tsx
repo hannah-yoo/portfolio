@@ -8,6 +8,7 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useEffect, useState } from "react";
 import { cn, resolveAssetUrl } from "@/lib/utils";
 import { Project } from "@/types";
+import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 
 /**
  * ProjectDetail Page
@@ -55,7 +56,7 @@ const ProjectDetail = () => {
             <Link to="/#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
               Work
             </Link>
-            <Link to="/#about" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
+            <Link to="/cv" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
               Info
             </Link>
             <Link to="/#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
@@ -81,10 +82,9 @@ const ProjectDetail = () => {
             <div className="border-4 border-brutalist-ink overflow-hidden">
               <AspectRatio ratio={16 / 9}>
                 {project.heroImage ? (
-                  <img
+                  <ProjectImageFrame
                     src={resolveAssetUrl(project.heroImage)}
                     alt={`${project.title} hero image`}
-                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-sm text-brutalist-muted">
@@ -233,13 +233,12 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
             <div className="absolute inset-0 w-full h-full bg-brutalist-ink/10 animate-pulse" />
           )}
           {isIntersecting && src ? (
-            <img
+            <ProjectImageFrame
               src={resolveAssetUrl(src)}
               alt={alt}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
-              className={cn(
-                "w-full h-full object-cover",
+              imageClassName={cn(
                 "transition-all duration-500",
                 imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
               )}

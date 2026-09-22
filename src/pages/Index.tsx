@@ -5,6 +5,7 @@ import { getCv, loadCv, CvContent } from "@/data/cv";
 import { getAllProjects, loadProjects } from "@/data/projects";
 import { Project, ProjectCategory } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
+import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 
 type TrailPoint = {
   id: number;
@@ -120,7 +121,7 @@ const Index = () => {
           </Link>
           <div className="flex gap-1">
             <a href="#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Work</a>
-            <a href="#about" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Info</a>
+            <Link to="/cv" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Info</Link>
             <a href="#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">Mail</a>
           </div>
         </nav>
@@ -282,12 +283,12 @@ const Index = () => {
                           onMouseMove={(event) => handleProjectPointer(event, project.slug)}
                           onClick={(event) => handleProjectClick(event, project.slug)}
                         >
-                          <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink flex items-center justify-center p-6 text-center text-sm text-brutalist-muted">
+                          <div className="aspect-[16/10] overflow-hidden border-4 border-brutalist-ink flex items-center justify-center text-center text-sm text-brutalist-muted">
                             {project.heroImage ? (
-                              <img
+                              <ProjectImageFrame
                                 src={resolveAssetUrl(project.heroImage)}
                                 alt={project.title}
-                                className="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
+                                imageClassName="grayscale transition-all group-hover:grayscale-0 group-hover:scale-105"
                               />
                             ) : (
                               "To be indicated"

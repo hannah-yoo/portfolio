@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Project } from "@/types";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { ProjectImageFrame } from "./ProjectImageFrame";
+import { resolveAssetUrl } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
@@ -50,13 +52,13 @@ export const ProjectCard = ({ project, onHover }: ProjectCardProps) => {
         
         {/* Image with grayscale effect */}
         {isIntersecting && (
-          <img
-            src={project.heroImage}
+          <ProjectImageFrame
+            src={resolveAssetUrl(project.heroImage)}
             alt={project.title}
             loading="lazy"
             onLoad={() => setImageLoaded(true)}
-            className={cn(
-              "w-full h-full object-cover transition-all duration-500",
+            imageClassName={cn(
+              "transition-all duration-500",
               "grayscale group-hover:grayscale-0 group-hover:scale-105",
               imageLoaded ? "opacity-100" : "opacity-0"
             )}
