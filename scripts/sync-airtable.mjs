@@ -93,6 +93,7 @@ const asBoolean = (value) =>
 
 const cvFieldAliases = {
   intro: ["intro", "introduction", "about", "bio", "소개"],
+  postscript: ["postscript", "ps", "post script"],
   order: ["order", "sort", "순서"],
   year: ["year", "period", "연도", "기간"],
   title: ["title", "role", "position", "degree", "활동", "직함", "학위"],
@@ -154,12 +155,15 @@ const TO_BE_INDICATED = "To be indicated";
 
 const normalizeCvRecords = (records) => {
   let intro = "";
+  let postscript = "";
   const entries = [];
 
   records.forEach(({ id, fields }, index) => {
     const safeFields = fields || {};
     const recordIntro = asText(findField(safeFields, cvFieldAliases.intro));
     if (recordIntro && !intro) intro = recordIntro;
+    const recordPostscript = asText(findField(safeFields, cvFieldAliases.postscript));
+    if (recordPostscript && !postscript) postscript = recordPostscript;
 
     const title = asText(findField(safeFields, cvFieldAliases.title));
     const organization = asText(findField(safeFields, cvFieldAliases.organization));
@@ -179,6 +183,7 @@ const normalizeCvRecords = (records) => {
 
   return {
     intro,
+    postscript,
     entries: entries.sort((first, second) => first.order - second.order),
   };
 };

@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
 import { getCv, loadCv, CvContent } from "@/data/cv";
-import { getAllProjects, loadProjects } from "@/data/projects";
 import { designer } from "@/data/designer";
-import { Project } from "@/types";
 
 interface HyParticle {
   id: number;
@@ -19,7 +17,6 @@ interface HyParticle {
 }
 
 const Index = () => {
-  const [projects, setProjects] = useState<Project[]>(getAllProjects());
   const [cvContent, setCvContent] = useState<CvContent>(getCv());
   const [particles, setParticles] = useState<HyParticle[]>([]);
   const particleId = useRef(0);
@@ -29,9 +26,6 @@ const Index = () => {
   useEffect(() => {
     let active = true;
 
-    void loadProjects().then((loadedProjects) => {
-      if (active) setProjects(loadedProjects);
-    });
     void loadCv().then((loadedCv) => {
       if (active) setCvContent(loadedCv);
     });
@@ -40,10 +34,6 @@ const Index = () => {
       active = false;
     };
   }, []);
-
-  const selectedProjects = projects
-    .filter((project) => project.category !== "broadcasts")
-    .slice(0, 5);
 
   const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
     if (event.pointerType !== "mouse" || prefersReducedMotion) return;
@@ -99,62 +89,38 @@ const Index = () => {
           <section className="about-intro">
             <h1 className="portfolio-title">{designer.name}</h1>
             <p className="portfolio-lede">{cvContent.intro || designer.bio}</p>
+            {cvContent.postscript && <p className="portfolio-postscript">{cvContent.postscript}</p>}
           </section>
 
-          <section className="about-projects" aria-labelledby="case-studies-heading">
+          <section className="about-cv" aria-labelledby="cv-heading">
             <div className="about-section-heading">
-              <h2 id="case-studies-heading">Selected work</h2>
-              <Link to="/design">See all</Link>
+              <h2 id="cv-heading">CV</h2>
             </div>
-            {selectedProjects.length > 0 ? (
-              <ul className="about-link-list">
-                {selectedProjects.map((project) => (
-                  <li key={project.id}>
-                    <Link to={`/projects/${project.slug}`}>
-                      <span>{project.title}</span>
-                      <span className="about-link-meta">{project.year}</span>
-                    </Link>
+            {cvContent.entries.length > 0 ? (
+              <ul className="about-cv-list">
+                {cvContent.entries.map((entry) => (
+                  <li key={entry.id}>
+                    <span className="about-cv-year">{entry.year}</span>
+                    <div>
+                      <h3>{entry.title}</h3>
+                      <p>{entry.organization}</p>
+                      {entry.description && <p className="about-cv-description">{entry.description}</p>}
+                    </div>
                   </li>
                 ))}
               </ul>
             ) : (
               <p className="portfolio-muted">
-                Projects managed in Airtable will appear here.
+                CV entries managed in Airtable will appear here.
               </p>
             )}
           </section>
 
-          <section className="about-experience" aria-labelledby="experience-heading">
-            <div className="about-section-heading">
-              <h2 id="experience-heading">Experience</h2>
-              <span>Selected</span>
-            </div>
-            {cvContent.entries.length > 0 ? (
-              <div className="experience-list">
-                {cvContent.entries.map((entry) => (
-                  <article className="experience-row" key={entry.id}>
-                    <span className="article-date">{entry.year}</span>
-                    <div>
-                      <h3>{entry.title}</h3>
-                      <p>{entry.organization}</p>
-                      {entry.description && <p className="experience-description">{entry.description}</p>}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            ) : (
-              <p className="portfolio-muted">
-                Experience managed in the Airtable CV table will appear here.
-              </p>
-            )}
-          </section>
-
-          <section className="about-contact">
-            <h2>Contact</h2>
-            <a href={`mailto:${designer.email}`}>{designer.email}</a>
-          </section>
         </main>
         <PortfolioFooter />
+        <div className="portfolio-wordmark" aria-hidden="true">
+          {designer.name}
+        </div>
       </div>
     </PageTransition>
   );

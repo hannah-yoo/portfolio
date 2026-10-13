@@ -56,12 +56,18 @@ export const PortfolioFooter = () => (
   <footer className="portfolio-footer">
     <span>© {new Date().getFullYear()} {designer.name}</span>
     <nav aria-label="Social links">
-      <a href={`mailto:${designer.email}`}>Mail</a>
+      <a href={`mailto:${designer.email}`}>{designer.email}</a>
       {designer.socialLinks.instagram && (
         <a href={designer.socialLinks.instagram} target="_blank" rel="noreferrer">Instagram</a>
       )}
+      {designer.socialLinks.threads && (
+        <a href={designer.socialLinks.threads} target="_blank" rel="noreferrer">Threads</a>
+      )}
       {designer.socialLinks.linkedin && (
         <a href={designer.socialLinks.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      )}
+      {designer.socialLinks.github && (
+        <a href={designer.socialLinks.github} target="_blank" rel="noreferrer">GitHub</a>
       )}
     </nav>
   </footer>

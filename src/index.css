@@ -337,7 +337,7 @@ All colors MUST be HSL.
 
 .portfolio-about {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.78fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   row-gap: clamp(48px, 5vw, 72px);
   column-gap: clamp(40px, 8vw, 120px);
 }
@@ -361,6 +361,14 @@ All colors MUST be HSL.
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 28px;
+}
+
+.portfolio-postscript {
+  margin: 18px 0 0;
+  max-width: 540px;
+  color: #777;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .about-section-heading,
@@ -397,29 +405,45 @@ All colors MUST be HSL.
   text-decoration: underline;
 }
 
-.about-link-list {
+.about-cv-list {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.about-link-list li {
+.about-cv-list li {
   border-bottom: 1px solid #eee;
 }
 
-.about-link-list a {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
+.about-cv-list li {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 14px;
   padding: 12px 0;
-  color: #111;
-  font-size: 16px;
-  line-height: 1.4;
-  text-decoration: none;
 }
 
-.about-link-list a:hover span:first-child {
-  text-decoration: underline;
+.about-cv-year {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.about-cv-list h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.about-cv-list p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.about-cv-list .about-cv-description {
+  margin-top: 8px;
 }
 
 .about-link-meta,
@@ -796,12 +820,31 @@ All colors MUST be HSL.
 .portfolio-footer nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 6px;
 }
 
 .portfolio-footer a {
+  border-radius: 4px;
+  background: #eee;
+  padding: 5px 8px;
   color: inherit;
   text-decoration: none;
+}
+
+.portfolio-footer a:hover {
+  color: #111;
+  text-decoration: underline;
+}
+
+.portfolio-wordmark {
+  overflow: hidden;
+  padding: 0 clamp(12px, 2vw, 32px) 16px;
+  font-family: "Gill Sans UltraBold", "Gill Sans Ultra Bold", "Gill Sans", "Gill Sans MT", sans-serif;
+  font-size: clamp(40px, min(16vw, calc((100vw - 80px) / 6.72)), 280px);
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  line-height: 0.8;
+  white-space: nowrap;
 }
 
 .hy-particle-layer {
@@ -824,6 +867,12 @@ All colors MUST be HSL.
   color: #111;
   font-size: 9px;
   letter-spacing: -0.04em;
+}
+
+@media (min-width: 701px) and (max-width: 960px) {
+  .portfolio-about {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -852,6 +901,10 @@ All colors MUST be HSL.
   .portfolio-about {
     grid-template-columns: 1fr;
     gap: 42px;
+  }
+
+  .about-cv-list li {
+    grid-template-columns: 105px minmax(0, 1fr);
   }
 
   .portfolio-title {
@@ -903,5 +956,9 @@ All colors MUST be HSL.
   .portfolio-footer {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .portfolio-footer nav {
+    gap: 6px;
   }
 }

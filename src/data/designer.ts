@@ -11,7 +11,7 @@ import { Designer } from "@/types";
 export const designer: Designer = {
   name: "Hannah Yoo",
   bio: "A visual artist and designer whose practice spans fine arts, illustration, and commercial design. I work with brands and studios to create bold, meaningful visual systems — and keep a personal studio practice in painting and illustration that feeds everything else I make. My approach combines strategic thinking with meticulous craftsmanship, ensuring every project reflects attention to detail and creative excellence.",
-  email: "hello@hannahyoo.com",
+  email: "hannah.yoo.hy@gmail.com",
   photo: "",
   services: [
     "Fine Arts & Illustration",
@@ -25,8 +25,10 @@ export const designer: Designer = {
     "Motion & Animation Direction",
   ],
   socialLinks: {
-    instagram: "https://instagram.com/hannahyoo",
+    instagram: "https://www.instagram.com/hannahyoo",
+    threads: "https://www.threads.com/@hannah.yoo.hy",
     linkedin: "https://linkedin.com/in/hannahyoo",
-    email: "hello@hannahyoo.com",
+    github: "https://github.com/hannah-yoo",
+    email: "hannah.yoo.hy@gmail.com",
   },
 };

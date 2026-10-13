@@ -11,7 +11,9 @@ export interface Designer {
   services: string[];
   socialLinks: {
     instagram?: string;
+    threads?: string;
     linkedin?: string;
+    github?: string;
     email: string;
   };
 }

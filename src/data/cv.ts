@@ -11,6 +11,7 @@ export type CvEntry = {
 
 export type CvContent = {
   intro: string;
+  postscript?: string;
   entries: CvEntry[];
 };
 
