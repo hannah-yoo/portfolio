@@ -295,21 +295,34 @@ All colors MUST be HSL.
 }
 
 .portfolio-nav-link {
+  position: relative;
+  isolation: isolate;
   border-radius: 999px;
   padding: 8px 14px;
   color: #858585;
   font-size: 14px;
   line-height: 1.2;
   text-decoration: none;
-  transition: color 160ms ease, background-color 160ms ease;
+  transition: color 160ms ease;
 }
 
 .portfolio-nav-link:hover {
   color: #111;
 }
 
-.portfolio-nav-link[aria-current="page"] {
+.portfolio-nav-indicator {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
   background: #ededed;
+  border-radius: inherit;
+}
+
+.portfolio-nav-label {
+  position: relative;
+}
+
+.portfolio-nav-link[aria-current="page"] {
   color: #111;
   font-size: 16px;
 }
@@ -499,9 +512,53 @@ All colors MUST be HSL.
 }
 
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 46px 24px;
+  columns: 2;
+  column-gap: 24px;
+}
+
+.collection-filters {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin: 0 0 34px;
+  padding: 2px 0 6px;
+  scrollbar-width: none;
+}
+
+.collection-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.collection-filter {
+  position: relative;
+  isolation: isolate;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 9px 14px;
+  color: #777;
+  font: inherit;
+  cursor: pointer;
+}
+
+.collection-filter[aria-pressed="true"] {
+  color: #111;
+}
+
+.collection-filter-indicator {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: #ededed;
+}
+
+.work-card-shell {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 38px;
+  break-inside: avoid;
 }
 
 .work-card {
@@ -512,7 +569,6 @@ All colors MUST be HSL.
 }
 
 .work-image {
-  aspect-ratio: 1.62;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
@@ -748,6 +804,28 @@ All colors MUST be HSL.
   text-decoration: none;
 }
 
+.hy-particle-layer {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hy-particle {
+  position: absolute;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border: 1px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  font-size: 9px;
+  letter-spacing: -0.04em;
+}
+
 @media (max-width: 700px) {
   .portfolio-nav {
     gap: 4px;
@@ -785,8 +863,7 @@ All colors MUST be HSL.
   }
 
   .work-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    columns: 1;
   }
 
   .article-row {

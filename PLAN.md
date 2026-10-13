@@ -315,7 +315,9 @@ Route: `/design-system`
 | `Skeleton` | Loading states |
 | `Sonner` | Toast notifications |
 
-### From tailwind-plus (adapt to TypeScript):
+### Tailwind Plus inspirations (reference archive removed)
+These patterns were adapted into project components. Reuse the implementations in `src/` instead of copying from the removed archive.
+
 | Component | Source | Usage |
 |-----------|--------|-------|
 | `FadeIn` / `FadeInStagger` | studio | Scroll animations |

@@ -59,7 +59,7 @@ export const ProjectCard = ({ project, onHover }: ProjectCardProps) => {
             onLoad={() => setImageLoaded(true)}
             imageClassName={cn(
               "transition-all duration-500",
-              "grayscale group-hover:grayscale-0 group-hover:scale-105",
+              "grayscale group-hover:grayscale-0",
               imageLoaded ? "opacity-100" : "opacity-0"
             )}
           />

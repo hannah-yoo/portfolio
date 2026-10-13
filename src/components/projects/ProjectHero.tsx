@@ -54,7 +54,7 @@ export const ProjectHero = ({
           imageClassName={cn(
             "rounded-lg",
             "transition-all duration-500",
-            imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
+            imageLoaded ? "opacity-100" : "opacity-0 blur-sm"
           )}
         />
       )}

@@ -9,7 +9,7 @@ import { cn, resolveAssetUrl } from "@/lib/utils";
 import { Project } from "@/types";
 import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 import { ArrowUpRight } from "lucide-react";
-import { PortfolioFooter, PortfolioHeader } from "@/components/navigation/PortfolioChrome";
+import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
 
 /**
  * ProjectDetail Page
@@ -42,7 +42,6 @@ const ProjectDetail = () => {
   if (!project && isLoading) {
     return (
       <div className="portfolio-shell">
-        <PortfolioHeader />
         <main id="main-content" className="portfolio-project">
           <p className="portfolio-muted">Loading project…</p>
         </main>
@@ -59,8 +58,6 @@ const ProjectDetail = () => {
   return (
     <PageTransition>
       <div className="portfolio-shell">
-        <PortfolioHeader />
-
         {/* Project Title Section */}
         <main id="main-content" className="portfolio-project">
           <FadeIn>
@@ -199,7 +196,7 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
               onLoad={() => setImageLoaded(true)}
               imageClassName={cn(
                 "transition-all duration-500",
-                imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
+                imageLoaded ? "opacity-100" : "opacity-0 blur-sm"
               )}
             />
           ) : null}

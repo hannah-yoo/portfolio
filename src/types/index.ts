@@ -43,6 +43,7 @@ export interface Project {
   featured: boolean;
   /** Which work section this project belongs to */
   category: ProjectCategory;
+  tags?: string[];
 }
 
 export interface Testimonial {

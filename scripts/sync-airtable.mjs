@@ -56,6 +56,7 @@ const fieldAliases = {
   ],
   images: ["images", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
   category: ["category", "type", "tag", "tags", "분류", "카테고리"],
+  tags: ["tags", "subcategories", "work types", "disciplines", "labels"],
   featured: ["featured", "highlight", "대표", "추천"],
   externalUrl: ["url", "link", "external url", "project url", "article url", "링크"],
 };
@@ -233,6 +234,10 @@ const normalizeRecord = async ({ id, fields }, index) => {
     heroImage,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
+    tags: asText(findField(fields, fieldAliases.tags))
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean),
     gridWidth: 6,
     featured: asBoolean(findField(fields, fieldAliases.featured)),
     category,

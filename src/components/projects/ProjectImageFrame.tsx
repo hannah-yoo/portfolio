@@ -1,11 +1,17 @@
 import { cn } from "@/lib/utils";
 
+interface ImageDimensions {
+  width: number;
+  height: number;
+}
+
 interface ProjectImageFrameProps {
   src: string;
   alt: string;
   className?: string;
   imageClassName?: string;
   onLoad?: () => void;
+  onDimensionsLoad?: (dimensions: ImageDimensions) => void;
   loading?: "lazy" | "eager";
 }
 
@@ -19,6 +25,7 @@ export const ProjectImageFrame = ({
   className,
   imageClassName,
   onLoad,
+  onDimensionsLoad,
   loading,
 }: ProjectImageFrameProps) => (
   <div className={cn("relative isolate h-full w-full overflow-hidden bg-neutral-100", className)}>
@@ -32,7 +39,13 @@ export const ProjectImageFrame = ({
       src={src}
       alt={alt}
       loading={loading}
-      onLoad={onLoad}
+      onLoad={(event) => {
+        onLoad?.();
+        onDimensionsLoad?.({
+          width: event.currentTarget.naturalWidth,
+          height: event.currentTarget.naturalHeight,
+        });
+      }}
       className={cn("relative z-10 h-full w-full object-contain", imageClassName)}
     />
   </div>
