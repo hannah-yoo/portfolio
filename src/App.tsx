@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import Index from "./pages/Index";
@@ -41,8 +41,10 @@ function AnimatedRoutes() {
         <Route path="/about" element={<Index />} />
         <Route path="/cv" element={<Index />} />
         <Route path="/design" element={<Collection kind="design" />} />
-        <Route path="/articles" element={<Collection kind="articles" />} />
-        <Route path="/engineering" element={<Collection kind="engineering" />} />
+        <Route path="/fine-arts" element={<Collection kind="fine-arts" />} />
+        <Route path="/broadcasts" element={<Collection kind="broadcasts" />} />
+        <Route path="/articles" element={<Navigate to="/fine-arts" replace />} />
+        <Route path="/engineering" element={<Navigate to="/broadcasts" replace />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
         <Route path="/design-system" element={<DesignSystem />} />

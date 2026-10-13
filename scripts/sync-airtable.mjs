@@ -200,10 +200,22 @@ const normalizeRecord = async ({ id, fields }, index) => {
 
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
   const category =
-    categoryRaw.includes("article") || categoryRaw.includes("writing") || categoryRaw.includes("글")
-      ? "articles"
-      : categoryRaw.includes("engineering") || categoryRaw.includes("code") || categoryRaw.includes("개발")
-      ? "engineering"
+    categoryRaw.includes("broadcast") ||
+    categoryRaw.includes("television") ||
+    categoryRaw.includes("radio") ||
+    categoryRaw.includes("podcast") ||
+    categoryRaw.includes("interview") ||
+    categoryRaw.includes("appearance") ||
+    categoryRaw.includes("show") ||
+    categoryRaw.includes("engineering") ||
+    categoryRaw.includes("방송")
+      ? "broadcasts"
+      : categoryRaw.includes("article") ||
+        categoryRaw.includes("writing") ||
+        categoryRaw.includes("fine art") ||
+        categoryRaw.includes("미술") ||
+        categoryRaw.includes("글")
+      ? "fine-arts"
       : categoryRaw.includes("design") || categoryRaw.includes("디자인")
       ? "design"
       : "fine-arts";

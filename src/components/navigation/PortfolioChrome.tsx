@@ -4,8 +4,8 @@ import { designer } from "@/data/designer";
 const navigation = [
   { label: "About", to: "/" },
   { label: "Design", to: "/design" },
-  { label: "Articles", to: "/articles" },
-  { label: "& Engineering", to: "/engineering" },
+  { label: "Fine Arts", to: "/fine-arts" },
+  { label: "Broadcasts", to: "/broadcasts" },
 ];
 
 export const PortfolioHeader = () => {

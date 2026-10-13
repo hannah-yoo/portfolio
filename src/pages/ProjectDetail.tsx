@@ -14,7 +14,7 @@ import { PortfolioFooter, PortfolioHeader } from "@/components/navigation/Portfo
 /**
  * ProjectDetail Page
  * 
- * Editorial project page for portfolio, article, and engineering records.
+ * Editorial detail page for selected portfolio entries.
  */
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();

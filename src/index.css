@@ -498,30 +498,6 @@ All colors MUST be HSL.
   font-size: 14px;
 }
 
-.portfolio-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 54px;
-}
-
-.portfolio-filter {
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  padding: 9px 15px;
-  color: #777;
-  cursor: pointer;
-  font: inherit;
-  font-size: 14px;
-}
-
-.portfolio-filter[aria-pressed="true"],
-.portfolio-filter:hover {
-  background: #ededed;
-  color: #111;
-}
-
 .work-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -608,11 +584,11 @@ All colors MUST be HSL.
   height: 18px;
 }
 
-.engineering-list {
+.broadcasts-list {
   border-top: 1px solid #eee;
 }
 
-.engineering-list .work-card {
+.broadcasts-list .broadcast-card {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr);
   align-items: center;
@@ -621,18 +597,18 @@ All colors MUST be HSL.
   padding: 18px 0;
 }
 
-.engineering-list .work-image {
+.broadcasts-list .work-image {
   display: none;
 }
 
-.engineering-index {
+.broadcast-index {
   grid-column: 1;
   grid-row: 1;
   color: #999;
   font-size: 13px;
 }
 
-.engineering-list .work-card-caption {
+.broadcasts-list .work-card-caption {
   grid-column: 2;
   grid-row: 1;
   padding: 0;
@@ -806,10 +782,6 @@ All colors MUST be HSL.
 
   .portfolio-page-heading {
     margin-bottom: 28px;
-  }
-
-  .portfolio-filters {
-    margin-bottom: 32px;
   }
 
   .work-grid {

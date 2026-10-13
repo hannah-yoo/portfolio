@@ -1,7 +1,20 @@
 import { Project } from "@/types";
 import airtableProjects from "./airtable-projects.json";
 
-const projects: Project[] = Array.isArray(airtableProjects) ? airtableProjects : [];
+const normalizeCategory = (category: unknown): Project["category"] => {
+  const value = String(category || "").trim().toLowerCase();
+  if (value === "articles" || value === "fine art" || value === "fine arts") return "fine-arts";
+  if (value === "engineering" || value === "broadcast" || value === "broadcasts") return "broadcasts";
+  if (value === "design") return "design";
+  return "fine-arts";
+};
+
+const projects: Project[] = Array.isArray(airtableProjects)
+  ? airtableProjects.map((project) => ({
+      ...project,
+      category: normalizeCategory(project.category),
+    }))
+  : [];
 
 export const loadProjects = async (): Promise<Project[]> => projects;
 

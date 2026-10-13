@@ -26,7 +26,9 @@ const Index = () => {
     };
   }, []);
 
-  const selectedProjects = projects.slice(0, 5);
+  const selectedProjects = projects
+    .filter((project) => project.category !== "broadcasts")
+    .slice(0, 5);
 
   return (
     <PageTransition>

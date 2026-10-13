@@ -24,7 +24,7 @@ export interface ProjectImage {
   caption?: string;
 }
 
-export type ProjectCategory = "fine-arts" | "design" | "articles" | "engineering";
+export type ProjectCategory = "fine-arts" | "design" | "broadcasts";
 
 export interface Project {
   id: string;
