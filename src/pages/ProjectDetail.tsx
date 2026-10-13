@@ -1,24 +1,25 @@
 import { useParams, Navigate, Link } from "react-router-dom";
-import { ProjectNav } from "@/components/projects/ProjectNav";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
-import { getAllProjects, getProjectBySlug, getNextProject, loadProjects } from "@/data/projects";
+import { getAllProjects, getNextProject, loadProjects } from "@/data/projects";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useEffect, useState } from "react";
 import { cn, resolveAssetUrl } from "@/lib/utils";
 import { Project } from "@/types";
 import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
+import { ArrowUpRight } from "lucide-react";
+import { PortfolioFooter, PortfolioHeader } from "@/components/navigation/PortfolioChrome";
 
 /**
  * ProjectDetail Page
  * 
- * Brutalist-styled project case study page.
- * Consistent with Index page: heavy borders, mono type, red accents
+ * Editorial project page for portfolio, article, and engineering records.
  */
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let active = true;
@@ -26,6 +27,7 @@ const ProjectDetail = () => {
     void loadProjects().then((nextProjects) => {
       if (active) {
         setProjects(nextProjects);
+        setIsLoading(false);
       }
     });
 
@@ -34,108 +36,77 @@ const ProjectDetail = () => {
     };
   }, []);
 
-  const project = slug ? getProjectBySlug(slug) || projects.find((item) => item.slug === slug) : undefined;
+  const project = slug ? projects.find((item) => item.slug === slug) : undefined;
   const nextProject = slug ? getNextProject(slug) : null;
+
+  if (!project && isLoading) {
+    return (
+      <div className="portfolio-shell">
+        <PortfolioHeader />
+        <main id="main-content" className="portfolio-project">
+          <p className="portfolio-muted">Loading project…</p>
+        </main>
+        <PortfolioFooter />
+      </div>
+    );
+  }
 
   if (!project) {
     return <Navigate to="/404" replace />;
   }
 
   const media = project.images ?? [];
-  const deliverables = [project.role, project.team, project.timeline].filter(Boolean);
-
   return (
     <PageTransition>
-      <div className="min-h-screen overflow-x-hidden bg-brutalist-cream font-mono">
-        {/* Navigation - same as Index */}
-        <nav className="flex items-center justify-between border-b-4 border-brutalist-ink px-6 py-4">
-          <Link to="/" className="text-xl font-bold text-brutalist-ink">
-            HY*
-          </Link>
-          <div className="flex gap-1">
-            <Link to="/#work" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              Work
-            </Link>
-            <Link to="/cv" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              Info
-            </Link>
-            <Link to="/#contact" className="border-2 border-brutalist-ink px-4 py-2 text-xs font-bold text-brutalist-ink hover:bg-brutalist-ink hover:text-brutalist-cream">
-              Mail
-            </Link>
-          </div>
-        </nav>
+      <div className="portfolio-shell">
+        <PortfolioHeader />
 
         {/* Project Title Section */}
-        <section className="px-6 pt-12 pb-6 lg:px-12">
+        <main id="main-content" className="portfolio-project">
           <FadeIn>
-            <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold text-brutalist-ink leading-none">
+            <p className="portfolio-eyebrow">{project.year}</p>
+            <h1 className="portfolio-title">
               {project.title}
             </h1>
-            {/* Red accent bar - matches Index */}
-            <div className="mt-6 h-4 w-32 bg-brutalist-red" />
+            {project.subtitle && <p className="portfolio-lede">{project.subtitle}</p>}
+            {project.externalUrl && (
+              <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
+                Open original <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+              </a>
+            )}
           </FadeIn>
-        </section>
 
-        {/* Hero Image - with 4px border */}
-        <section className="px-6 pb-8 lg:px-12">
-          <FadeIn>
-            <div className="border-4 border-brutalist-ink overflow-hidden">
-              <AspectRatio ratio={16 / 9}>
-                {project.heroImage ? (
+        {/* Project cover */}
+          {project.heroImage && (
+            <section className="portfolio-project-hero">
+              <FadeIn>
+                <AspectRatio ratio={16 / 9}>
                   <ProjectImageFrame
                     src={resolveAssetUrl(project.heroImage)}
                     alt={`${project.title} hero image`}
                   />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-sm text-brutalist-muted">
-                    To be indicated
-                  </div>
-                )}
-              </AspectRatio>
-            </div>
-          </FadeIn>
-        </section>
+                </AspectRatio>
+              </FadeIn>
+            </section>
+          )}
 
-        {/* Two-Column Metadata - with heavy border */}
-        <section className="px-6 py-8 lg:px-12 border-t-4 border-brutalist-ink">
+        {/* Project details */}
+        <section className="portfolio-project-copy">
           <FadeIn>
-            <div className="grid md:grid-cols-2 gap-12">
-              {/* Left: Role & Tagline */}
+            <div className="portfolio-project-meta">
               <div>
-                <p className="text-xs font-bold text-brutalist-muted tracking-widest mb-2">
-                  {project.role?.split(',')[0]}
-                </p>
-                {project.subtitle && (
-                  <h2 className="text-xl font-bold text-brutalist-ink">
-                    {project.subtitle}
-                  </h2>
-                )}
+                <h2>{project.role?.split(",")[0]}</h2>
+                <p>{[project.team, project.timeline].filter(Boolean).join(" · ")}</p>
               </div>
-
-              {/* Right: Services/Deliverables + Description */}
-              <div>
-                <p className="text-xs font-bold text-brutalist-muted tracking-widest mb-2">
-                  Services / Deliverables
-                </p>
-                <ul className="space-y-1 mb-6">
-                  {deliverables.map((item, index) => (
-                    <li key={index} className="text-xs text-brutalist-muted">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-sm text-brutalist-muted leading-relaxed">
-                  {project.description}
-                </p>
-              </div>
+              <p>{project.description}</p>
             </div>
           </FadeIn>
         </section>
 
-        {/* Content Sections - Project Images with borders */}
-        <section className="px-6 pb-12 lg:px-12">
+        {/* Additional project images */}
+        <section className="portfolio-project-gallery">
           <FadeInStagger staggerDelay={0.15}>
-            <div className="space-y-8">
+            <div className="portfolio-project-gallery">
               {media.map((image, index) => {
                 const nextImage = media[index + 1];
                 const isHalfWidth = image.width === "half";
@@ -182,35 +153,26 @@ const ProjectDetail = () => {
         </section>
 
         {/* Next Project Navigation */}
-        <section className="px-6 py-12 lg:px-12 border-t-4 border-brutalist-ink">
+        <section className="portfolio-project-next">
           <FadeIn>
-            <ProjectNav nextProject={nextProject} />
+            {nextProject ? (
+              <Link to={`/projects/${nextProject.slug}`}>Next: {nextProject.title}</Link>
+            ) : (
+              <Link to="/design">Back to work</Link>
+            )}
+            <Link to="/design">All work</Link>
           </FadeIn>
         </section>
+        </main>
 
-        {/* Footer - matches Index style */}
-        <footer className="border-t-4 border-brutalist-ink">
-          <div className="px-6 py-4 flex justify-between items-center">
-            <span className="text-xs font-bold text-brutalist-muted">
-              © {new Date().getFullYear()} Portfolio
-            </span>
-            <div className="flex gap-4">
-              <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">
-                Instagram
-              </a>
-              <a href="#" className="text-xs font-bold text-brutalist-muted hover:text-brutalist-ink">
-                Behance
-              </a>
-            </div>
-          </div>
-        </footer>
+        <PortfolioFooter />
       </div>
     </PageTransition>
   );
 };
 
 /**
- * ProjectImage Component - Brutalist styled with heavy borders
+ * Project image with a full-image fit and lazy loading.
  */
 interface ProjectImageProps {
   src: string;
@@ -227,11 +189,8 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
 
   return (
     <figure>
-      <div className="border-4 border-brutalist-ink overflow-hidden">
+      <div>
         <AspectRatio ratio={16 / 9} ref={ref}>
-          {!imageLoaded && src && (
-            <div className="absolute inset-0 w-full h-full bg-brutalist-ink/10 animate-pulse" />
-          )}
           {isIntersecting && src ? (
             <ProjectImageFrame
               src={resolveAssetUrl(src)}
@@ -243,15 +202,11 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
                 imageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-105 blur-sm"
               )}
             />
-          ) : !src ? (
-            <div className="absolute inset-0 flex items-center justify-center text-sm text-brutalist-muted">
-              To be indicated
-            </div>
           ) : null}
         </AspectRatio>
       </div>
       {caption && (
-        <figcaption className="mt-3 text-xs font-bold text-brutalist-muted tracking-widest">
+        <figcaption>
           {caption}
         </figcaption>
       )}

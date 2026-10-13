@@ -6,8 +6,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import Index from "./pages/Index";
+import Collection from "./pages/Collection";
 import ProjectDetail from "./pages/ProjectDetail";
-import { About } from "./pages/About";
 import { Contact } from "./pages/Contact";
 import DesignSystem from "./pages/DesignSystem";
 import NotFound from "./pages/NotFound";
@@ -38,8 +38,11 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Index />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/cv" element={<About />} />
+        <Route path="/about" element={<Index />} />
+        <Route path="/cv" element={<Index />} />
+        <Route path="/design" element={<Collection kind="design" />} />
+        <Route path="/articles" element={<Collection kind="articles" />} />
+        <Route path="/engineering" element={<Collection kind="engineering" />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/projects/:slug" element={<ProjectDetail />} />
         <Route path="/design-system" element={<DesignSystem />} />

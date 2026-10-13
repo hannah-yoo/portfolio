@@ -24,7 +24,7 @@ export interface ProjectImage {
   caption?: string;
 }
 
-export type ProjectCategory = "fine-arts" | "design";
+export type ProjectCategory = "fine-arts" | "design" | "articles" | "engineering";
 
 export interface Project {
   id: string;
@@ -37,6 +37,7 @@ export interface Project {
   team: string;
   timeline: string;
   heroImage: string;
+  externalUrl?: string;
   images: ProjectImage[];
   gridWidth: 3 | 6 | 12;
   featured: boolean;

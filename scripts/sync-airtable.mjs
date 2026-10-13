@@ -57,6 +57,7 @@ const fieldAliases = {
   images: ["images", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
   category: ["category", "type", "tag", "tags", "분류", "카테고리"],
   featured: ["featured", "highlight", "대표", "추천"],
+  externalUrl: ["url", "link", "external url", "project url", "article url", "링크"],
 };
 
 const normalizeKey = (key) => key.trim().toLowerCase().replace(/[\s_\-]+/g, " ");
@@ -199,8 +200,10 @@ const normalizeRecord = async ({ id, fields }, index) => {
 
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
   const category =
-    categoryRaw.includes("fine") || categoryRaw.includes("art") || categoryRaw.includes("일러스트")
-      ? "fine-arts"
+    categoryRaw.includes("article") || categoryRaw.includes("writing") || categoryRaw.includes("글")
+      ? "articles"
+      : categoryRaw.includes("engineering") || categoryRaw.includes("code") || categoryRaw.includes("개발")
+      ? "engineering"
       : categoryRaw.includes("design") || categoryRaw.includes("디자인")
       ? "design"
       : "fine-arts";
@@ -216,6 +219,7 @@ const normalizeRecord = async ({ id, fields }, index) => {
     team: asText(findField(fields, fieldAliases.team), TO_BE_INDICATED),
     timeline: asText(findField(fields, fieldAliases.timeline), TO_BE_INDICATED),
     heroImage,
+    externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
     gridWidth: 6,
     featured: asBoolean(findField(fields, fieldAliases.featured)),
