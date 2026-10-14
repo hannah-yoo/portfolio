@@ -193,7 +193,11 @@ const normalizeRecord = async ({ id, fields }, index) => {
   const slug = title !== TO_BE_INDICATED ? slugify(title) : `project-${index + 1}`;
 
   const heroValue = findField(fields, fieldAliases.heroImage);
-  const images = await extractImages(findField(fields, fieldAliases.images), slug);
+  const numberedImages = Array.from({ length: 5 }, (_, index) =>
+    findField(fields, [`image ${index + 2}`, `photo ${index + 2}`, `이미지 ${index + 2}`, `사진 ${index + 2}`]),
+  ).flatMap((value) => (Array.isArray(value) ? value : value ? [value] : []));
+  const imageValues = numberedImages.length ? numberedImages : findField(fields, fieldAliases.images);
+  const images = await extractImages(imageValues, slug);
 
   let heroImage = "";
   if (heroValue) {
