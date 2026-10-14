@@ -225,6 +225,14 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  .protected-portfolio-image,
+  .protected-portfolio-image img {
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
   @keyframes trail-fade {
     from {
       opacity: 1;

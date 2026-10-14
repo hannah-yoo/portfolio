@@ -28,17 +28,23 @@ export const ProjectImageFrame = ({
   onDimensionsLoad,
   loading,
 }: ProjectImageFrameProps) => (
-  <div className={cn("relative isolate h-full w-full overflow-hidden bg-neutral-100", className)}>
+  <div
+    className={cn("protected-portfolio-image relative isolate h-full w-full overflow-hidden bg-neutral-100", className)}
+    onContextMenu={(event) => event.preventDefault()}
+    onDragStart={(event) => event.preventDefault()}
+  >
     <img
       src={src}
       alt=""
       aria-hidden="true"
+      draggable={false}
       className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-xl"
     />
     <img
       src={src}
       alt={alt}
       loading={loading}
+      draggable={false}
       onLoad={(event) => {
         onLoad?.();
         onDimensionsLoad?.({
