@@ -46,6 +46,7 @@ export interface Project {
   /** Which work section this project belongs to */
   category: ProjectCategory;
   tags?: string[];
+  medium?: string[];
 }
 
 export interface Testimonial {

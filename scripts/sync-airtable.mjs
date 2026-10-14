@@ -28,10 +28,11 @@ const rawToken =
 const token = rawToken.trim().replace(/^["']|["']$/g, "");
 
 const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
-const tableName = process.env.AIRTABLE_TABLE_NAME || "Artworks_eng";
+const tableName = process.env.AIRTABLE_TABLE_NAME || "artworks_eng";
 const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv_eng";
 const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
+const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro_eng";
 const mediaDir = path.join(rootDir, "public", "airtable-media");
 
 const fieldAliases = {
@@ -57,6 +58,7 @@ const fieldAliases = {
   images: ["images", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
   category: ["category", "type", "tag", "tags", "분류", "카테고리"],
   tags: ["tags", "subcategories", "work types", "disciplines", "labels"],
+  medium: ["medium", "mediums", "design disciplines", "매체"],
   featured: ["featured", "highlight", "대표", "추천"],
   externalUrl: ["url", "link", "external url", "project url", "article url", "링크"],
 };
@@ -188,6 +190,18 @@ const normalizeCvRecords = (records) => {
   };
 };
 
+const normalizeIntroRecords = (records) => {
+  let intro = "";
+  let postscript = "";
+
+  for (const { fields = {} } of records) {
+    intro ||= asText(findField(fields, cvFieldAliases.intro));
+    postscript ||= asText(findField(fields, cvFieldAliases.postscript));
+  }
+
+  return { intro, postscript };
+};
+
 const normalizeRecord = async ({ id, fields }, index) => {
   const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
   const slug = title !== TO_BE_INDICATED ? slugify(title) : `project-${index + 1}`;
@@ -246,6 +260,10 @@ const normalizeRecord = async ({ id, fields }, index) => {
     tags: asText(findField(fields, fieldAliases.tags))
       .split(",")
       .map((tag) => tag.trim())
+      .filter(Boolean),
+    medium: asText(findField(fields, fieldAliases.medium))
+      .split(",")
+      .map((medium) => medium.trim())
       .filter(Boolean),
     gridWidth: 6,
     featured: asBoolean(findField(fields, fieldAliases.featured)),
@@ -341,7 +359,40 @@ async function syncAirtable() {
         cvOffset = cvPayload.offset;
       } while (cvOffset);
 
-      await writeFile(cvOutputPath, `${JSON.stringify(normalizeCvRecords(cvRecords), null, 2)}\n`);
+      const cvContent = normalizeCvRecords(cvRecords);
+      let introContent = { intro: "", postscript: "" };
+
+      try {
+        const introUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(introTableName)}`;
+        const introRecords = [];
+        let introOffset;
+
+        do {
+          const introRequestUrl = new URL(introUrl);
+          if (introOffset) introRequestUrl.searchParams.set("offset", introOffset);
+          const introResponse = await fetch(introRequestUrl, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (!introResponse.ok) {
+            throw new Error(`Airtable intro API error (HTTP ${introResponse.status} ${introResponse.statusText})`);
+          }
+          const introPayload = await introResponse.json();
+          introRecords.push(...(introPayload.records || []));
+          introOffset = introPayload.offset;
+        } while (introOffset);
+
+        introContent = normalizeIntroRecords(introRecords);
+        console.log(`✅ [Sync] Successfully synced intro from ${introTableName}`);
+      } catch (introError) {
+        console.warn(`⚠️  [Sync] Could not sync intro table ${introTableName}: ${introError.message}`);
+        console.warn("ℹ️  [Sync] Keeping legacy intro fields from cv_eng.");
+      }
+
+      await writeFile(cvOutputPath, `${JSON.stringify({
+        ...cvContent,
+        intro: introContent.intro || cvContent.intro,
+        postscript: introContent.postscript || cvContent.postscript,
+      }, null, 2)}\n`);
       console.log(`✅ [Sync] Successfully synced CV from ${cvTableName}\n`);
     } catch (cvError) {
       console.warn(`⚠️  [Sync] Could not sync CV table ${cvTableName}: ${cvError.message}`);

@@ -89,13 +89,15 @@ const Collection = ({ kind }: CollectionProps) => {
     return projects.filter((project) => project.category === kind);
   }, [kind, projects]);
   const tags = useMemo(
-    () => [...new Set(collectionProjects.flatMap((project) => project.tags ?? []))],
+    () => [...new Set(collectionProjects.flatMap((project) => [...(project.tags ?? []), ...(project.medium ?? [])]))],
     [collectionProjects],
   );
   const visibleProjects = useMemo(
     () =>
       activeTag
-        ? collectionProjects.filter((project) => project.tags?.includes(activeTag))
+        ? collectionProjects.filter((project) =>
+            project.tags?.includes(activeTag) || project.medium?.includes(activeTag),
+          )
         : collectionProjects,
     [activeTag, collectionProjects],
   );
@@ -221,7 +223,7 @@ const Collection = ({ kind }: CollectionProps) => {
             <div className="portfolio-empty">
               <h2>No entries yet</h2>
               <p>
-                Add records to the Airtable <code>Artworks_eng</code> table and set Category to{" "}
+                Add records to the Airtable <code>artworks_eng</code> table and set Category to{" "}
                 <code>{kind}</code>.
               </p>
             </div>
