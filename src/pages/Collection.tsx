@@ -59,6 +59,9 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
           <div>
             <h2>{project.title}</h2>
             {project.subtitle && <p>{project.subtitle}</p>}
+            {project.medium && project.medium.length > 0 && (
+              <p className="work-card-medium">{project.medium.join(" · ")}</p>
+            )}
           </div>
           <span>{project.year}</span>
         </div>

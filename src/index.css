@@ -634,6 +634,13 @@ All colors MUST be HSL.
   line-height: 1.5;
 }
 
+.work-card-caption .work-card-medium {
+  margin-top: 8px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .work-card-caption > span {
   color: #777;
   font-size: 13px;
@@ -795,6 +802,12 @@ All colors MUST be HSL.
   color: #111;
   font-size: 14px;
   text-underline-offset: 3px;
+}
+
+.portfolio-project-medium {
+  margin: 10px 0 0;
+  color: #777;
+  font-size: 13px;
 }
 
 .portfolio-project-next {

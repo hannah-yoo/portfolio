@@ -66,6 +66,9 @@ const ProjectDetail = () => {
               {project.title}
             </h1>
             {project.subtitle && <p className="portfolio-lede">{project.subtitle}</p>}
+            {project.medium && project.medium.length > 0 && (
+              <p className="portfolio-project-medium">Medium: {project.medium.join(" · ")}</p>
+            )}
             {project.externalUrl && (
               <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
                 Open original <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
