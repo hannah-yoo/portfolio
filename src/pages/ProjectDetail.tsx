@@ -2,7 +2,6 @@ import { useParams, Navigate, Link } from "react-router-dom";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getAllProjects, getNextProject, loadProjects } from "@/data/projects";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useEffect, useState } from "react";
 import { cn, resolveAssetUrl } from "@/lib/utils";
@@ -38,6 +37,7 @@ const ProjectDetail = () => {
 
   const project = slug ? projects.find((item) => item.slug === slug) : undefined;
   const nextProject = slug ? getNextProject(slug) : null;
+  const [heroAspectRatio, setHeroAspectRatio] = useState(16 / 9);
 
   if (!project && isLoading) {
     return (
@@ -77,12 +77,15 @@ const ProjectDetail = () => {
           {project.heroImage && (
             <section className="portfolio-project-hero">
               <FadeIn>
-                <AspectRatio ratio={16 / 9}>
+                <div style={{ aspectRatio: heroAspectRatio }}>
                   <ProjectImageFrame
                     src={resolveAssetUrl(project.heroImage)}
                     alt={`${project.title} hero image`}
+                    onDimensionsLoad={({ width, height }) => {
+                      if (width > 0 && height > 0) setHeroAspectRatio(width / height);
+                    }}
                   />
-                </AspectRatio>
+                </div>
               </FadeIn>
             </section>
           )}
@@ -179,6 +182,7 @@ interface ProjectImageProps {
 
 const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageAspectRatio, setImageAspectRatio] = useState(16 / 9);
   const [ref, isIntersecting] = useIntersectionObserver({
     rootMargin: "150px",
     threshold: 0.1,
@@ -187,20 +191,23 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
   return (
     <figure>
       <div>
-        <AspectRatio ratio={16 / 9} ref={ref}>
+        <div ref={ref} style={{ aspectRatio: imageAspectRatio }}>
           {isIntersecting && src ? (
             <ProjectImageFrame
               src={resolveAssetUrl(src)}
               alt={alt}
               loading="lazy"
               onLoad={() => setImageLoaded(true)}
+              onDimensionsLoad={({ width, height }) => {
+                if (width > 0 && height > 0) setImageAspectRatio(width / height);
+              }}
               imageClassName={cn(
                 "transition-all duration-500",
                 imageLoaded ? "opacity-100" : "opacity-0 blur-sm"
               )}
             />
           ) : null}
-        </AspectRatio>
+        </div>
       </div>
       {caption && (
         <figcaption>

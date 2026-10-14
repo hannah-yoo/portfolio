@@ -724,7 +724,6 @@ All colors MUST be HSL.
 
 .portfolio-project-hero {
   margin: 34px 0 48px;
-  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
@@ -769,7 +768,6 @@ All colors MUST be HSL.
 }
 
 .portfolio-project-gallery figure > div {
-  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;

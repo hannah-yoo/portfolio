@@ -29,7 +29,7 @@ const collectionDetails: Record<CollectionKind, { title: string; description: st
   },
 };
 
-const WorkCard = ({ project }: { project: Project }) => {
+const WorkCard = ({ project, index }: { project: Project; index: number }) => {
   const [imageAspectRatio, setImageAspectRatio] = useState(1.5);
   const prefersReducedMotion = useReducedMotion();
 
@@ -37,10 +37,11 @@ const WorkCard = ({ project }: { project: Project }) => {
     <motion.div
       className="work-card-shell"
       layout={!prefersReducedMotion}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, x: index % 2 === 0 ? -42 : 42, y: 8 }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       exit={prefersReducedMotion ? undefined : { opacity: 0, y: 12 }}
-      transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.65, delay: (index % 4) * 0.07, ease: [0.22, 0.61, 0.36, 1] }}
     >
       <Link className="work-card group" to={`/projects/${project.slug}`}>
         {project.heroImage && (
@@ -209,9 +210,9 @@ const Collection = ({ kind }: CollectionProps) => {
                   </Link>
                 );
               }) : (
-                <AnimatePresence initial={false}>
-                  {visibleProjects.map((project) => (
-                    <WorkCard key={project.id} project={project} />
+                <AnimatePresence>
+                  {visibleProjects.map((project, index) => (
+                    <WorkCard key={project.id} project={project} index={index} />
                   ))}
                 </AnimatePresence>
               )}
