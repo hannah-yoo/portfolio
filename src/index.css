@@ -856,14 +856,18 @@ All colors MUST be HSL.
 }
 
 .portfolio-wordmark {
-  overflow: hidden;
+  overflow-wrap: normal;
   padding: 0 clamp(12px, 2vw, 32px) 16px;
-  font-family: "Gill Sans UltraBold", "Gill Sans Ultra Bold", "Gill Sans", "Gill Sans MT", sans-serif;
+  font-family: "League Script", cursive;
   font-size: clamp(40px, min(16vw, calc((100vw - 80px) / 6.72)), 280px);
-  font-weight: 900;
-  letter-spacing: -0.075em;
-  line-height: 0.8;
-  white-space: nowrap;
+  font-weight: 400;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1;
+  word-break: normal;
+  hyphens: none;
+  line-height: 0.9;
+  text-rendering: optimizeLegibility;
+  white-space: normal;
 }
 
 .hy-particle-layer {
