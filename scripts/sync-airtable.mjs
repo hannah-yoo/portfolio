@@ -36,6 +36,7 @@ const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro_eng";
 const mediaDir = path.join(rootDir, "public", "airtable-media");
 
 const fieldAliases = {
+  order: ["order", "sort order", "display order", "순서"],
   title: ["title", "name", "artwork", "artwork name", "project", "project name", "작품명", "제목"],
   subtitle: ["subtitle", "summary", "short description", "sub title", "부제", "한줄설명"],
   year: ["year", "date", "created", "연도", "제작연도", "날짜"],
@@ -205,6 +206,11 @@ const normalizeIntroRecords = (records) => {
 const normalizeRecord = async ({ id, fields }, index) => {
   const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
   const slug = title !== TO_BE_INDICATED ? slugify(title) : `project-${index + 1}`;
+  const rawOrder = findField(fields, fieldAliases.order);
+  const parsedOrder = Number(rawOrder);
+  const order = rawOrder !== undefined && String(rawOrder).trim() !== "" && Number.isFinite(parsedOrder)
+    ? parsedOrder
+    : index + 1;
 
   const heroValue = findField(fields, fieldAliases.heroImage);
   const numberedImages = Array.from({ length: 5 }, (_, index) =>
@@ -247,6 +253,7 @@ const normalizeRecord = async ({ id, fields }, index) => {
   return {
     id,
     slug,
+    order,
     title,
     subtitle: asText(findField(fields, fieldAliases.subtitle), TO_BE_INDICATED),
     year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
@@ -335,6 +342,7 @@ async function syncAirtable() {
     for (let i = 0; i < records.length; i++) {
       projects.push(await normalizeRecord(records[i], i));
     }
+    projects.sort((first, second) => first.order - second.order);
 
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, `${JSON.stringify(projects, null, 2)}\n`);

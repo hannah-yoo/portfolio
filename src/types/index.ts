@@ -31,6 +31,7 @@ export type ProjectCategory = "fine-arts" | "design" | "broadcasts";
 export interface Project {
   id: string;
   slug: string;
+  order?: number;
   title: string;
   subtitle?: string;
   year: string;
