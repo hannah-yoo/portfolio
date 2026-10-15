@@ -259,6 +259,7 @@ All colors MUST be HSL.
 }
 
 .portfolio-shell {
+  container-type: inline-size;
   min-height: 100vh;
   background: #fff;
   color: #111;
@@ -856,10 +857,11 @@ All colors MUST be HSL.
 }
 
 .portfolio-wordmark {
+  margin-top: clamp(40px, 5cqw, 80px);
   overflow-wrap: normal;
-  padding: 0 clamp(12px, 2vw, 32px) 16px;
+  padding: 0 clamp(8px, 1cqw, 16px) 16px;
   font-family: "League Script", cursive;
-  font-size: clamp(40px, min(16vw, calc((100vw - 80px) / 6.72)), 280px);
+  font-size: max(40px, calc((100cqw - 32px) / 5.4));
   font-weight: 400;
   font-kerning: normal;
   font-feature-settings: "kern" 1, "liga" 1;
