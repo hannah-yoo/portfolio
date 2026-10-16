@@ -49,7 +49,7 @@
 
 새 번호 필드에 사진이 하나라도 있으면 사이트는 `image 2`부터 `image 6`까지를 사용한다. 번호 필드가 모두 비어 있을 때만 기존 `images` 다중 첨부 필드를 fallback으로 읽는다. 새 필드로 옮긴 뒤에는 기존 `images` 필드를 삭제해도 된다.
 
-상세 이미지 비율은 원본 크기로 표시한다. Airtable 첨부 이미지는 동기화 시 `public/airtable-media`에 복사된다.
+상세 이미지 비율은 원본 크기로 표시한다. 이미지 파일은 사이트 저장소에 복사하지 않고 Airtable 첨부 URL에서 직접 불러온다. 따라서 저장소와 배포 파일 크기는 작게 유지된다. Airtable 첨부 URL은 만료될 수 있으므로 동기화 후 오래 지나 이미지가 사라지면 다시 배포해 URL을 갱신한다.
 
 ### 카테고리 값
 
@@ -112,7 +112,7 @@ AIRTABLE_INTRO_TABLE_NAME=intro_eng
 npm run sync
 ```
 
-이 명령은 Airtable을 읽고 `src/data/airtable-projects.json`, `src/data/airtable-cv.json`을 갱신한다. `medium` 값은 Design 페이지 필터로 연결한다. 이미지도 `public/airtable-media`에 내려받는다. 이 스크립트는 Airtable 레코드를 수정하지 않는다.
+이 명령은 Airtable을 읽고 `src/data/airtable-projects.json`, `src/data/airtable-cv.json`을 갱신한다. `medium` 값은 Design 페이지 필터로 연결한다. 이미지 파일은 내려받지 않고 Airtable 첨부 URL만 기록한다. 이 스크립트는 Airtable 레코드를 수정하지 않는다.
 
 로컬에서 화면을 확인하려면:
 

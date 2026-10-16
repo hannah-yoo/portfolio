@@ -33,7 +33,6 @@ const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv_eng";
 const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
 const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro_eng";
-const mediaDir = path.join(rootDir, "public", "airtable-media");
 
 const fieldAliases = {
   order: ["order", "sort order", "display order", "순서"],
@@ -104,34 +103,7 @@ const cvFieldAliases = {
   description: ["description", "details", "note", "설명", "상세"],
 };
 
-// Downloads image locally so Airtable expiring attachment URLs don't break after 2 hours
-const downloadAndCacheMedia = async (url, filename) => {
-  if (!url || typeof url !== "string") return "";
-  // If not an airtable attachment URL, keep original
-  if (!url.includes("airtableusercontent.com") && !url.includes("airtable.com")) {
-    return url;
-  }
-
-  try {
-    await mkdir(mediaDir, { recursive: true });
-    const extMatch = url.match(/\.([a-zA-Z0-9]+)(\?|$)/);
-    const ext = extMatch ? extMatch[1] : "jpg";
-    const cleanFilename = `${filename}.${ext}`;
-    const destinationPath = path.join(mediaDir, cleanFilename);
-
-    const res = await fetch(url);
-    if (res.ok) {
-      const buffer = await res.arrayBuffer();
-      await writeFile(destinationPath, Buffer.from(buffer));
-      return `airtable-media/${cleanFilename}`;
-    }
-  } catch (err) {
-    console.warn(`[Sync] Warning: Failed to download ${filename} locally:`, err.message);
-  }
-  return url;
-};
-
-const extractImages = async (value, projectSlug) => {
+const extractImages = (value, projectSlug) => {
   const values = Array.isArray(value) ? value : value ? [value] : [];
   const processed = [];
 
@@ -141,11 +113,10 @@ const extractImages = async (value, projectSlug) => {
     if (!rawUrl) continue;
 
     const imgId = `${projectSlug}-${index + 1}`;
-    const cachedUrl = await downloadAndCacheMedia(rawUrl, imgId);
 
     processed.push({
       id: imgId,
-      url: cachedUrl,
+      url: rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
       width: "full",
     });
@@ -217,11 +188,11 @@ const normalizeRecord = async ({ id, fields }, index) => {
     findField(fields, [`image ${index + 2}`, `photo ${index + 2}`, `이미지 ${index + 2}`, `사진 ${index + 2}`]),
   ).flatMap((value) => (Array.isArray(value) ? value : value ? [value] : []));
   const imageValues = numberedImages.length ? numberedImages : findField(fields, fieldAliases.images);
-  const images = await extractImages(imageValues, slug);
+  const images = extractImages(imageValues, slug);
 
   let heroImage = "";
   if (heroValue) {
-    const heroExtracted = await extractImages(heroValue, `${slug}-hero`);
+    const heroExtracted = extractImages(heroValue, `${slug}-hero`);
     heroImage = heroExtracted[0]?.url || "";
   }
   if (!heroImage && images[0]?.url) {

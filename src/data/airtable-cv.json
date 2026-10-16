@@ -1,30 +1,5 @@
 {
-  "intro": "Hannah Yoo is an artist and designer working across visual identity, digital experiences, illustration, and painting. Her practice moves between precise systems and intuitive image-making, with each project shaped by close observation and clear visual language.",
-  "postscript": "P.S. I built this website myself. It’ll probably look different the next time you visit.",
-  "entries": [
-    {
-      "id": "cv-1",
-      "order": 1,
-      "year": "2024—Present",
-      "title": "Independent Artist & Designer",
-      "organization": "Seoul / New York",
-      "description": "Visual identity, digital products, art direction, illustration, and personal studio practice."
-    },
-    {
-      "id": "cv-2",
-      "order": 2,
-      "year": "2022—2024",
-      "title": "Designer",
-      "organization": "Selected studios and clients",
-      "description": "Brand systems, editorial graphics, interfaces, and visual storytelling across print and screen."
-    },
-    {
-      "id": "cv-3",
-      "order": 3,
-      "year": "2022",
-      "title": "Studio Practice Begins",
-      "organization": "Fine arts & illustration",
-      "description": "Painting and image-making practice developed alongside commercial design work."
-    }
-  ]
+  "intro": "A visual artist and designer whose practice spans fine arts, illustration, and commercial design. I work with brands and studios to create bold, meaningful visual systems — and keep a personal studio practice in painting and illustration that feeds everything else I make. My approach combines strategic thinking with meticulous craftsmanship, ensuring every project reflects attention to detail and creative excellence.",
+  "postscript": "Built by me, still in progress. It might look a little different when you visit again.",
+  "entries": []
 }
