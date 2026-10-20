@@ -1,19 +1,48 @@
-import { Project } from "@/types";
+import { Project, ProjectImage } from "@/types";
 import airtableProjects from "./airtable-projects.json";
 
-const normalizeCategory = (category: unknown): Project["category"] => {
+const normalizeImageWidth = (width: string): ProjectImage["width"] => {
+  if (width === "full" || width === "half") return width;
+  throw new Error(`Unsupported project image width: ${width}`);
+};
+
+const normalizeGridWidth = (width: number): Project["gridWidth"] => {
+  if (width === 3 || width === 6 || width === 12) return width;
+  throw new Error(`Unsupported project grid width: ${width}`);
+};
+
+const normalizeCategory = (category: unknown): Project["category"] | null => {
   const value = String(category || "").trim().toLowerCase();
+  if (value === "engineering" || value === "broadcast" || value === "broadcasts") return null;
   if (value === "articles" || value === "fine art" || value === "fine arts") return "fine-arts";
-  if (value === "engineering" || value === "broadcast" || value === "broadcasts") return "broadcasts";
+  if (
+    value === "photography" ||
+    value === "photo" ||
+    value === "photography and video production" ||
+    value === "photography & video" ||
+    value === "photography-video" ||
+    value === "photo-video" ||
+    value === "video" ||
+    value === "video production"
+  ) return "photography-video";
   if (value === "design") return "design";
   return "fine-arts";
 };
 
 const projects: Project[] = Array.isArray(airtableProjects)
-  ? airtableProjects.map((project) => ({
-      ...project,
-      category: normalizeCategory(project.category),
-    }))
+  ? airtableProjects.flatMap((project) => {
+      const category = normalizeCategory(project.category);
+      if (!category) return [];
+      return [{
+        ...project,
+        category,
+        images: project.images.map((image) => ({
+          ...image,
+          width: normalizeImageWidth(image.width),
+        })),
+        gridWidth: normalizeGridWidth(project.gridWidth),
+      }];
+    })
   : [];
 
 export const loadProjects = async (): Promise<Project[]> => projects;

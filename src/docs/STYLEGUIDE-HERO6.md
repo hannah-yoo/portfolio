@@ -14,7 +14,6 @@ Raw, bold aesthetic with strong geometry, high contrast, and utilitarian typogra
 | `--brutalist-muted` | `hsl(0, 0%, 40%)` | Secondary text |
 | `--brutalist-placeholder` | `hsl(0, 0%, 60%)` | Input placeholders |
 | `--brutalist-red` | `hsl(0, 70%, 50%)` | Primary accent |
-| `--brutalist-teal` | `hsl(180, 50%, 40%)` | Secondary accent |
 
 ---
 

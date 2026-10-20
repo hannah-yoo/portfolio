@@ -55,7 +55,7 @@ const fieldAliases = {
     "커버",
     "썸네일",
   ],
-  images: ["images", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
+  images: ["images", "photos", "photo gallery", "detail images", "gallery", "attachments", "상세 이미지", "이미지", "사진"],
   category: ["category", "type", "tag", "tags", "분류", "카테고리"],
   tags: ["tags", "subcategories", "work types", "disciplines", "labels"],
   medium: ["medium", "mediums", "design disciplines", "매체"],
@@ -184,10 +184,21 @@ const normalizeRecord = async ({ id, fields }, index) => {
     : index + 1;
 
   const heroValue = findField(fields, fieldAliases.heroImage);
-  const numberedImages = Array.from({ length: 5 }, (_, index) =>
-    findField(fields, [`image ${index + 2}`, `photo ${index + 2}`, `이미지 ${index + 2}`, `사진 ${index + 2}`]),
-  ).flatMap((value) => (Array.isArray(value) ? value : value ? [value] : []));
-  const imageValues = numberedImages.length ? numberedImages : findField(fields, fieldAliases.images);
+  const galleryImages = findField(fields, fieldAliases.images);
+  const galleryValues = Array.isArray(galleryImages)
+    ? galleryImages
+    : galleryImages
+      ? [galleryImages]
+      : [];
+  const numberedImages = Object.entries(fields)
+    .map(([name, value]) => ({
+      number: Number(normalizeKey(name).match(/^(?:image|photo|이미지|사진) (\d+)$/i)?.[1]),
+      value,
+    }))
+    .filter(({ number }) => number >= 2 && number <= 10)
+    .sort((first, second) => first.number - second.number)
+    .flatMap(({ value }) => (Array.isArray(value) ? value : value ? [value] : []));
+  const imageValues = numberedImages.length ? numberedImages : galleryValues;
   const images = extractImages(imageValues, slug);
 
   let heroImage = "";
@@ -200,17 +211,15 @@ const normalizeRecord = async ({ id, fields }, index) => {
   }
 
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
+  if (["engineering", "broadcast", "broadcasts"].includes(categoryRaw.trim())) return null;
   const category =
-    categoryRaw.includes("broadcast") ||
-    categoryRaw.includes("television") ||
-    categoryRaw.includes("radio") ||
-    categoryRaw.includes("podcast") ||
-    categoryRaw.includes("interview") ||
-    categoryRaw.includes("appearance") ||
-    categoryRaw.includes("show") ||
-    categoryRaw.includes("engineering") ||
-    categoryRaw.includes("방송")
-      ? "broadcasts"
+    categoryRaw.includes("photograph") ||
+    categoryRaw.includes("photo") ||
+    categoryRaw.includes("video") ||
+    categoryRaw.includes("사진") ||
+    categoryRaw.includes("영상") ||
+    categoryRaw.includes("촬영")
+      ? "photography-video"
       : categoryRaw.includes("article") ||
         categoryRaw.includes("writing") ||
         categoryRaw.includes("fine art") ||
@@ -311,7 +320,8 @@ async function syncAirtable() {
 
     const projects = [];
     for (let i = 0; i < records.length; i++) {
-      projects.push(await normalizeRecord(records[i], i));
+      const project = await normalizeRecord(records[i], i);
+      if (project) projects.push(project);
     }
     projects.sort((first, second) => first.order - second.order);
 

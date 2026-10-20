@@ -28,9 +28,8 @@ function AnimatedRoutes() {
     "/cv",
     "/design",
     "/fine-arts",
-    "/broadcasts",
+    "/photography-video",
     "/articles",
-    "/engineering",
   ]);
   const showPortfolioHeader =
     portfolioRoutes.has(location.pathname) || location.pathname.startsWith("/projects/");
@@ -45,9 +44,8 @@ function AnimatedRoutes() {
           <Route path="/cv" element={<Index />} />
           <Route path="/design" element={<Collection kind="design" />} />
           <Route path="/fine-arts" element={<Collection kind="fine-arts" />} />
-          <Route path="/broadcasts" element={<Collection kind="broadcasts" />} />
+          <Route path="/photography-video" element={<Collection kind="photography-video" />} />
           <Route path="/articles" element={<Navigate to="/fine-arts" replace />} />
-          <Route path="/engineering" element={<Navigate to="/broadcasts" replace />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/projects/:slug" element={<ProjectDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

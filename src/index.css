@@ -16,7 +16,6 @@ All colors MUST be HSL.
   --brutalist-muted: hsl(0 0% 40%);
   --brutalist-placeholder: hsl(0 0% 60%);
   --brutalist-red: hsl(0 70% 50%);
-  --brutalist-teal: hsl(180 50% 40%);
   
   /* Portfolio Design System - Neutral Scale */
   --neutral-50: hsl(0 0% 98%);
@@ -31,7 +30,6 @@ All colors MUST be HSL.
   --neutral-900: hsl(0 0% 9%);
   
   /* Portfolio Design System - Accent Colors */
-  --success-green: hsl(142 71% 45%);
   --error-red: hsl(0 84% 60%);
   --focus-blue: hsl(217 91% 60%);
   
@@ -133,7 +131,6 @@ All colors MUST be HSL.
   --color-brutalist-muted: var(--brutalist-muted);
   --color-brutalist-placeholder: var(--brutalist-placeholder);
   --color-brutalist-red: var(--brutalist-red);
-  --color-brutalist-teal: var(--brutalist-teal);
   
   --color-neutral-50: var(--neutral-50);
   --color-neutral-100: var(--neutral-100);
@@ -146,7 +143,6 @@ All colors MUST be HSL.
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
   
-  --color-success-green: var(--success-green);
   --color-error-red: var(--error-red);
   --color-focus-blue: var(--focus-blue);
   
@@ -678,36 +674,6 @@ All colors MUST be HSL.
 .article-external svg {
   width: 18px;
   height: 18px;
-}
-
-.broadcasts-list {
-  border-top: 1px solid #eee;
-}
-
-.broadcasts-list .broadcast-card {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-  border-bottom: 1px solid #eee;
-  padding: 18px 0;
-}
-
-.broadcasts-list .work-image {
-  display: none;
-}
-
-.broadcast-index {
-  grid-column: 1;
-  grid-row: 1;
-  color: #999;
-  font-size: 13px;
-}
-
-.broadcasts-list .work-card-caption {
-  grid-column: 2;
-  grid-row: 1;
-  padding: 0;
 }
 
 .portfolio-empty {

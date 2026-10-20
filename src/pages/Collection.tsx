@@ -8,7 +8,7 @@ import { getAllProjects, loadProjects } from "@/data/projects";
 import { Project } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
 
-type CollectionKind = "design" | "fine-arts" | "broadcasts";
+type CollectionKind = "design" | "fine-arts" | "photography-video";
 
 interface CollectionProps {
   kind: CollectionKind;
@@ -23,9 +23,9 @@ const collectionDetails: Record<CollectionKind, { title: string; description: st
     title: "Fine Arts",
     description: "Painting, illustration, and work from the studio.",
   },
-  broadcasts: {
-    title: "Broadcasts",
-    description: "Television, radio, podcast, and other broadcast appearances.",
+  "photography-video": {
+    title: "Photography & Video Production",
+    description: "Photography, moving image, and video production.",
   },
 };
 
@@ -169,58 +169,12 @@ const Collection = ({ kind }: CollectionProps) => {
           )}
 
           {collectionProjects.length > 0 ? (
-            <div className={kind === "broadcasts" ? "broadcasts-list" : "work-grid"}>
-              {kind === "broadcasts" ? collectionProjects.map((project, index) => {
-                const card = (
-                  <>
-                    {project.heroImage && (
-                      <div className="work-image">
-                        <ProjectImageFrame
-                          src={resolveAssetUrl(project.heroImage)}
-                          alt={project.title}
-                        />
-                      </div>
-                    )}
-                    <div className="work-card-caption">
-                      <div>
-                        <h2>{project.title}</h2>
-                        {project.subtitle && <p>{project.subtitle}</p>}
-                      </div>
-                      <span>{project.year}</span>
-                    </div>
-                  </>
-                );
-
-                return kind === "broadcasts" && project.externalUrl ? (
-                  <a
-                    className="broadcast-card"
-                    href={project.externalUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    key={project.id}
-                  >
-                    {card}
-                    <span className="broadcast-index">{String(index + 1).padStart(2, "0")}</span>
-                  </a>
-                ) : (
-                  <Link
-                    className={kind === "broadcasts" ? "broadcast-card" : "work-card group"}
-                    to={`/projects/${project.slug}`}
-                    key={project.id}
-                  >
-                    {card}
-                    {kind === "broadcasts" && (
-                      <span className="broadcast-index">{String(index + 1).padStart(2, "0")}</span>
-                    )}
-                  </Link>
-                );
-              }) : (
-                <AnimatePresence>
-                  {visibleProjects.map((project, index) => (
-                    <WorkCard key={project.id} project={project} index={index} />
-                  ))}
-                </AnimatePresence>
-              )}
+            <div className="work-grid">
+              <AnimatePresence>
+                {visibleProjects.map((project, index) => (
+                  <WorkCard key={project.id} project={project} index={index} />
+                ))}
+              </AnimatePresence>
             </div>
           ) : (
             <div className="portfolio-empty">

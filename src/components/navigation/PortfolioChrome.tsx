@@ -6,7 +6,7 @@ const navigation = [
   { label: "About", to: "/" },
   { label: "Design", to: "/design" },
   { label: "Fine Arts", to: "/fine-arts" },
-  { label: "Broadcasts", to: "/broadcasts" },
+  { label: "Photography & Video", to: "/photography-video" },
 ];
 
 export const PortfolioHeader = () => {
