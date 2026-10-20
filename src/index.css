@@ -705,10 +705,17 @@ All colors MUST be HSL.
 }
 
 .portfolio-project-hero {
+  width: min(100%, 960px);
   margin: 34px 0 48px;
+  margin-inline: auto;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
+}
+
+main.portfolio-project > .portfolio-project-gallery {
+  width: min(100%, 960px);
+  margin-inline: auto;
 }
 
 .portfolio-project-copy {
