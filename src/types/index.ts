@@ -33,12 +33,18 @@ export interface Project {
   slug: string;
   order?: number;
   title: string;
+  titleKo?: string;
   subtitle?: string;
+  subtitleKo?: string;
   year: string;
   description: string;
+  descriptionKo?: string;
   role: string;
+  roleKo?: string;
   team: string;
+  teamKo?: string;
   timeline: string;
+  timelineKo?: string;
   heroImage: string;
   externalUrl?: string;
   images: ProjectImage[];

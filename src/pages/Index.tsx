@@ -89,7 +89,9 @@ const Index = () => {
           <section className="about-intro">
             <h1 className="portfolio-title">{designer.name}</h1>
             <p className="portfolio-lede">{cvContent.intro || designer.bio}</p>
+            {cvContent.introKo && <p className="portfolio-lede bilingual-secondary" lang="ko">{cvContent.introKo}</p>}
             {cvContent.postscript && <p className="portfolio-postscript">{cvContent.postscript}</p>}
+            {cvContent.postscriptKo && <p className="portfolio-postscript" lang="ko">{cvContent.postscriptKo}</p>}
           </section>
 
           <section className="about-cv" aria-labelledby="cv-heading">
@@ -103,8 +105,11 @@ const Index = () => {
                     <span className="about-cv-year">{entry.year}</span>
                     <div>
                       <h3>{entry.title}</h3>
+                      {entry.titleKo && <p lang="ko">{entry.titleKo}</p>}
                       <p>{entry.organization}</p>
+                      {entry.organizationKo && <p lang="ko">{entry.organizationKo}</p>}
                       {entry.description && <p className="about-cv-description">{entry.description}</p>}
+                      {entry.descriptionKo && <p className="about-cv-description" lang="ko">{entry.descriptionKo}</p>}
                     </div>
                   </li>
                 ))}

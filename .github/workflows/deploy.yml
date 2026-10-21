@@ -40,6 +40,7 @@ jobs:
           AIRTABLE_TABLE_NAME: artworks_eng
           AIRTABLE_CV_TABLE_NAME: cv_eng
           AIRTABLE_INTRO_TABLE_NAME: intro_eng
+          AIRTABLE_COLLECTIONS_TABLE_NAME: collections_eng
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

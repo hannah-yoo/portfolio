@@ -33,16 +33,24 @@ const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv_eng";
 const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
 const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro_eng";
+const collectionsTableName = process.env.AIRTABLE_COLLECTIONS_TABLE_NAME || "collections_eng";
+const collectionsOutputPath = path.join(rootDir, "src", "data", "airtable-collections.json");
 
 const fieldAliases = {
   order: ["order", "sort order", "display order", "순서"],
   title: ["title", "name", "artwork", "artwork name", "project", "project name", "작품명", "제목"],
+  titleKo: ["title ko", "title korean", "korean title", "제목 한국어", "한국어 제목"],
   subtitle: ["subtitle", "summary", "short description", "sub title", "부제", "한줄설명"],
+  subtitleKo: ["subtitle ko", "subtitle korean", "korean subtitle", "부제 한국어"],
   year: ["year", "date", "created", "연도", "제작연도", "날짜"],
   description: ["description", "body", "details", "note", "설명", "작품설명"],
+  descriptionKo: ["description ko", "description korean", "korean description", "설명 한국어"],
   role: ["role", "services", "역할", "분야"],
+  roleKo: ["role ko", "role korean", "korean role", "역할 한국어"],
   team: ["team", "client", "팀", "클라이언트"],
+  teamKo: ["team ko", "team korean", "korean team", "팀 한국어"],
   timeline: ["timeline", "duration", "period", "기간"],
+  timelineKo: ["timeline ko", "timeline korean", "korean timeline", "기간 한국어"],
   heroImage: [
     "hero image",
     "hero",
@@ -95,12 +103,17 @@ const asBoolean = (value) =>
 
 const cvFieldAliases = {
   intro: ["intro", "introduction", "about", "bio", "소개"],
+  introKo: ["intro ko", "intro korean", "korean intro", "소개 한국어"],
   postscript: ["postscript", "ps", "post script"],
+  postscriptKo: ["postscript ko", "postscript korean", "korean postscript", "추가 소개 한국어"],
   order: ["order", "sort", "순서"],
   year: ["year", "period", "연도", "기간"],
   title: ["title", "role", "position", "degree", "활동", "직함", "학위"],
+  titleKo: ["title ko", "title korean", "korean title", "직함 한국어", "활동 한국어"],
   organization: ["organization", "company", "school", "client", "기관", "회사", "학교"],
+  organizationKo: ["organization ko", "organization korean", "korean organization", "기관 한국어"],
   description: ["description", "details", "note", "설명", "상세"],
+  descriptionKo: ["description ko", "description korean", "korean description", "설명 한국어"],
 };
 
 const extractImages = (value, projectSlug) => {
@@ -129,49 +142,67 @@ const TO_BE_INDICATED = "To be indicated";
 
 const normalizeCvRecords = (records) => {
   let intro = "";
+  let introKo = "";
   let postscript = "";
+  let postscriptKo = "";
   const entries = [];
 
   records.forEach(({ id, fields }, index) => {
     const safeFields = fields || {};
     const recordIntro = asText(findField(safeFields, cvFieldAliases.intro));
     if (recordIntro && !intro) intro = recordIntro;
+    const recordIntroKo = asText(findField(safeFields, cvFieldAliases.introKo));
+    if (recordIntroKo && !introKo) introKo = recordIntroKo;
     const recordPostscript = asText(findField(safeFields, cvFieldAliases.postscript));
     if (recordPostscript && !postscript) postscript = recordPostscript;
+    const recordPostscriptKo = asText(findField(safeFields, cvFieldAliases.postscriptKo));
+    if (recordPostscriptKo && !postscriptKo) postscriptKo = recordPostscriptKo;
 
     const title = asText(findField(safeFields, cvFieldAliases.title));
+    const titleKo = asText(findField(safeFields, cvFieldAliases.titleKo));
     const organization = asText(findField(safeFields, cvFieldAliases.organization));
+    const organizationKo = asText(findField(safeFields, cvFieldAliases.organizationKo));
     const year = asText(findField(safeFields, cvFieldAliases.year));
     const description = asText(findField(safeFields, cvFieldAliases.description));
-    if (title || organization || year || description) {
+    const descriptionKo = asText(findField(safeFields, cvFieldAliases.descriptionKo));
+    if (title || titleKo || organization || organizationKo || year || description || descriptionKo) {
       entries.push({
         id: String(id || `cv-${index + 1}`),
         order: Number(findField(safeFields, cvFieldAliases.order)) || index + 1,
         year,
         title,
+        titleKo,
         organization,
+        organizationKo,
         description,
+        descriptionKo,
       });
     }
   });
 
   return {
     intro,
+    introKo,
     postscript,
+    postscriptKo,
     entries: entries.sort((first, second) => first.order - second.order),
   };
 };
 
 const normalizeIntroRecords = (records) => {
   let intro = "";
+  let introKo = "";
   let postscript = "";
+  let postscriptKo = "";
 
   for (const { fields = {} } of records) {
     intro ||= asText(findField(fields, cvFieldAliases.intro));
+    introKo ||= asText(findField(fields, cvFieldAliases.introKo));
     postscript ||= asText(findField(fields, cvFieldAliases.postscript));
+    postscriptKo ||= asText(findField(fields, cvFieldAliases.postscriptKo));
   }
 
-  return { intro, postscript };
+  return { intro, introKo, postscript, postscriptKo };
 };
 
 const normalizeRecord = async ({ id, fields }, index) => {
@@ -235,12 +266,18 @@ const normalizeRecord = async ({ id, fields }, index) => {
     slug,
     order,
     title,
+    titleKo: asText(findField(fields, fieldAliases.titleKo)),
     subtitle: asText(findField(fields, fieldAliases.subtitle), TO_BE_INDICATED),
+    subtitleKo: asText(findField(fields, fieldAliases.subtitleKo)),
     year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
     description: asText(findField(fields, fieldAliases.description), TO_BE_INDICATED),
+    descriptionKo: asText(findField(fields, fieldAliases.descriptionKo)),
     role: asText(findField(fields, fieldAliases.role), TO_BE_INDICATED),
+    roleKo: asText(findField(fields, fieldAliases.roleKo)),
     team: asText(findField(fields, fieldAliases.team), TO_BE_INDICATED),
+    teamKo: asText(findField(fields, fieldAliases.teamKo)),
     timeline: asText(findField(fields, fieldAliases.timeline), TO_BE_INDICATED),
+    timelineKo: asText(findField(fields, fieldAliases.timelineKo)),
     heroImage,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
@@ -330,6 +367,51 @@ async function syncAirtable() {
     console.log(`✅ [Sync] Successfully synced ${projects.length} project(s) to src/data/airtable-projects.json\n`);
 
     try {
+      const collectionsUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(collectionsTableName)}`;
+      const collectionRecords = [];
+      let collectionsOffset;
+
+      do {
+        const collectionsRequestUrl = new URL(collectionsUrl);
+        if (collectionsOffset) collectionsRequestUrl.searchParams.set("offset", collectionsOffset);
+        const collectionsResponse = await fetch(collectionsRequestUrl, {
+          headers: { Authorization: "Bearer " + token },
+        });
+        if (!collectionsResponse.ok) {
+          const errorText = await collectionsResponse.text();
+          throw new Error(`Airtable collections API error (HTTP ${collectionsResponse.status} ${collectionsResponse.statusText}): ${errorText}`);
+        }
+        const collectionsPayload = await collectionsResponse.json();
+        collectionRecords.push(...(collectionsPayload.records || []));
+        collectionsOffset = collectionsPayload.offset;
+      } while (collectionsOffset);
+
+      if (collectionRecords.length === 0) {
+        throw new Error("Collections table has no records");
+      }
+
+      const currentCollections = JSON.parse(await readFile(collectionsOutputPath, "utf8"));
+      const collectionsByCategory = new Map(currentCollections.map((collection) => [collection.category, collection]));
+      for (const { fields = {} } of collectionRecords) {
+        const category = asText(findField(fields, ["category", "slug", "분야"])).toLowerCase();
+        if (!collectionsByCategory.has(category)) continue;
+        const current = collectionsByCategory.get(category);
+        collectionsByCategory.set(category, {
+          ...current,
+          title: asText(findField(fields, ["title", "title en", "name"]), current.title),
+          titleKo: asText(findField(fields, ["title ko", "title korean", "name ko"]), current.titleKo),
+          description: asText(findField(fields, ["description", "description en"]), current.description),
+          descriptionKo: asText(findField(fields, ["description ko", "description korean"]), current.descriptionKo),
+        });
+      }
+      await writeFile(collectionsOutputPath, `${JSON.stringify([...collectionsByCategory.values()], null, 2)}\n`);
+      console.log(`✅ [Sync] Successfully synced collection copy from ${collectionsTableName}`);
+    } catch (collectionsError) {
+      console.warn(`⚠️  [Sync] Could not sync collections table ${collectionsTableName}: ${collectionsError.message}`);
+      console.warn("ℹ️  [Sync] Keeping existing category copy.\n");
+    }
+
+    try {
       const cvUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(cvTableName)}`;
       const cvRecords = [];
       let cvOffset;
@@ -349,7 +431,7 @@ async function syncAirtable() {
       } while (cvOffset);
 
       const cvContent = normalizeCvRecords(cvRecords);
-      let introContent = { intro: "", postscript: "" };
+      let introContent = { intro: "", introKo: "", postscript: "", postscriptKo: "" };
 
       try {
         const introUrl = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(introTableName)}`;
@@ -380,7 +462,9 @@ async function syncAirtable() {
       await writeFile(cvOutputPath, `${JSON.stringify({
         ...cvContent,
         intro: introContent.intro || cvContent.intro,
+        introKo: introContent.introKo || cvContent.introKo,
         postscript: introContent.postscript || cvContent.postscript,
+        postscriptKo: introContent.postscriptKo || cvContent.postscriptKo,
       }, null, 2)}\n`);
       console.log(`✅ [Sync] Successfully synced CV from ${cvTableName}\n`);
     } catch (cvError) {

@@ -5,6 +5,7 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
 import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 import { getAllProjects, loadProjects } from "@/data/projects";
+import collections from "@/data/airtable-collections.json";
 import { Project } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
 
@@ -13,21 +14,6 @@ type CollectionKind = "design" | "fine-arts" | "photography-video";
 interface CollectionProps {
   kind: CollectionKind;
 }
-
-const collectionDetails: Record<CollectionKind, { title: string; description: string }> = {
-  design: {
-    title: "Design",
-    description: "Visual identities, digital experiences, and selected client work.",
-  },
-  "fine-arts": {
-    title: "Fine Arts",
-    description: "Painting, illustration, and work from the studio.",
-  },
-  "photography-video": {
-    title: "Photography & Video Production",
-    description: "Photography, moving image, and video production.",
-  },
-};
 
 const WorkCard = ({ project, index }: { project: Project; index: number }) => {
   const [imageAspectRatio, setImageAspectRatio] = useState(1.5);
@@ -58,7 +44,9 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
         <div className="work-card-caption">
           <div>
             <h2>{project.title}</h2>
+            {project.titleKo && <p lang="ko">{project.titleKo}</p>}
             {project.subtitle && <p>{project.subtitle}</p>}
+            {project.subtitleKo && <p lang="ko">{project.subtitleKo}</p>}
             {project.medium && project.medium.length > 0 && (
               <p className="work-card-medium">{project.medium.join(" · ")}</p>
             )}
@@ -74,7 +62,7 @@ const Collection = ({ kind }: CollectionProps) => {
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const prefersReducedMotion = useReducedMotion();
-  const details = collectionDetails[kind];
+  const details = collections.find((collection) => collection.category === kind);
 
   useEffect(() => {
     let active = true;
@@ -110,12 +98,15 @@ const Collection = ({ kind }: CollectionProps) => {
       <div className="portfolio-shell">
         <main id="main-content" className="portfolio-page">
           <div className="portfolio-page-heading">
-            <div>
-              <p className="portfolio-eyebrow">Portfolio</p>
-              <h1 className="portfolio-title">{details.title}</h1>
-              <p className="portfolio-lede">{details.description}</p>
+            <div className="collection-heading-copy">
+              <h1 className="portfolio-title">
+                {details?.title} <span lang="ko">{details?.titleKo}</span>
+              </h1>
+              <div className="collection-description">
+                <p>{details?.description}</p>
+                <p lang="ko">{details?.descriptionKo}</p>
+              </div>
             </div>
-            <span className="portfolio-count">{String(collectionProjects.length).padStart(2, "0")}</span>
           </div>
 
           {kind === "design" && collectionProjects.length > 0 && (

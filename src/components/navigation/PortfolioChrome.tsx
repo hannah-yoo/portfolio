@@ -16,7 +16,6 @@ export const PortfolioHeader = () => {
 
   return (
     <header className="portfolio-header">
-      <div className="portfolio-ruler" aria-hidden="true" />
       <nav className="portfolio-nav" aria-label="Primary navigation">
         <LayoutGroup id="portfolio-navigation">
           {navigation.map((item) => {

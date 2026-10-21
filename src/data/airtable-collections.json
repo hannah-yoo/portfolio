@@ -1,0 +1,23 @@
+[
+  {
+    "category": "design",
+    "title": "Design",
+    "titleKo": "디자인",
+    "description": "Visual identities, digital experiences, and selected client work.",
+    "descriptionKo": "시각 아이덴티티, 디지털 경험, 엄선한 클라이언트 작업."
+  },
+  {
+    "category": "fine-arts",
+    "title": "Fine Arts",
+    "titleKo": "순수미술",
+    "description": "Painting, illustration, and work from the studio.",
+    "descriptionKo": "회화와 일러스트레이션, 스튜디오에서 이어가는 작업."
+  },
+  {
+    "category": "photography-video",
+    "title": "Photography & Video Production",
+    "titleKo": "사진·영상 제작",
+    "description": "Photography, moving image, and video production.",
+    "descriptionKo": "사진, 움직이는 이미지, 영상 제작."
+  }
+]

@@ -25,6 +25,9 @@ const normalizeCategory = (category: unknown): Project["category"] | null => {
     value === "video" ||
     value === "video production"
   ) return "photography-video";
+  if (value.includes("사진") || value.includes("영상") || value.includes("촬영")) {
+    return "photography-video";
+  }
   if (value === "design") return "design";
   return "fine-arts";
 };

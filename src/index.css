@@ -263,6 +263,10 @@ All colors MUST be HSL.
   letter-spacing: -0.02em;
 }
 
+[lang="ko"] {
+  font-family: "PyeojinGothic", Inter, sans-serif;
+}
+
 .portfolio-header {
   padding: 0 clamp(20px, 4.5vw, 68px);
 }
@@ -294,7 +298,7 @@ All colors MUST be HSL.
   align-items: center;
   flex-wrap: wrap;
   gap: clamp(12px, 4vw, 48px);
-  padding: 34px 0;
+  padding: 18px 0;
   font-family: "IBM Plex Sans", Inter, sans-serif;
   letter-spacing: normal;
 }
@@ -304,6 +308,7 @@ All colors MUST be HSL.
   isolation: isolate;
   border-radius: 999px;
   padding: 8px 14px;
+  white-space: nowrap;
   color: #858585;
   font-size: 14px;
   line-height: 1.2;
@@ -337,7 +342,7 @@ All colors MUST be HSL.
 .portfolio-project {
   width: min(100% - 48px, 1280px);
   margin: 0 auto;
-  padding: 48px 0 88px;
+  padding: 32px 0 88px;
 }
 
 .portfolio-about {
@@ -357,6 +362,21 @@ All colors MUST be HSL.
   font-weight: 500;
   letter-spacing: -0.04em;
   line-height: 1.14;
+}
+
+.portfolio-title .bilingual-secondary {
+  display: block;
+  margin-top: 6px;
+  color: #777;
+  font-size: 0.58em;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.bilingual-secondary {
+  color: #777;
+  font-size: 0.92em;
+  line-height: 1.6;
 }
 
 .portfolio-lede {
@@ -522,22 +542,40 @@ All colors MUST be HSL.
 }
 
 .portfolio-page-heading {
-  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 26px;
 }
 
 .portfolio-page-heading .portfolio-title {
-  margin-bottom: 10px;
+  margin: 0;
 }
 
-.portfolio-eyebrow {
-  margin: 0 0 12px;
+.collection-heading-copy {
+  display: contents;
+}
+
+.collection-heading-copy .portfolio-title span {
   color: #777;
-  font-size: 13px;
+  font-size: 0.58em;
+  font-weight: 400;
+  white-space: nowrap;
 }
 
-.portfolio-count {
+.collection-description {
   color: #777;
   font-size: 14px;
+  line-height: 1.55;
+}
+
+.collection-description p {
+  margin: 0;
+}
+
+.collection-description p + p {
+  margin-top: 4px;
 }
 
 .work-grid {
@@ -875,8 +913,16 @@ main.portfolio-project > .portfolio-project-gallery {
 
 @media (max-width: 700px) {
   .portfolio-nav {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     gap: 4px;
-    padding: 24px 0;
+    padding: 14px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .portfolio-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .portfolio-nav-link {
@@ -892,7 +938,7 @@ main.portfolio-project > .portfolio-project-gallery {
   .portfolio-page,
   .portfolio-project {
     width: min(100% - 40px, 540px);
-    padding-top: 36px;
+    padding-top: 24px;
     padding-bottom: 64px;
   }
 
@@ -910,7 +956,13 @@ main.portfolio-project > .portfolio-project-gallery {
   }
 
   .portfolio-page-heading {
-    margin-bottom: 28px;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+
+  .collection-description {
+    font-size: 13px;
   }
 
   .work-grid {

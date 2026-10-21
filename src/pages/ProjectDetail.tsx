@@ -64,8 +64,10 @@ const ProjectDetail = () => {
             <p className="portfolio-eyebrow">{project.year}</p>
             <h1 className="portfolio-title">
               {project.title}
+              {project.titleKo && <span className="bilingual-secondary" lang="ko">{project.titleKo}</span>}
             </h1>
             {project.subtitle && <p className="portfolio-lede">{project.subtitle}</p>}
+            {project.subtitleKo && <p className="bilingual-secondary" lang="ko">{project.subtitleKo}</p>}
             {project.medium && project.medium.length > 0 && (
               <p className="portfolio-project-medium">Medium: {project.medium.join(" · ")}</p>
             )}
@@ -99,9 +101,14 @@ const ProjectDetail = () => {
             <div className="portfolio-project-meta">
               <div>
                 <h2>{project.role?.split(",")[0]}</h2>
+                {project.roleKo && <p lang="ko">{project.roleKo}</p>}
                 <p>{[project.team, project.timeline].filter(Boolean).join(" · ")}</p>
+                {(project.teamKo || project.timelineKo) && (
+                  <p lang="ko">{[project.teamKo, project.timelineKo].filter(Boolean).join(" · ")}</p>
+                )}
               </div>
               <p>{project.description}</p>
+              {project.descriptionKo && <p lang="ko">{project.descriptionKo}</p>}
             </div>
           </FadeIn>
         </section>
