@@ -10,6 +10,12 @@
     "year": "2025",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "for Ewha Womans University",
@@ -21,11 +27,13 @@
     "externalUrl": "",
     "images": [
       {
-        "id": "graduation-photography-1",
+        "id": "graduation-photography-2-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/N7H8EWX5u-J76RV7ewdiMg/kgcadwcGfrrkdcbaUeBICCrfZbNupw0NtYqri8EfW6VthBhAgjds09IRIJJ8UI_XMGhpHiJpvfLSH5z7l71ez8CXUQlcucJWwZA6IY9e__wi6umIyaKP-Lv9aAWrhsgrbVmbdJFv5-f4ixOFVp1xBF2ZA88fhJ5vMxNIG3Ca1JQ/o_0b6EqzyanV0GKt_kpJ1IwZ54LyhG98dvCom8_XNqM",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/EYWCN5-Nlm82vLimQJU2fg/nBsvr3BZ73CAtHKKk3DDV7jrxIPtt9ArqwLBAr0jLnJSxBvUX7ME5tMZMtp01a21ypfq-WV3BBErPj1dqM-4iZUsbUPctfx6BRqzyPPuQdiacUmwEWW25A4GyqVe-DvKmPmNmw0sytuW9L5tkjHTmw/03mXGYYFV95IkZC5agbPF9rZ5tBnJaG0VZXZUakPVCw",
         "alt": "_EW_0224-Edit-2.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "graduation-photography-2",
+        "layout": "single"
       }
     ],
     "tags": [],
@@ -47,6 +55,12 @@
     "year": "2022",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",
@@ -58,32 +72,40 @@
     "externalUrl": "",
     "images": [
       {
-        "id": "frozen-pollock-fisheries-1",
+        "id": "frozen-pollock-fisheries-2-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/aeEXfh83jU7Css9_tvzgDQ/ovbCXtH_Fw3x-RNjo8NZpA6WjySIR7qgEb9Z-sAetA9h5dWoOw70YRIH6he3e-J1K4m_uOIFjKyvuIUD-S_prxh3VfF5kJjmXH63s-lFi7zQ3aiID9moGA3ITJNWmzl1ooEYoIbCS-D7jFc7KuGelBC5_LiwU672sGL3v60fgh0/JWiGAMuvud_gUEa5eGEiR3Oz6k_ltsMpDEupv6INy6Y",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/0jd6VIwhZkqrffoTNLibTA/Fs0GBRAJifW4V82cosmkkk3A0ufSZVQ1IFOaiQlkK7M-MLvkPFHRRCyA73cudP8xrWmUSlFKhvCL7ULrpHwb1GgQs0a_Kjh0OqZSr-lqVVwN71wEs_wdLYM8Gy3OxXy9Kor56NaQlWTxCVJsDe-eeQ/nG9dP7fuQeyZqEXo-jFTncaRjH3PEMyOeVHWvp111B0",
         "alt": "IMG_8110-2.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "frozen-pollock-fisheries-2",
+        "layout": "single"
       },
       {
-        "id": "frozen-pollock-fisheries-2",
+        "id": "frozen-pollock-fisheries-3-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/0_9ZE7VtOqi4HkA9oIOq4Q/EEkcw4TJZAySKgZUoCiULH7oGtI98sBN5QqhR15RXuB1JjA0i8d5e4CIFZhE-zDVBDC4s8H-WOEvA4E6OB3UUOezYMa3Ta2CgDBVAgT95UwucR9e12khKlxM36jJPeGBVc6f9DmHrurxGRkmycud9fHEtkz9SSd2Uhlb4b1sJ6I/J-iB_76CSnOej-UiN10wjqSJNh0QQsFV64mMQCwCXO8",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/lztLc5QR9chCC9VlpDIvUQ/kNT706OMP6w28sWQMJJ4sBqPjEWK7Z-z8UWUQ0U0V1z-UnvnGeE0iW_PZz-hPpr3-fU_cxT8MJBhSk2F4TAvyBjlBoVnnj-TVr_rwxpILfTxRSGQB5yGSVjx77gLUsptyOWdBNiNcsAhd4j4KFnY-A/18ZVbn2sLH0ClYLUO650XLaQU-1mTenPuFoxkkB4Jvc",
         "alt": "IMG_8120-2.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "frozen-pollock-fisheries-3",
+        "layout": "single"
       },
       {
-        "id": "frozen-pollock-fisheries-3",
+        "id": "frozen-pollock-fisheries-4-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/fOGmAGE2VbvcleLlwGaRsQ/jahJncE6HJ19a4bkpdmZxacKwzvO7qGxenvLCCelrLn2ahRP10gh9rCBuznI3N1Pc2ENS33Af_RIZAqR_z-t7DRIg-xC3Xim08oV_F28BY0xouc8ND12hX4MICKNmUTBeN1g8OpJNfJVOlKHt3nONkX_GnEcl16lzfiDkGIHpqU/E32kQEQ-LtJhKM9kLKE42mEQ-5Cp51uDPSA_XWaNMCg",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/MwDIT_HY4G0cGmndLpbdtg/CeWoOLzV9cxrx1v0hWddKlHQUd6v6EuKuy2FDJdSNMdwZeryAzkHiX3Y95T5K8bhHBCKPvTfcsPtg3foTwFQy6dcfhA0slRqfXDtfQ-c6lHNQsM1vhyX4CuaoZ0qNV0sDvn11STdTOfjJXU-jqBHVA/4wencBqnqvOTiPMtEZffR_GIiBSjx4meZr-Qdo6nkco",
         "alt": "IMG_8124-2.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "frozen-pollock-fisheries-4",
+        "layout": "single"
       },
       {
-        "id": "frozen-pollock-fisheries-4",
+        "id": "frozen-pollock-fisheries-5-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/3KWBr6iWHlOu3UcpiuZWAg/kcPuPKnHKs-Sz3UnWQuDdYWGFTzY6kc59FtFRQ0hMX-LVahn2Cmr4cWFlCBGIR5dljo8V6GgN2pHNL0ZQeN-zZzGPmGARmw4VDYs-z9WQ1Hzfb1uoeM5hgoDfa1JNRhPdulWVyLCGoY7xmRlpWID2WnZjsvSFwJSFFpxRT06e6s/Z8k3IzpTr-FYbzMPlWfBTMZIzWyCLdGQSsSgkBCHXUI",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/rV3XK0-PISK70V9ry60ztQ/C4uN6vELP6JiA-GkbkX6oYn5DZ0KViMwDpzkHo01k4Ac7Xt4ekbWg_E7J6Ymr5PIUUCYQyRRlG54rWa0JduhJuzRzuFlXb49esOTNycdk7cB5u9ic26yrcROVSeaoPbkNqp57qpKS0buHsLmOypUaA/D5PHBZOt1NqohlG-up8CRTSEgswbDPDndPfaq9A6k8E",
         "alt": "IMG_8110-2.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "frozen-pollock-fisheries-5",
+        "layout": "single"
       }
     ],
     "tags": [],
@@ -106,6 +128,12 @@
     "year": "2024",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",
@@ -135,6 +163,12 @@
     "year": "2026",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",
@@ -164,6 +198,12 @@
     "year": "2023",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",
@@ -193,6 +233,12 @@
     "year": "2025",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",
@@ -204,18 +250,22 @@
     "externalUrl": "",
     "images": [
       {
-        "id": "field-notes-on-gwanak-1",
+        "id": "field-notes-on-gwanak-2-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/3xiRMuaPZpZXNaaUUanm5A/q1GZBZ7xpyEGenlHDL8Gh8bIAdRX-_c4UthY16DZjDBatrblJIfwZi3fzrSMokuZsLT43kQcv4DHwfPrPAerVA92jAx7bgBnr-udT_7mq3JrIUrvVKsJGjxD5hDr0pLyS-utpsyFn1f9v53Y9Pd-emvwfa1pVqHfNDrnFxNgUDg/hNhxuxQFknesZgks3dL8isvzDqs9ehyDE_yYwkuBGjU",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/aeVxdkeRDLArKWV-ERDx_w/eE__ZrrVEbyjYubrFEsfGHqVt-mjjNofzjU63hj1VBUMTp8o3l1hTBsUXtgZYlNkm04hNTvfHXB4smvlh-2apr1KLi431oMS3nhqr7M2ec08RSg68duGjRZ7alAqNXXCrjFlDBRegY9VD3cC_o5dcQ/7YEWdy1HHAVuG1jSeDC4PL7qeEJnvsrmzaEZYca32AQ",
         "alt": "스캔20250901_08.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "field-notes-on-gwanak-2",
+        "layout": "single"
       },
       {
-        "id": "field-notes-on-gwanak-2",
+        "id": "field-notes-on-gwanak-3-1",
         "url": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/33lsyZ7kNlbpaoQ3-5wBMQ/wB4nIPrX6EjoiG_RltjkB_YFmIm0uselSgj0yaPVrWzHD3MqJcXgA_dGw3qHCTmbaHKT4519rne1PmZcqxr6LJRCDPa121oo5uq62eWKj7YOsGkYp6pH3SJMEN_CbdNpEQh2mJ8SG9GUe8TSdFuv4-2QGrcPzq4ptPU1j9hx8oU/mIYLCgy3ANgenuVnkF7CL_KO8ubplw2HnxvsyIVoC6E",
         "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/58/58/1792670400000/tbjurZuwSWEunyeg1BUFjQ/ANz-C9ZblwOvJdpp4lFKwl7XrIwWdTSRuL2RlNzlDuJvgTMm3xquxcXD965Fh0wAnzdY06kQEd293dlpvJVWiblbjo-2Epf6Zz5ZakDje6SPoAwX6Nb4t653KQFR_qdCLKs8_RFkyaXedyNsz3YvMg/qcZqnXUlKuolgb8FyXm7XbwDAs8G-gKm6BVlYAL0mRk",
         "alt": "스캔20250901_06.jpg",
-        "width": "full"
+        "width": "full",
+        "groupId": "field-notes-on-gwanak-3",
+        "layout": "single"
       }
     ],
     "tags": [],
@@ -237,6 +287,12 @@
     "year": "2023",
     "description": "To be indicated",
     "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
     "role": "To be indicated",
     "roleKo": "",
     "team": "To be indicated",

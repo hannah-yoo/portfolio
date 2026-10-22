@@ -1,3 +1,4 @@
+import { Fragment, type CSSProperties } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
@@ -55,6 +56,45 @@ const ProjectDetail = () => {
   }
 
   const media = project.images ?? [];
+  const descriptions = [
+    {
+      afterImage: project.topDescriptionAfterImage ?? 0,
+      description: project.topDescription || project.description,
+      descriptionKo: project.topDescriptionKo || project.descriptionKo,
+    },
+    {
+      afterImage: project.middleDescriptionAfterImage ?? Math.ceil(media.length / 2),
+      description: project.middleDescription,
+      descriptionKo: project.middleDescriptionKo,
+    },
+    {
+      afterImage: project.bottomDescriptionAfterImage ?? media.length,
+      description: project.bottomDescription,
+      descriptionKo: project.bottomDescriptionKo,
+    },
+  ].map((item) => ({
+    ...item,
+    afterImage: Math.max(
+      0,
+      Math.min(media.length, Number.isInteger(item.afterImage) ? item.afterImage : media.length)
+    ),
+  }));
+  const hasDescriptionAfter = (imageCount: number) =>
+    descriptions.some(
+      ({ afterImage, description, descriptionKo }) =>
+        afterImage === imageCount && (description || descriptionKo)
+    );
+  const descriptionsAfter = (imageCount: number) =>
+    descriptions
+      .filter(
+        ({ afterImage, description, descriptionKo }) =>
+          afterImage === imageCount && (description || descriptionKo)
+      )
+      .map((item, index) => (
+        <FadeIn key={`${imageCount}-${index}`}>
+          <ProjectDescription description={item.description} descriptionKo={item.descriptionKo} />
+        </FadeIn>
+      ));
   return (
     <PageTransition>
       <div className="portfolio-shell">
@@ -107,8 +147,6 @@ const ProjectDetail = () => {
                   <p lang="ko">{[project.teamKo, project.timelineKo].filter(Boolean).join(" · ")}</p>
                 )}
               </div>
-              <p>{project.description}</p>
-              {project.descriptionKo && <p lang="ko">{project.descriptionKo}</p>}
             </div>
           </FadeIn>
         </section>
@@ -117,45 +155,96 @@ const ProjectDetail = () => {
         <section className="portfolio-project-gallery">
           <FadeInStagger staggerDelay={0.15}>
             <div className="portfolio-project-gallery">
+              {descriptionsAfter(0)}
               {media.map((image, index) => {
                 const nextImage = media[index + 1];
                 const isHalfWidth = image.width === "half";
                 const nextIsHalfWidth = nextImage?.width === "half";
-                
-                // Skip if this is the second of a pair
-                if (index > 0 && media[index - 1]?.width === "half" && isHalfWidth) {
-                  return null;
+                const groupStart = image.groupId
+                  ? media.findIndex((item) => item.groupId === image.groupId)
+                  : index;
+                const groupImages = image.groupId
+                  ? media.filter((item) => item.groupId === image.groupId)
+                  : [];
+                const groupEnd = groupStart + groupImages.length - 1;
+                const canRenderMosaic =
+                  groupImages[0]?.layout === "mosaic-lead" &&
+                  groupImages.length > 2 &&
+                  !media
+                    .slice(groupStart + 1, groupEnd + 1)
+                    .some((_, offset) => hasDescriptionAfter(groupStart + offset + 1));
+                if (image.layout === "mosaic-tile" && canRenderMosaic) {
+                  return <Fragment key={image.id} />;
                 }
+                const isSecondOfPair =
+                  index > 0 &&
+                  media[index - 1]?.width === "half" &&
+                  isHalfWidth &&
+                  !hasDescriptionAfter(index);
+                const canPair =
+                  isHalfWidth &&
+                  nextIsHalfWidth &&
+                  !hasDescriptionAfter(index + 1);
 
-                // Render side-by-side pair
-                if (isHalfWidth && nextIsHalfWidth) {
-                  return (
-                    <FadeIn key={image.id}>
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <ProjectImage
-                          src={image.url}
-                          alt={image.alt}
-                          caption={image.caption}
-                        />
-                        <ProjectImage
-                          src={nextImage.url}
-                          alt={nextImage.alt}
-                          caption={nextImage.caption}
-                        />
-                      </div>
-                    </FadeIn>
-                  );
-                }
-
-                // Render full-width image
                 return (
-                  <FadeIn key={image.id}>
-                    <ProjectImage
-                      src={image.url}
-                      alt={image.alt}
-                      caption={image.caption}
-                    />
-                  </FadeIn>
+                  <Fragment key={image.id}>
+                    {!isSecondOfPair && (
+                      canRenderMosaic ? (
+                        <FadeIn>
+                          <div
+                            className="portfolio-project-mosaic"
+                            style={{
+                              gridTemplateRows: `repeat(${groupImages.length - 1}, minmax(150px, 1fr))`,
+                            }}
+                          >
+                            {groupImages.map((groupImage, groupIndex) => (
+                              <ProjectImage
+                                key={groupImage.id}
+                                src={groupImage.url}
+                                alt={groupImage.alt}
+                                caption={groupImage.caption}
+                                figureClassName={
+                                  groupIndex === 0
+                                    ? "portfolio-project-mosaic-lead"
+                                    : "portfolio-project-mosaic-tile"
+                                }
+                                figureStyle={
+                                  groupIndex === 0
+                                    ? { gridRow: `span ${groupImages.length - 1}` }
+                                    : undefined
+                                }
+                                imageFit="cover"
+                              />
+                            ))}
+                          </div>
+                        </FadeIn>
+                      ) : canPair ? (
+                        <FadeIn>
+                          <div className="grid md:grid-cols-2 gap-6">
+                            <ProjectImage
+                              src={image.url}
+                              alt={image.alt}
+                              caption={image.caption}
+                            />
+                            <ProjectImage
+                              src={nextImage.url}
+                              alt={nextImage.alt}
+                              caption={nextImage.caption}
+                            />
+                          </div>
+                        </FadeIn>
+                      ) : (
+                        <FadeIn>
+                          <ProjectImage
+                            src={image.url}
+                            alt={image.alt}
+                            caption={image.caption}
+                          />
+                        </FadeIn>
+                      )
+                    )}
+                    {descriptionsAfter(canRenderMosaic ? groupEnd + 1 : index + 1)}
+                  </Fragment>
                 );
               })}
             </div>
@@ -181,6 +270,19 @@ const ProjectDetail = () => {
   );
 };
 
+const ProjectDescription = ({
+  description,
+  descriptionKo,
+}: {
+  description?: string;
+  descriptionKo?: string;
+}) => (
+  <div className="portfolio-project-gallery-description">
+    {description && <p className="portfolio-project-description">{description}</p>}
+    {descriptionKo && <p className="portfolio-project-description" lang="ko">{descriptionKo}</p>}
+  </div>
+);
+
 /**
  * Project image with a full-image fit and lazy loading.
  */
@@ -188,9 +290,19 @@ interface ProjectImageProps {
   src: string;
   alt: string;
   caption?: string;
+  figureClassName?: string;
+  figureStyle?: CSSProperties;
+  imageFit?: "contain" | "cover";
 }
 
-const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
+const ProjectImage = ({
+  src,
+  alt,
+  caption,
+  figureClassName,
+  figureStyle,
+  imageFit = "contain",
+}: ProjectImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageAspectRatio, setImageAspectRatio] = useState(16 / 9);
   const [ref, isIntersecting] = useIntersectionObserver({
@@ -199,8 +311,8 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
   });
 
   return (
-    <figure>
-      <div>
+    <figure className={figureClassName} style={figureStyle}>
+      <div className={figureClassName ? "portfolio-project-mosaic-frame" : undefined}>
         <div ref={ref} style={{ aspectRatio: imageAspectRatio }}>
           {isIntersecting && src ? (
             <ProjectImageFrame
@@ -213,6 +325,7 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
               }}
               imageClassName={cn(
                 "transition-all duration-500",
+                imageFit === "cover" && "object-cover",
                 imageLoaded ? "opacity-100" : "opacity-0 blur-sm"
               )}
             />

@@ -43,6 +43,15 @@ const fieldAliases = {
   year: ["year", "project term", "date", "created", "연도", "제작연도", "날짜"],
   description: ["description", "body", "details", "note", "설명", "작품설명"],
   descriptionKo: ["description ko", "description korean", "korean description", "설명 한국어"],
+  topDescription: ["top description"],
+  topDescriptionKo: ["top description ko", "top description korean"],
+  middleDescription: ["middle description"],
+  middleDescriptionKo: ["middle description ko", "middle description korean"],
+  middleDescriptionAfterImage: ["middle description after image"],
+  bottomDescription: ["bottom description"],
+  bottomDescriptionKo: ["bottom description ko", "bottom description korean"],
+  bottomDescriptionAfterImage: ["bottom description after image"],
+  topDescriptionAfterImage: ["top description after image"],
   role: ["role", "services", "역할", "분야"],
   roleKo: ["role ko", "role korean", "korean role", "역할 한국어"],
   team: ["team", "client", "팀", "클라이언트"],
@@ -99,6 +108,12 @@ const asText = (value, fallback = "") => {
 const asBoolean = (value) =>
   value === true || (typeof value === "string" && value.trim().toLowerCase() === "true");
 
+const asImagePosition = (value) => {
+  if (value === undefined || value === null || String(value).trim() === "") return undefined;
+  const position = Number(value);
+  return Number.isInteger(position) && position >= 0 ? position : undefined;
+};
+
 const cvFieldAliases = {
   intro: ["intro", "introduction", "about", "bio", "소개"],
   introKo: ["intro ko", "intro korean", "korean intro", "소개 한국어"],
@@ -114,7 +129,7 @@ const cvFieldAliases = {
   descriptionKo: ["description ko", "description korean", "korean description", "설명 한국어"],
 };
 
-const extractImages = (value, projectSlug) => {
+const extractImages = (value, projectSlug, groupId) => {
   const values = Array.isArray(value) ? value : value ? [value] : [];
   const processed = [];
 
@@ -123,7 +138,7 @@ const extractImages = (value, projectSlug) => {
     const rawUrl = typeof item === "object" ? item.url : item;
     if (!rawUrl) continue;
 
-    const imgId = `${projectSlug}-${index + 1}`;
+    const imgId = `${groupId || projectSlug}-${index + 1}`;
 
     processed.push({
       id: imgId,
@@ -133,7 +148,9 @@ const extractImages = (value, projectSlug) => {
           ? item.thumbnails.full.url
           : rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
-      width: "full",
+      width: item.layoutWidth || "full",
+      groupId,
+      layout: item.layout || "single",
     });
   }
 
@@ -225,14 +242,36 @@ const normalizeRecord = async ({ id, fields }, index) => {
       : [];
   const numberedImages = Object.entries(fields)
     .map(([name, value]) => ({
-      number: Number(normalizeKey(name).match(/^(?:image|photo|이미지|사진) (\d+)$/i)?.[1]),
+      match: normalizeKey(name).match(/^(?:image|photo|이미지|사진) (\d+)$/i),
       value,
     }))
-    .filter(({ number }) => number >= 2 && number <= 10)
-    .sort((first, second) => first.number - second.number)
-    .flatMap(({ value }) => (Array.isArray(value) ? value : value ? [value] : []));
-  const imageValues = numberedImages.length ? numberedImages : galleryValues;
-  const images = extractImages(imageValues, slug);
+    .filter(({ match }) => match && Number(match[1]) >= 2 && Number(match[1]) <= 10)
+    .sort((first, second) => Number(first.match[1]) - Number(second.match[1]));
+  const images = numberedImages.length
+    ? numberedImages.flatMap(({ match, value }) => {
+      const fieldNumber = Number(match[1]);
+      const attachments = Array.isArray(value) ? value : value ? [value] : [];
+      const layoutForAttachment = attachments.length === 2
+        ? "pair"
+        : attachments.length > 2
+          ? "mosaic"
+          : "single";
+      return extractImages(
+        attachments.map((attachment) => ({
+          ...attachment,
+          layoutWidth: layoutForAttachment === "pair" ? "half" : "full",
+          layout:
+            layoutForAttachment === "mosaic"
+              ? attachment === attachments[0]
+                ? "mosaic-lead"
+                : "mosaic-tile"
+              : "single",
+        })),
+        slug,
+        `${slug}-${fieldNumber}`
+      );
+    })
+    : extractImages(galleryValues, slug);
 
   let heroImage = "";
   let heroThumbnail = "";
@@ -282,6 +321,15 @@ const normalizeRecord = async ({ id, fields }, index) => {
     year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
     description: asText(findField(fields, fieldAliases.description), TO_BE_INDICATED),
     descriptionKo: asText(findField(fields, fieldAliases.descriptionKo)),
+    topDescription: asText(findField(fields, fieldAliases.topDescription)),
+    topDescriptionKo: asText(findField(fields, fieldAliases.topDescriptionKo)),
+    middleDescription: asText(findField(fields, fieldAliases.middleDescription)),
+    middleDescriptionKo: asText(findField(fields, fieldAliases.middleDescriptionKo)),
+    middleDescriptionAfterImage: asImagePosition(findField(fields, fieldAliases.middleDescriptionAfterImage)),
+    bottomDescription: asText(findField(fields, fieldAliases.bottomDescription)),
+    bottomDescriptionKo: asText(findField(fields, fieldAliases.bottomDescriptionKo)),
+    bottomDescriptionAfterImage: asImagePosition(findField(fields, fieldAliases.bottomDescriptionAfterImage)),
+    topDescriptionAfterImage: asImagePosition(findField(fields, fieldAliases.topDescriptionAfterImage)),
     role: asText(findField(fields, fieldAliases.role), TO_BE_INDICATED),
     roleKo: asText(findField(fields, fieldAliases.roleKo)),
     team: asText(findField(fields, fieldAliases.team), TO_BE_INDICATED),

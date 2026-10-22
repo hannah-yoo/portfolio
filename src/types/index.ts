@@ -23,6 +23,8 @@ export interface ProjectImage {
   url: string;
   alt: string;
   width: "full" | "half";
+  groupId?: string;
+  layout?: "single" | "mosaic-lead" | "mosaic-tile";
   caption?: string;
 }
 
@@ -39,6 +41,15 @@ export interface Project {
   year: string;
   description: string;
   descriptionKo?: string;
+  topDescription?: string;
+  topDescriptionKo?: string;
+  topDescriptionAfterImage?: number;
+  middleDescription?: string;
+  middleDescriptionKo?: string;
+  middleDescriptionAfterImage?: number;
+  bottomDescription?: string;
+  bottomDescriptionKo?: string;
+  bottomDescriptionAfterImage?: number;
   role: string;
   roleKo?: string;
   team: string;

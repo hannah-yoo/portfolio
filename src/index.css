@@ -726,10 +726,7 @@ main.portfolio-project > .portfolio-project-gallery {
 }
 
 .portfolio-project-meta {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-  gap: 40px;
-  width: 100%;
+  display: block;
 }
 
 .portfolio-project-copy h2 {
@@ -750,6 +747,45 @@ main.portfolio-project > .portfolio-project-gallery {
   display: grid;
   gap: 28px;
   margin-top: 36px;
+}
+
+.portfolio-project-mosaic {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.portfolio-project-mosaic figure {
+  min-width: 0;
+}
+
+.portfolio-project-mosaic-frame {
+  height: 100%;
+  aspect-ratio: auto !important;
+}
+
+.portfolio-project-mosaic-frame img {
+  height: 100%;
+}
+
+.portfolio-project-gallery-description {
+  width: min(100%, 720px);
+  margin-inline: auto;
+}
+
+.portfolio-project-gallery-description p {
+  margin: 0;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.portfolio-project-description {
+  white-space: pre-line;
+}
+
+.portfolio-project-gallery-description p + p {
+  margin-top: 8px;
 }
 
 .portfolio-project-gallery figure {
