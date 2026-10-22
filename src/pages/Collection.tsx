@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
@@ -33,7 +33,7 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
         {project.heroImage && (
           <div className="work-image" style={{ aspectRatio: imageAspectRatio }}>
             <ProjectImageFrame
-              src={resolveAssetUrl(project.heroImage)}
+              src={resolveAssetUrl(project.heroThumbnail || project.heroImage)}
               alt={project.title}
               onDimensionsLoad={({ width, height }) => {
                 if (width > 0 && height > 0) setImageAspectRatio(width / height);
@@ -60,7 +60,6 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
 
 const Collection = ({ kind }: CollectionProps) => {
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
-  const [activeTag, setActiveTag] = useState<string | null>(null);
   const prefersReducedMotion = useReducedMotion();
   const details = collections.find((collection) => collection.category === kind);
 
@@ -79,20 +78,6 @@ const Collection = ({ kind }: CollectionProps) => {
   const collectionProjects = useMemo(() => {
     return projects.filter((project) => project.category === kind);
   }, [kind, projects]);
-  const tags = useMemo(
-    () => [...new Set(collectionProjects.flatMap((project) => [...(project.tags ?? []), ...(project.medium ?? [])]))],
-    [collectionProjects],
-  );
-  const visibleProjects = useMemo(
-    () =>
-      activeTag
-        ? collectionProjects.filter((project) =>
-            project.tags?.includes(activeTag) || project.medium?.includes(activeTag),
-          )
-        : collectionProjects,
-    [activeTag, collectionProjects],
-  );
-
   return (
     <PageTransition>
       <div className="portfolio-shell">
@@ -109,60 +94,10 @@ const Collection = ({ kind }: CollectionProps) => {
             </div>
           </div>
 
-          {kind === "design" && collectionProjects.length > 0 && (
-            <LayoutGroup id="collection-filters">
-              <nav className="collection-filters" aria-label="Filter design work">
-                <button
-                  className="collection-filter"
-                  type="button"
-                  aria-pressed={activeTag === null}
-                  onClick={() => setActiveTag(null)}
-                >
-                  {activeTag === null && (
-                    <motion.span
-                      className="collection-filter-indicator"
-                      layoutId="collection-filter-indicator"
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : { type: "spring", stiffness: 380, damping: 34 }
-                      }
-                      aria-hidden="true"
-                    />
-                  )}
-                  <span>All</span>
-                </button>
-                {tags.map((tag) => (
-                  <button
-                    className="collection-filter"
-                    type="button"
-                    key={tag}
-                    aria-pressed={activeTag === tag}
-                    onClick={() => setActiveTag(tag)}
-                  >
-                    {activeTag === tag && (
-                      <motion.span
-                        className="collection-filter-indicator"
-                        layoutId="collection-filter-indicator"
-                        transition={
-                          prefersReducedMotion
-                            ? { duration: 0 }
-                            : { type: "spring", stiffness: 380, damping: 34 }
-                        }
-                        aria-hidden="true"
-                      />
-                    )}
-                    <span>{tag}</span>
-                  </button>
-                ))}
-              </nav>
-            </LayoutGroup>
-          )}
-
           {collectionProjects.length > 0 ? (
             <div className="work-grid">
               <AnimatePresence>
-                {visibleProjects.map((project, index) => (
+                {collectionProjects.map((project, index) => (
                   <WorkCard key={project.id} project={project} index={index} />
                 ))}
               </AnimatePresence>

@@ -46,6 +46,7 @@ export interface Project {
   timeline: string;
   timelineKo?: string;
   heroImage: string;
+  heroThumbnail?: string;
   externalUrl?: string;
   images: ProjectImage[];
   gridWidth: 3 | 6 | 12;

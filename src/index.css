@@ -583,44 +583,6 @@ All colors MUST be HSL.
   column-gap: 24px;
 }
 
-.collection-filters {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  margin: 0 0 34px;
-  padding: 2px 0 6px;
-  scrollbar-width: none;
-}
-
-.collection-filters::-webkit-scrollbar {
-  display: none;
-}
-
-.collection-filter {
-  position: relative;
-  isolation: isolate;
-  flex: 0 0 auto;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  padding: 9px 14px;
-  color: #777;
-  font: inherit;
-  cursor: pointer;
-}
-
-.collection-filter[aria-pressed="true"] {
-  color: #111;
-}
-
-.collection-filter-indicator {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  background: #ededed;
-}
-
 .work-card-shell {
   display: inline-block;
   width: 100%;

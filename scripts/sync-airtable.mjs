@@ -130,6 +130,10 @@ const extractImages = (value, projectSlug) => {
     processed.push({
       id: imgId,
       url: rawUrl,
+      thumbnailUrl:
+        typeof item === "object" && item.thumbnails?.large?.url
+          ? item.thumbnails.large.url
+          : rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
       width: "full",
     });
@@ -233,12 +237,15 @@ const normalizeRecord = async ({ id, fields }, index) => {
   const images = extractImages(imageValues, slug);
 
   let heroImage = "";
+  let heroThumbnail = "";
   if (heroValue) {
     const heroExtracted = extractImages(heroValue, `${slug}-hero`);
     heroImage = heroExtracted[0]?.url || "";
+    heroThumbnail = heroExtracted[0]?.thumbnailUrl || "";
   }
   if (!heroImage && images[0]?.url) {
     heroImage = images[0].url;
+    heroThumbnail = images[0].thumbnailUrl || "";
   }
 
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
@@ -279,6 +286,7 @@ const normalizeRecord = async ({ id, fields }, index) => {
     timeline: asText(findField(fields, fieldAliases.timeline), TO_BE_INDICATED),
     timelineKo: asText(findField(fields, fieldAliases.timelineKo)),
     heroImage,
+    heroThumbnail,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
     tags: asText(findField(fields, fieldAliases.tags))
