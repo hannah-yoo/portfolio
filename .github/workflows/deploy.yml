@@ -39,10 +39,9 @@ jobs:
         env:
           PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN }}
           BASE_URL: /portfolio/
-          AIRTABLE_TABLE_NAME: artworks_eng
-          AIRTABLE_CV_TABLE_NAME: cv_eng
-          AIRTABLE_INTRO_TABLE_NAME: intro_eng
-          AIRTABLE_COLLECTIONS_TABLE_NAME: collections_eng
+          AIRTABLE_TABLE_NAME: collections
+          AIRTABLE_CV_TABLE_NAME: cv
+          AIRTABLE_INTRO_TABLE_NAME: intro
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

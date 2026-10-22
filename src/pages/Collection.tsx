@@ -106,7 +106,7 @@ const Collection = ({ kind }: CollectionProps) => {
             <div className="portfolio-empty">
               <h2>No entries yet</h2>
               <p>
-                Add records to the Airtable <code>artworks_eng</code> table and set Category to{" "}
+                Add records to the Airtable <code>collections</code> table and set Category to{" "}
                 <code>{kind}</code>.
               </p>
             </div>
