@@ -131,8 +131,8 @@ const extractImages = (value, projectSlug) => {
       id: imgId,
       url: rawUrl,
       thumbnailUrl:
-        typeof item === "object" && item.thumbnails?.large?.url
-          ? item.thumbnails.large.url
+        typeof item === "object" && item.thumbnails?.full?.url
+          ? item.thumbnails.full.url
           : rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
       width: "full",

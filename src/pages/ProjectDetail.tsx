@@ -69,7 +69,7 @@ const ProjectDetail = () => {
             {project.subtitle && <p className="portfolio-lede">{project.subtitle}</p>}
             {project.subtitleKo && <p className="bilingual-secondary" lang="ko">{project.subtitleKo}</p>}
             {project.medium && project.medium.length > 0 && (
-              <p className="portfolio-project-medium">Medium: {project.medium.join(" · ")}</p>
+              <p className="portfolio-project-medium">{project.medium.join(" · ")}</p>
             )}
             {project.externalUrl && (
               <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
