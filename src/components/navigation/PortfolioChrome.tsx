@@ -38,6 +38,7 @@ export const PortfolioHeader = () => {
       const markerPosition =
         currentLinkBounds.left - currentNavBounds.left + currentLinkBounds.width / 2;
       ruler.style.setProperty("--ruler-indicator-position", `${markerPosition}px`);
+      ruler.style.setProperty("--ruler-tick-offset", `${markerPosition}px`);
     };
 
     updateRuler();

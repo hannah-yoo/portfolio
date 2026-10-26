@@ -210,16 +210,10 @@ const normalizeCvRecords = (records) => {
 };
 
 const collectionFields = [
-  { category: "design", field: "title", aliases: ["design title"] },
-  { category: "design", field: "titleKo", aliases: ["design title ko"] },
   { category: "design", field: "description", aliases: ["design description"] },
   { category: "design", field: "descriptionKo", aliases: ["design description ko"] },
-  { category: "fine-arts", field: "title", aliases: ["fine arts title"] },
-  { category: "fine-arts", field: "titleKo", aliases: ["fine arts title ko"] },
   { category: "fine-arts", field: "description", aliases: ["fine arts description"] },
   { category: "fine-arts", field: "descriptionKo", aliases: ["fine arts description ko"] },
-  { category: "photography-video", field: "title", aliases: ["photography video title"] },
-  { category: "photography-video", field: "titleKo", aliases: ["photography video title ko"] },
   { category: "photography-video", field: "description", aliases: ["photography video description"] },
   { category: "photography-video", field: "descriptionKo", aliases: ["photography video description ko"] },
 ];

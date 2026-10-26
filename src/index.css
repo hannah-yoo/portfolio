@@ -276,10 +276,10 @@ All colors MUST be HSL.
   height: 12px;
   background-image: repeating-linear-gradient(
     90deg,
-    transparent 0 12px,
-    #b8b8b8 12px 13px,
-    transparent 13px 26px
+    #b8b8b8 0 1px,
+    transparent 1px 8px
   );
+  background-position-x: var(--ruler-tick-offset, 50%);
 }
 
 .portfolio-ruler::after {
@@ -343,8 +343,8 @@ All colors MUST be HSL.
 .portfolio-about,
 .portfolio-page,
 .portfolio-project {
-  width: min(100% - 48px, 1280px);
-  margin: 0 auto;
+  width: auto;
+  margin: 0 clamp(20px, 4.5vw, 68px);
   padding: 32px 0 88px;
 }
 
@@ -570,7 +570,7 @@ All colors MUST be HSL.
 .collection-heading-copy {
   display: grid;
   grid-template-columns: fit-content(55%) minmax(0, 1fr);
-  align-items: baseline;
+  align-items: stretch;
   gap: clamp(24px, 4vw, 64px);
 }
 
@@ -582,14 +582,17 @@ All colors MUST be HSL.
   grid-column: 1;
   grid-row: 1;
   margin: 0;
+  line-height: 1.05;
 }
 
 .collection-heading-copy .collection-description {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   grid-column: 2;
   grid-row: 1;
   max-width: 600px;
-  gap: 4px;
+  line-height: 1.2;
 }
 
 .collection-description {
@@ -603,7 +606,7 @@ All colors MUST be HSL.
 }
 
 .collection-description p + p {
-  margin-top: 4px;
+  margin-top: 0;
 }
 
 .work-grid {
@@ -1008,7 +1011,8 @@ main.portfolio-project > .portfolio-project-gallery {
   .portfolio-about,
   .portfolio-page,
   .portfolio-project {
-    width: min(100% - 40px, 540px);
+    width: auto;
+    margin-inline: 20px;
     padding-top: 24px;
     padding-bottom: 64px;
   }
@@ -1043,6 +1047,11 @@ main.portfolio-project > .portfolio-project-gallery {
   .collection-heading-copy {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .collection-heading-copy .collection-description {
+    justify-content: flex-start;
+    gap: 4px;
   }
 
   .collection-heading-copy .portfolio-title,

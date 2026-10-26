@@ -67,23 +67,20 @@ CV 항목은 `cv` 테이블의 `Grid view` 행 순서대로 표시한다. Airtab
 
 ## 소개 테이블: `intro`
 
-소개글과 세 분야 문구는 한 행에서 관리한다.
+프로필 소개와 분야별 설명은 한 행에서 관리한다. 분야명은 웹사이트에 영어로 고정되어 있으므로 Airtable 필드로 관리하지 않는다.
 
 | 필드 | Airtable 유형 | 용도 |
 | --- | --- | --- |
 | `intro` | 긴 텍스트 | 영문 프로필 소개 |
 | `intro ko` | 긴 텍스트 | 한국어 프로필 소개 |
 | `postscript ko` | 긴 텍스트 | 한국어 추가 소개 |
-| `design title` / `design title ko` | 한 줄 텍스트 | Design 분야 제목 |
 | `design description` / `design description ko` | 긴 텍스트 | Design 분야 설명 |
-| `fine arts title` / `fine arts title ko` | 한 줄 텍스트 | Fine Arts 분야 제목 |
 | `fine arts description` / `fine arts description ko` | 긴 텍스트 | Fine Arts 분야 설명 |
-| `photography video title` / `photography video title ko` | 한 줄 텍스트 | Photography & Video 분야 제목 |
 | `photography video description` / `photography video description ko` | 긴 텍스트 | Photography & Video 분야 설명 |
 
 영문 `postscript`는 `cv` 테이블의 `postscript` 필드에서 읽는다.
 분야 문구 필드가 Airtable에 생기기 전까지는 현재 문구를 유지한다.
-분야 페이지는 영어 제목 왼쪽, 영어·한국어 설명 오른쪽에 표시한다. 문구를 바꾸려면 `intro` 행의 해당 분야 필드를 수정한다.
+분야 페이지는 영어 제목 왼쪽, 영어·한국어 설명 오른쪽에 표시한다. 제목은 사이트 코드에 고정되어 있고 설명만 `intro` 행의 해당 분야 필드에서 관리한다.
 
 ## 분야 페이지 문구
 
