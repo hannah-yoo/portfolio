@@ -91,8 +91,8 @@ const Collection = ({ kind }: CollectionProps) => {
                 {details?.title}
               </h1>
               <div className="collection-description">
-                <p>{details?.description}</p>
-                <p lang="ko">{details?.descriptionKo}</p>
+                <p className="collection-description-en">{details?.description}</p>
+                <p className="collection-description-ko" lang="ko">{details?.descriptionKo}</p>
               </div>
             </div>
           </div>
