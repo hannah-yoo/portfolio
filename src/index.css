@@ -602,10 +602,13 @@ All colors MUST be HSL.
 .collection-heading-copy .collection-description {
   display: grid;
   grid-template-rows: 1.2em 1.2em;
-  align-content: center;
+  align-content: start;
+  align-self: start;
   grid-column: 2;
   grid-row: 1;
   max-width: 600px;
+  padding-top: 0.74em;
+  row-gap: 0.23em;
   font-size: 13px;
   line-height: 1.2;
 }
@@ -629,7 +632,7 @@ All colors MUST be HSL.
 }
 
 .collection-description-ko {
-  transform: translateY(-0.35em);
+  transform: none;
 }
 
 .work-grid {
@@ -1047,7 +1050,10 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
   }
 
   .collection-heading-copy .collection-description {
+    grid-template-rows: auto auto;
     line-height: 1.2;
+    padding-top: 0;
+    row-gap: 0;
   }
 }
 
@@ -1119,10 +1125,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     align-content: start;
     font-size: 12px;
     line-height: 1.2;
-  }
-
-  .collection-description-ko {
-    transform: none;
   }
 
   .collection-heading-copy .portfolio-title,
