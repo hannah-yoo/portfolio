@@ -50,6 +50,9 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
             {project.medium && project.medium.length > 0 && (
               <p className="work-card-medium">{project.medium.join(" · ")}</p>
             )}
+            {project.mediumKo && project.mediumKo.length > 0 && (
+              <p className="work-card-medium" lang="ko">{project.mediumKo.join(" · ")}</p>
+            )}
           </div>
           <span>{project.year}</span>
         </div>
@@ -85,7 +88,7 @@ const Collection = ({ kind }: CollectionProps) => {
           <div className="portfolio-page-heading">
             <div className="collection-heading-copy">
               <h1 className="portfolio-title">
-                {details?.title} <span lang="ko">{details?.titleKo}</span>
+                {details?.title}
               </h1>
               <div className="collection-description">
                 <p>{details?.description}</p>

@@ -33,7 +33,6 @@ export type ProjectCategory = "fine-arts" | "design" | "photography-video";
 export interface Project {
   id: string;
   slug: string;
-  order?: number;
   title: string;
   titleKo?: string;
   subtitle?: string;
@@ -66,6 +65,7 @@ export interface Project {
   category: ProjectCategory;
   tags?: string[];
   medium?: string[];
+  mediumKo?: string[];
 }
 
 export interface Testimonial {

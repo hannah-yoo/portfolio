@@ -29,13 +29,13 @@ const token = rawToken.trim().replace(/^["']|["']$/g, "");
 
 const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
 const tableName = process.env.AIRTABLE_TABLE_NAME || "collections";
+const airtableViewId = process.env.AIRTABLE_VIEW_ID || "viwraXnT87X1NKzpC";
 const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv";
 const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
 const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro";
 
 const fieldAliases = {
-  order: ["order", "sort order", "display order", "순서"],
   title: ["title", "name", "artwork", "artwork name", "project", "project name", "작품명", "제목"],
   titleKo: ["title ko", "title korean", "korean title", "제목 한국어", "한국어 제목"],
   subtitle: ["subtitle", "summary", "short description", "sub title", "부제", "한줄설명"],
@@ -55,7 +55,7 @@ const fieldAliases = {
   role: ["role", "services", "역할", "분야"],
   roleKo: ["role ko", "role korean", "korean role", "역할 한국어"],
   team: ["team", "client", "팀", "클라이언트"],
-  teamKo: ["team ko", "team korean", "korean team", "팀 한국어"],
+  teamKo: ["team ko", "team korean", "korean team", "client ko", "클라이언트 한국어"],
   timeline: ["timeline", "duration", "period", "기간"],
   timelineKo: ["timeline ko", "timeline korean", "korean timeline", "기간 한국어"],
   heroImage: [
@@ -74,6 +74,7 @@ const fieldAliases = {
   category: ["category", "type", "tag", "tags", "분류", "카테고리"],
   tags: ["tags", "subcategories", "work types", "disciplines", "labels"],
   medium: ["medium", "mediums", "design disciplines", "매체"],
+  mediumKo: ["medium ko", "medium korean", "korean medium", "매체 한국어"],
   featured: ["featured", "highlight", "대표", "추천"],
   externalUrl: ["url", "link", "external url", "project url", "article url", "링크"],
 };
@@ -224,14 +225,10 @@ const normalizeIntroRecords = (records) => {
   return { intro, introKo, postscript, postscriptKo };
 };
 
-const normalizeRecord = async ({ id, fields }, index) => {
+const normalizeRecord = async ({ id, fields }) => {
   const title = asText(findField(fields, fieldAliases.title), TO_BE_INDICATED);
   if (title === TO_BE_INDICATED) return null;
-  const slug = title !== TO_BE_INDICATED ? slugify(title) : `project-${index + 1}`;
-  const rawOrder = findField(fields, fieldAliases.order);
-  const parsedOrder = Number(rawOrder);
-  if (rawOrder === undefined || String(rawOrder).trim() === "" || !Number.isFinite(parsedOrder)) return null;
-  const order = parsedOrder;
+  const slug = slugify(title);
 
   const heroValue = findField(fields, fieldAliases.heroImage);
   const galleryImages = findField(fields, fieldAliases.images);
@@ -313,13 +310,12 @@ const normalizeRecord = async ({ id, fields }, index) => {
   return {
     id,
     slug,
-    order,
     title,
     titleKo: asText(findField(fields, fieldAliases.titleKo)),
-    subtitle: asText(findField(fields, fieldAliases.subtitle), TO_BE_INDICATED),
+    subtitle: asText(findField(fields, fieldAliases.subtitle)),
     subtitleKo: asText(findField(fields, fieldAliases.subtitleKo)),
-    year: asText(findField(fields, fieldAliases.year), TO_BE_INDICATED),
-    description: asText(findField(fields, fieldAliases.description), TO_BE_INDICATED),
+    year: asText(findField(fields, fieldAliases.year)),
+    description: asText(findField(fields, fieldAliases.description)),
     descriptionKo: asText(findField(fields, fieldAliases.descriptionKo)),
     topDescription: asText(findField(fields, fieldAliases.topDescription)),
     topDescriptionKo: asText(findField(fields, fieldAliases.topDescriptionKo)),
@@ -330,11 +326,11 @@ const normalizeRecord = async ({ id, fields }, index) => {
     bottomDescriptionKo: asText(findField(fields, fieldAliases.bottomDescriptionKo)),
     bottomDescriptionAfterImage: asImagePosition(findField(fields, fieldAliases.bottomDescriptionAfterImage)),
     topDescriptionAfterImage: asImagePosition(findField(fields, fieldAliases.topDescriptionAfterImage)),
-    role: asText(findField(fields, fieldAliases.role), TO_BE_INDICATED),
+    role: asText(findField(fields, fieldAliases.role)),
     roleKo: asText(findField(fields, fieldAliases.roleKo)),
-    team: asText(findField(fields, fieldAliases.team), TO_BE_INDICATED),
+    team: asText(findField(fields, fieldAliases.team)),
     teamKo: asText(findField(fields, fieldAliases.teamKo)),
-    timeline: asText(findField(fields, fieldAliases.timeline), TO_BE_INDICATED),
+    timeline: asText(findField(fields, fieldAliases.timeline)),
     timelineKo: asText(findField(fields, fieldAliases.timelineKo)),
     heroImage,
     heroThumbnail,
@@ -345,6 +341,10 @@ const normalizeRecord = async ({ id, fields }, index) => {
       .map((tag) => tag.trim())
       .filter(Boolean),
     medium: asText(findField(fields, fieldAliases.medium))
+      .split(",")
+      .map((medium) => medium.trim())
+      .filter(Boolean),
+    mediumKo: asText(findField(fields, fieldAliases.mediumKo))
       .split(",")
       .map((medium) => medium.trim())
       .filter(Boolean),
@@ -393,6 +393,7 @@ async function syncAirtable() {
     do {
       const requestUrl = new URL(url);
       if (offset) requestUrl.searchParams.set("offset", offset);
+      requestUrl.searchParams.set("view", airtableViewId);
 
       const response = await fetch(requestUrl, {
         headers: { Authorization: `Bearer ${token}` },
@@ -416,10 +417,9 @@ async function syncAirtable() {
 
     const projects = [];
     for (let i = 0; i < records.length; i++) {
-      const project = await normalizeRecord(records[i], i);
+      const project = await normalizeRecord(records[i]);
       if (project) projects.push(project);
     }
-    projects.sort((first, second) => first.order - second.order);
 
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, `${JSON.stringify(projects, null, 2)}\n`);

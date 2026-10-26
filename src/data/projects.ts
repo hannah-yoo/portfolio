@@ -6,6 +6,12 @@ const normalizeImageWidth = (width: string): ProjectImage["width"] => {
   throw new Error(`Unsupported project image width: ${width}`);
 };
 
+const normalizeImageLayout = (layout: string | undefined): ProjectImage["layout"] => {
+  if (layout === undefined) return undefined;
+  if (layout === "single" || layout === "mosaic-lead" || layout === "mosaic-tile") return layout;
+  throw new Error(`Unsupported project image layout: ${layout}`);
+};
+
 const normalizeGridWidth = (width: number): Project["gridWidth"] => {
   if (width === 3 || width === 6 || width === 12) return width;
   throw new Error(`Unsupported project grid width: ${width}`);
@@ -42,6 +48,7 @@ const projects: Project[] = Array.isArray(airtableProjects)
         images: project.images.map((image) => ({
           ...image,
           width: normalizeImageWidth(image.width),
+          layout: normalizeImageLayout(image.layout),
         })),
         gridWidth: normalizeGridWidth(project.gridWidth),
       }];

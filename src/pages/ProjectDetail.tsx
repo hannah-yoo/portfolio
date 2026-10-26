@@ -56,6 +56,9 @@ const ProjectDetail = () => {
   }
 
   const media = project.images ?? [];
+  const localizedTeam = project.teamKo !== project.team ? project.teamKo : "";
+  const localizedTimeline =
+    project.timelineKo !== project.timeline ? project.timelineKo : "";
   const descriptions = [
     {
       afterImage: project.topDescriptionAfterImage ?? 0,
@@ -101,7 +104,7 @@ const ProjectDetail = () => {
         {/* Project Title Section */}
         <main id="main-content" className="portfolio-project">
           <FadeIn>
-            <p className="portfolio-eyebrow">{project.year}</p>
+            {project.year && <p className="portfolio-eyebrow">{project.year}</p>}
             <h1 className="portfolio-title">
               {project.title}
               {project.titleKo && <span className="bilingual-secondary" lang="ko">{project.titleKo}</span>}
@@ -110,6 +113,9 @@ const ProjectDetail = () => {
             {project.subtitleKo && <p className="bilingual-secondary" lang="ko">{project.subtitleKo}</p>}
             {project.medium && project.medium.length > 0 && (
               <p className="portfolio-project-medium">{project.medium.join(" · ")}</p>
+            )}
+            {project.mediumKo && project.mediumKo.length > 0 && (
+              <p className="portfolio-project-medium" lang="ko">{project.mediumKo.join(" · ")}</p>
             )}
             {project.externalUrl && (
               <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
@@ -140,11 +146,15 @@ const ProjectDetail = () => {
           <FadeIn>
             <div className="portfolio-project-meta">
               <div>
-                <h2>{project.role?.split(",")[0]}</h2>
+                {project.role && <h2>{project.role.split(",")[0]}</h2>}
                 {project.roleKo && <p lang="ko">{project.roleKo}</p>}
-                <p>{[project.team, project.timeline].filter(Boolean).join(" · ")}</p>
-                {(project.teamKo || project.timelineKo) && (
-                  <p lang="ko">{[project.teamKo, project.timelineKo].filter(Boolean).join(" · ")}</p>
+                {[project.team, project.timeline].filter(Boolean).length > 0 && (
+                  <p>{[project.team, project.timeline].filter(Boolean).join(" · ")}</p>
+                )}
+                {(localizedTeam || localizedTimeline) && (
+                  <p lang="ko">
+                    {[localizedTeam, localizedTimeline].filter(Boolean).join(" · ")}
+                  </p>
                 )}
               </div>
             </div>
