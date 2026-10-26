@@ -2,7 +2,6 @@ import cvData from "./airtable-cv.json";
 
 export type CvEntry = {
   id: string;
-  order: number;
   year: string;
   title: string;
   titleKo?: string;

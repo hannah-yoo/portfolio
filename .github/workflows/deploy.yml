@@ -42,6 +42,7 @@ jobs:
           AIRTABLE_TABLE_NAME: collections
           AIRTABLE_VIEW_ID: viwraXnT87X1NKzpC
           AIRTABLE_CV_TABLE_NAME: cv
+          AIRTABLE_CV_VIEW_ID: Grid view
           AIRTABLE_INTRO_TABLE_NAME: intro
 
       - name: Upload Pages artifact

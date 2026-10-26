@@ -15,12 +15,14 @@ export const PortfolioHeader = () => {
   const activePath = pathname === "/about" || pathname === "/cv" ? "/" : pathname;
   const prefersReducedMotion = useReducedMotion();
   const navRef = useRef<HTMLElement>(null);
+  const rulerRef = useRef<HTMLDivElement>(null);
   const activeLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const nav = navRef.current;
     const activeLink = activeLinkRef.current;
-    if (!nav || !activeLink) return;
+    const ruler = rulerRef.current;
+    if (!nav || !activeLink || !ruler) return;
 
     const navBounds = nav.getBoundingClientRect();
     const linkBounds = activeLink.getBoundingClientRect();
@@ -29,11 +31,32 @@ export const PortfolioHeader = () => {
     } else if (linkBounds.right > navBounds.right) {
       nav.scrollLeft += linkBounds.right - navBounds.right;
     }
+
+    const updateRuler = () => {
+      const currentNavBounds = nav.getBoundingClientRect();
+      const currentLinkBounds = activeLink.getBoundingClientRect();
+      const markerPosition =
+        currentLinkBounds.left - currentNavBounds.left + currentLinkBounds.width / 2;
+      ruler.style.setProperty("--ruler-indicator-position", `${markerPosition}px`);
+    };
+
+    updateRuler();
+    nav.addEventListener("scroll", updateRuler, { passive: true });
+    window.addEventListener("resize", updateRuler);
+    const observer = new ResizeObserver(updateRuler);
+    observer.observe(nav);
+    observer.observe(activeLink);
+
+    return () => {
+      nav.removeEventListener("scroll", updateRuler);
+      window.removeEventListener("resize", updateRuler);
+      observer.disconnect();
+    };
   }, [activePath]);
 
   return (
     <header className="portfolio-header">
-      <div className="portfolio-ruler" aria-hidden="true" />
+      <div ref={rulerRef} className="portfolio-ruler" aria-hidden="true" />
       <nav ref={navRef} className="portfolio-nav" aria-label="Primary navigation">
         <LayoutGroup id="portfolio-navigation">
           {navigation.map((item) => {

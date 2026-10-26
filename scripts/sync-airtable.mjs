@@ -30,6 +30,7 @@ const token = rawToken.trim().replace(/^["']|["']$/g, "");
 const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
 const tableName = process.env.AIRTABLE_TABLE_NAME || "collections";
 const airtableViewId = process.env.AIRTABLE_VIEW_ID || "viwraXnT87X1NKzpC";
+const cvViewId = process.env.AIRTABLE_CV_VIEW_ID || "Grid view";
 const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
 const collectionsOutputPath = path.join(rootDir, "src", "data", "airtable-collections.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv";
@@ -121,7 +122,6 @@ const cvFieldAliases = {
   introKo: ["intro ko", "intro korean", "korean intro", "소개 한국어"],
   postscript: ["postscript", "ps", "post script"],
   postscriptKo: ["postscript ko", "postscript korean", "korean postscript", "추가 소개 한국어"],
-  order: ["order", "sort", "순서"],
   year: ["project term", "year", "period", "연도", "기간"],
   title: ["project name", "project", "title", "role", "position", "degree", "활동", "직함", "학위"],
   titleKo: ["title ko", "project ko", "title korean", "korean title", "직함 한국어", "활동 한국어"],
@@ -189,7 +189,6 @@ const normalizeCvRecords = (records) => {
     if (title || titleKo || organization || organizationKo || year || description || descriptionKo) {
       entries.push({
         id: String(id || `cv-${index + 1}`),
-        order: Number(findField(safeFields, cvFieldAliases.order)) || index + 1,
         year,
         title,
         titleKo,
@@ -206,7 +205,7 @@ const normalizeCvRecords = (records) => {
     introKo,
     postscript,
     postscriptKo,
-    entries: entries.sort((first, second) => first.order - second.order),
+    entries,
   };
 };
 
@@ -480,6 +479,7 @@ async function syncAirtable() {
 
       do {
         const cvRequestUrl = new URL(cvUrl);
+        cvRequestUrl.searchParams.set("view", cvViewId);
         if (cvOffset) cvRequestUrl.searchParams.set("offset", cvOffset);
         const cvResponse = await fetch(cvRequestUrl, {
           headers: { Authorization: `Bearer ${token}` },

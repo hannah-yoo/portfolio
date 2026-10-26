@@ -53,7 +53,6 @@
 
 | 필드 | Airtable 유형 | 용도 |
 | --- | --- | --- |
-| `order` | 긴 텍스트 | CV 항목 순서. 숫자를 입력 |
 | `project term` | 긴 텍스트 | 연도 또는 기간 |
 | `project name` | 서식 있는 텍스트 | 영문 활동명 |
 | `project ko` | 서식 있는 텍스트 | 한국어 활동명 |
@@ -64,7 +63,7 @@
 | `postscript` | 긴 텍스트 | 영문 추가 소개 |
 | `postscript ko` | 긴 텍스트 | 한국어 추가 소개 |
 
-`order`가 작은 항목부터 표시한다. 비어 있는 행은 표시하지 않는다. 기존 `year`와 `project` 열은 Airtable AI로 이름을 바꾸고, 기존 값을 보존한다.
+CV 항목은 `cv` 테이블의 `Grid view` 행 순서대로 표시한다. Airtable에서 행을 위아래로 옮겨 순서를 바꾼다. `order` 필드는 필요 없다. 비어 있는 행은 표시하지 않는다.
 
 ## 소개 테이블: `intro`
 
@@ -102,6 +101,7 @@ AIRTABLE_BASE_ID=앱_ID
 AIRTABLE_TABLE_NAME=collections
 AIRTABLE_VIEW_ID=viwraXnT87X1NKzpC
 AIRTABLE_CV_TABLE_NAME=cv
+AIRTABLE_CV_VIEW_ID=Grid view
 AIRTABLE_INTRO_TABLE_NAME=intro
 ```
 

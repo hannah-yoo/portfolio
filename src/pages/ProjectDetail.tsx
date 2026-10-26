@@ -59,6 +59,11 @@ const ProjectDetail = () => {
   const localizedTeam = project.teamKo !== project.team ? project.teamKo : "";
   const localizedTimeline =
     project.timelineKo !== project.timeline ? project.timelineKo : "";
+  const teamText = `${project.team} ${project.teamKo ?? ""}`.toLocaleLowerCase();
+  const showClientLabel =
+    Boolean(project.team) &&
+    !/personal\s*(work|freelance|commission)|개인\s*(작업|외주)/.test(teamText) &&
+    !/collaboration|협업/.test(teamText);
   const descriptions = [
     {
       afterImage: project.topDescriptionAfterImage ?? 0,
@@ -115,6 +120,26 @@ const ProjectDetail = () => {
                 {project.subtitleKo && <span className="project-inline-ko" lang="ko">{project.subtitleKo}</span>}
               </p>
             )}
+            {[project.team, project.timeline].some(Boolean) && (
+              <p className="portfolio-project-top-meta project-bilingual-line">
+                {project.team && (
+                  <span>{showClientLabel ? `Client: ${project.team}` : project.team}</span>
+                )}
+                {localizedTeam && (
+                  <span className="project-inline-ko" lang="ko">
+                    {showClientLabel ? `클라이언트: ${localizedTeam}` : localizedTeam}
+                  </span>
+                )}
+                {project.timeline && (
+                  <span>{project.team ? ` · ${project.timeline}` : project.timeline}</span>
+                )}
+                {localizedTimeline && (
+                  <span className="project-inline-ko" lang="ko">
+                    {project.timeline && project.team ? ` · ${localizedTimeline}` : localizedTimeline}
+                  </span>
+                )}
+              </p>
+            )}
             {project.externalUrl && (
               <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
                 Open original <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
@@ -149,20 +174,6 @@ const ProjectDetail = () => {
                     {project.role && <span>{project.role.split(",")[0]}</span>}
                     {project.roleKo && <span className="project-inline-ko" lang="ko">{project.roleKo}</span>}
                   </h2>
-                )}
-                {[project.team, project.timeline].filter(Boolean).length > 0 && (
-                  <p className="project-bilingual-line">
-                    {project.team && <span>Client: {project.team}</span>}
-                    {project.team && project.timeline && <span> · </span>}
-                    {project.timeline && <span>{project.timeline}</span>}
-                    {(localizedTeam || localizedTimeline) && (
-                      <span className="project-inline-ko" lang="ko">
-                        {localizedTeam && <span>클라이언트: {localizedTeam}</span>}
-                        {localizedTeam && localizedTimeline && <span> · </span>}
-                        {localizedTimeline && <span>{localizedTimeline}</span>}
-                      </span>
-                    )}
-                  </p>
                 )}
               </div>
             </div>
