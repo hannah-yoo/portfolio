@@ -583,9 +583,9 @@ All colors MUST be HSL.
 
 .collection-heading-copy {
   display: grid;
-  grid-template-columns: fit-content(55%) minmax(0, 1fr);
-  align-items: stretch;
-  gap: clamp(8px, 1.2vw, 16px);
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: clamp(6px, 0.8vw, 12px);
 }
 
 .collection-heading-copy > * {
@@ -602,12 +602,12 @@ All colors MUST be HSL.
 .collection-heading-copy .collection-description {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   grid-column: 2;
   grid-row: 1;
   max-width: 600px;
   font-size: 13px;
-  line-height: 1.05;
+  line-height: 1;
 }
 
 .collection-description {
@@ -1023,6 +1023,21 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 @media (min-width: 701px) and (max-width: 960px) {
   .portfolio-about {
     grid-template-columns: 1fr;
+  }
+
+  .collection-heading-copy {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+
+  .collection-heading-copy .portfolio-title,
+  .collection-heading-copy .collection-description {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .collection-heading-copy .collection-description {
+    line-height: 1.2;
   }
 }
 
