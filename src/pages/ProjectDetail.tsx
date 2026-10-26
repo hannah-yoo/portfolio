@@ -99,10 +99,90 @@ const ProjectDetail = () => {
           afterImage === imageCount && (description || descriptionKo)
       )
       .map((item, index) => (
-        <FadeIn key={`${imageCount}-${index}`}>
+        <FadeIn key={`${imageCount}-${index}`} className="portfolio-gallery-wide">
           <ProjectDescription description={item.description} descriptionKo={item.descriptionKo} />
         </FadeIn>
       ));
+  const galleryBlocks: Array<{
+    start: number;
+    end: number;
+    kind: "mosaic" | "slideshow" | "pair" | "single" | "skip";
+    imageIndexes?: number[];
+  }> = [];
+  const slideshowImageIndexes = new Set<number>();
+  for (let index = 0; index < media.length;) {
+    const image = media[index];
+    if (slideshowImageIndexes.has(index)) {
+      galleryBlocks.push({ start: index, end: index, kind: "skip" });
+      index++;
+      continue;
+    }
+    const groupStart = image.groupId
+      ? media.findIndex((item) => item.groupId === image.groupId)
+      : index;
+    const groupImages = image.groupId
+      ? media.filter((item) => item.groupId === image.groupId)
+      : [];
+    const groupEnd = groupStart + groupImages.length - 1;
+    const canRenderMosaic =
+      groupImages[0]?.layout === "mosaic-lead" &&
+      groupImages.length > 2 &&
+      !media
+        .slice(groupStart + 1, groupEnd + 1)
+        .some((_, offset) => hasDescriptionAfter(groupStart + offset + 1));
+
+    if (image.layout === "mosaic-tile" && canRenderMosaic) {
+      index++;
+      continue;
+    }
+
+    if (canRenderMosaic) {
+      galleryBlocks.push({ start: index, end: groupEnd, kind: "mosaic" });
+      index = groupEnd + 1;
+      continue;
+    }
+
+    const matchingRatioIndexes = [index];
+    const aspectRatio = image.aspectRatio;
+    if (aspectRatio) {
+      for (let candidateIndex = index + 1; candidateIndex < media.length; candidateIndex++) {
+        if (hasDescriptionAfter(candidateIndex - 1)) break;
+        const candidate = media[candidateIndex];
+        if (
+          candidate.layout === "single" &&
+          candidate.aspectRatio &&
+          Math.abs(candidate.aspectRatio - aspectRatio) < 0.01
+        ) {
+          matchingRatioIndexes.push(candidateIndex);
+          slideshowImageIndexes.add(candidateIndex);
+        }
+      }
+    }
+    if (matchingRatioIndexes.length > 1) {
+      galleryBlocks.push({
+        start: index,
+        end: index,
+        kind: "slideshow",
+        imageIndexes: matchingRatioIndexes,
+      });
+      index++;
+      continue;
+    }
+
+    const canPair =
+      image.width === "half" &&
+      media[index + 1]?.width === "half" &&
+      !hasDescriptionAfter(index + 1);
+    if (canPair) {
+      galleryBlocks.push({ start: index, end: index + 1, kind: "pair" });
+      index += 2;
+      continue;
+    }
+
+    galleryBlocks.push({ start: index, end: index, kind: "single" });
+    index++;
+  }
+
   return (
     <PageTransition>
       <div className="portfolio-shell">
@@ -185,94 +265,66 @@ const ProjectDetail = () => {
           <FadeInStagger staggerDelay={0.15}>
             <div className="portfolio-project-gallery">
               {descriptionsAfter(0)}
-              {media.map((image, index) => {
-                const nextImage = media[index + 1];
-                const isHalfWidth = image.width === "half";
-                const nextIsHalfWidth = nextImage?.width === "half";
-                const groupStart = image.groupId
-                  ? media.findIndex((item) => item.groupId === image.groupId)
-                  : index;
-                const groupImages = image.groupId
-                  ? media.filter((item) => item.groupId === image.groupId)
-                  : [];
-                const groupEnd = groupStart + groupImages.length - 1;
-                const canRenderMosaic =
-                  groupImages[0]?.layout === "mosaic-lead" &&
-                  groupImages.length > 2 &&
-                  !media
-                    .slice(groupStart + 1, groupEnd + 1)
-                    .some((_, offset) => hasDescriptionAfter(groupStart + offset + 1));
-                if (image.layout === "mosaic-tile" && canRenderMosaic) {
-                  return <Fragment key={image.id} />;
-                }
-                const isSecondOfPair =
-                  index > 0 &&
-                  media[index - 1]?.width === "half" &&
-                  isHalfWidth &&
-                  !hasDescriptionAfter(index);
-                const canPair =
-                  isHalfWidth &&
-                  nextIsHalfWidth &&
-                  !hasDescriptionAfter(index + 1);
-
+              {galleryBlocks.map(({ start, end, kind, imageIndexes }) => {
+                const blockImages = imageIndexes
+                  ? imageIndexes.map((imageIndex) => media[imageIndex])
+                  : media.slice(start, end + 1);
+                const firstImage = media[start];
                 return (
-                  <Fragment key={image.id}>
-                    {!isSecondOfPair && (
-                      canRenderMosaic ? (
-                        <FadeIn>
-                          <div
-                            className="portfolio-project-mosaic"
-                            style={{
-                              gridTemplateRows: `repeat(${groupImages.length - 1}, minmax(150px, 1fr))`,
-                            }}
-                          >
-                            {groupImages.map((groupImage, groupIndex) => (
-                              <ProjectImage
-                                key={groupImage.id}
-                                src={groupImage.url}
-                                alt={groupImage.alt}
-                                caption={groupImage.caption}
-                                figureClassName={
-                                  groupIndex === 0
-                                    ? "portfolio-project-mosaic-lead"
-                                    : "portfolio-project-mosaic-tile"
-                                }
-                                figureStyle={
-                                  groupIndex === 0
-                                    ? { gridRow: `span ${groupImages.length - 1}` }
-                                    : undefined
-                                }
-                                imageFit="cover"
-                              />
-                            ))}
-                          </div>
-                        </FadeIn>
-                      ) : canPair ? (
-                        <FadeIn>
-                          <div className="grid md:grid-cols-2 gap-6">
+                  <Fragment key={firstImage.id}>
+                    {kind === "skip" ? null : kind === "mosaic" ? (
+                      <FadeIn className="portfolio-gallery-wide">
+                        <div
+                          className="portfolio-project-mosaic"
+                          style={{
+                            gridTemplateRows: `repeat(${blockImages.length - 1}, minmax(150px, 1fr))`,
+                          }}
+                        >
+                          {blockImages.map((groupImage, groupIndex) => (
                             <ProjectImage
-                              src={image.url}
-                              alt={image.alt}
-                              caption={image.caption}
+                              key={groupImage.id}
+                              src={groupImage.url}
+                              alt={groupImage.alt}
+                              caption={groupImage.caption}
+                              figureClassName={
+                                groupIndex === 0
+                                  ? "portfolio-project-mosaic-lead"
+                                  : "portfolio-project-mosaic-tile"
+                              }
+                              figureStyle={
+                                groupIndex === 0
+                                  ? { gridRow: `span ${blockImages.length - 1}` }
+                                  : undefined
+                              }
+                              imageFit="cover"
                             />
-                            <ProjectImage
-                              src={nextImage.url}
-                              alt={nextImage.alt}
-                              caption={nextImage.caption}
-                            />
-                          </div>
-                        </FadeIn>
-                      ) : (
-                        <FadeIn>
+                          ))}
+                        </div>
+                      </FadeIn>
+                    ) : kind === "slideshow" ? (
+                      <FadeIn className="portfolio-gallery-item">
+                        <GallerySlideshow images={blockImages} />
+                      </FadeIn>
+                    ) : kind === "pair" ? (
+                      blockImages.map((pairImage) => (
+                        <FadeIn className="portfolio-gallery-item" key={pairImage.id}>
                           <ProjectImage
-                            src={image.url}
-                            alt={image.alt}
-                            caption={image.caption}
+                            src={pairImage.url}
+                            alt={pairImage.alt}
+                            caption={pairImage.caption}
                           />
                         </FadeIn>
-                      )
+                      ))
+                    ) : (
+                      <FadeIn className="portfolio-gallery-item">
+                        <ProjectImage
+                          src={firstImage.url}
+                          alt={firstImage.alt}
+                          caption={firstImage.caption}
+                        />
+                      </FadeIn>
                     )}
-                    {descriptionsAfter(canRenderMosaic ? groupEnd + 1 : index + 1)}
+                    {descriptionsAfter(end + 1)}
                   </Fragment>
                 );
               })}
@@ -359,6 +411,52 @@ const HeroSlideshow = ({ project }: { project: Project }) => {
         </motion.div>
       </AnimatePresence>
     </div>
+  );
+};
+
+const GallerySlideshow = ({
+  images,
+}: {
+  images: Project["images"];
+}) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(images[0]?.aspectRatio ?? 16 / 9);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (prefersReducedMotion || images.length < 2) return;
+    const intervalId = window.setInterval(
+      () => setActiveIndex((index) => (index + 1) % images.length),
+      1500
+    );
+    return () => window.clearInterval(intervalId);
+  }, [images.length, prefersReducedMotion]);
+
+  const image = images[activeIndex];
+  return (
+    <figure className="portfolio-gallery-slideshow">
+      <div className="project-hero-slideshow" style={{ aspectRatio }}>
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={image.id}
+            className="project-hero-slide"
+            initial={prefersReducedMotion ? false : { x: "8%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={prefersReducedMotion ? undefined : { x: "-8%", opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          >
+            <ProjectImageFrame
+              src={resolveAssetUrl(image.url)}
+              alt={image.alt}
+              onDimensionsLoad={({ width, height }) => {
+                if (width > 0 && height > 0) setAspectRatio(width / height);
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      {image.caption && <figcaption>{image.caption}</figcaption>}
+    </figure>
   );
 };
 

@@ -151,6 +151,10 @@ const extractImages = (value, projectSlug, groupId) => {
           : rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
       width: item.layoutWidth || "full",
+      aspectRatio:
+        typeof item === "object" && item.width > 0 && item.height > 0
+          ? item.width / item.height
+          : undefined,
       groupId,
       layout: item.layout || "single",
     });

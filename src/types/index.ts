@@ -23,6 +23,7 @@ export interface ProjectImage {
   url: string;
   alt: string;
   width: "full" | "half";
+  aspectRatio?: number;
   groupId?: string;
   layout?: "single" | "mosaic-lead" | "mosaic-tile";
   caption?: string;

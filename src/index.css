@@ -273,7 +273,7 @@ All colors MUST be HSL.
 
 .portfolio-ruler {
   position: relative;
-  height: 12px;
+  height: 16px;
   background-image: repeating-linear-gradient(
     90deg,
     #b8b8b8 0 1px,
@@ -282,12 +282,26 @@ All colors MUST be HSL.
   background-position-x: var(--ruler-tick-offset, 50%);
 }
 
+.portfolio-ruler::before {
+  position: absolute;
+  z-index: 1;
+  top: 4px;
+  left: var(--ruler-indicator-position, 50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #111;
+  content: "";
+  transform: translateX(-50%);
+  transition: left 320ms ease;
+}
+
 .portfolio-ruler::after {
   position: absolute;
   top: 0;
   left: var(--ruler-indicator-position, 50%);
   width: 1px;
-  height: 48px;
+  height: 16px;
   background: #111;
   content: "";
   transform: translateX(-50%);
@@ -571,7 +585,7 @@ All colors MUST be HSL.
   display: grid;
   grid-template-columns: fit-content(55%) minmax(0, 1fr);
   align-items: stretch;
-  gap: clamp(24px, 4vw, 64px);
+  gap: clamp(8px, 1.2vw, 16px);
 }
 
 .collection-heading-copy > * {
@@ -592,13 +606,12 @@ All colors MUST be HSL.
   grid-column: 2;
   grid-row: 1;
   max-width: 600px;
-  line-height: 1.2;
+  font-size: 13px;
+  line-height: 1.05;
 }
 
 .collection-description {
   color: #777;
-  font-size: 14px;
-  line-height: 1.55;
 }
 
 .collection-description p {
@@ -746,9 +759,8 @@ All colors MUST be HSL.
 }
 
 .portfolio-project-hero {
-  width: min(100%, 960px);
-  margin: 34px 0 48px;
-  margin-inline: auto;
+  width: 100%;
+  margin: 28px 0 32px;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
@@ -772,8 +784,7 @@ All colors MUST be HSL.
 }
 
 main.portfolio-project > .portfolio-project-gallery {
-  width: min(100%, 960px);
-  margin-inline: auto;
+  width: 100%;
 }
 
 .portfolio-project-copy {
@@ -802,15 +813,39 @@ main.portfolio-project > .portfolio-project-gallery {
 }
 
 .portfolio-project-gallery {
+  margin-top: 24px;
+}
+
+main.portfolio-project > section.portfolio-project-gallery {
+  display: block;
+}
+
+main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
   display: grid;
-  gap: 28px;
-  margin-top: 36px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 18px;
 }
 
 .portfolio-project-mosaic {
   display: grid;
+  grid-column: 1 / -1;
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: 16px;
+}
+
+.portfolio-gallery-item {
+  min-width: 0;
+}
+
+.portfolio-gallery-wide {
+  grid-column: 1 / -1;
+}
+
+.portfolio-gallery-slideshow .project-hero-slideshow {
+  width: 100%;
+  border: 1px solid #eee;
+  border-radius: 18px;
 }
 
 .portfolio-project-mosaic figure {
@@ -856,6 +891,12 @@ main.portfolio-project > .portfolio-project-gallery {
   border-radius: 24px;
 }
 
+.portfolio-gallery-slideshow figcaption {
+  margin-top: 10px;
+  color: #777;
+  font-size: 13px;
+}
+
 .portfolio-project-gallery figcaption {
   margin-top: 10px;
   color: #777;
@@ -873,8 +914,8 @@ main.portfolio-project > .portfolio-project-gallery {
 }
 
 .portfolio-project-medium {
-  width: min(100%, 960px);
-  margin: -30px auto 40px;
+  width: 100%;
+  margin: -20px 0 28px;
   color: #777;
   font-size: 13px;
 }
@@ -885,7 +926,7 @@ main.portfolio-project > .portfolio-project-gallery {
   align-items: baseline;
   column-gap: 0.55em;
   row-gap: 2px;
-  max-width: 960px;
+  max-width: 100%;
   margin: 12px 0 0;
   color: #555;
   font-size: 14px;
@@ -1046,12 +1087,14 @@ main.portfolio-project > .portfolio-project-gallery {
 
   .collection-heading-copy {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
   }
 
   .collection-heading-copy .collection-description {
     justify-content: flex-start;
     gap: 4px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .collection-heading-copy .portfolio-title,
@@ -1064,8 +1107,17 @@ main.portfolio-project > .portfolio-project-gallery {
     margin-bottom: 22px;
   }
 
-  .collection-description {
-    font-size: 13px;
+  main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .portfolio-project-mosaic {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .portfolio-project-mosaic-lead {
+    grid-row: auto !important;
   }
 
   .work-grid {

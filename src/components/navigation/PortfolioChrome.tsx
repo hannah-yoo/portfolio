@@ -24,29 +24,30 @@ export const PortfolioHeader = () => {
     const ruler = rulerRef.current;
     if (!nav || !activeLink || !ruler) return;
 
-    const navBounds = nav.getBoundingClientRect();
-    const linkBounds = activeLink.getBoundingClientRect();
-    if (linkBounds.left < navBounds.left) {
-      nav.scrollLeft += linkBounds.left - navBounds.left;
-    } else if (linkBounds.right > navBounds.right) {
-      nav.scrollLeft += linkBounds.right - navBounds.right;
-    }
-
     const updateRuler = () => {
-      const currentNavBounds = nav.getBoundingClientRect();
-      const currentLinkBounds = activeLink.getBoundingClientRect();
+      const navBounds = nav.getBoundingClientRect();
+      const linkBounds = activeLink.getBoundingClientRect();
+      if (linkBounds.left < navBounds.left) {
+        nav.scrollLeft += linkBounds.left - navBounds.left;
+      } else if (linkBounds.right > navBounds.right) {
+        nav.scrollLeft += linkBounds.right - navBounds.right;
+      }
+
+      const updatedLinkBounds = activeLink.getBoundingClientRect();
+      const rulerBounds = ruler.getBoundingClientRect();
       const markerPosition =
-        currentLinkBounds.left - currentNavBounds.left + currentLinkBounds.width / 2;
+        updatedLinkBounds.left + updatedLinkBounds.width / 2 - rulerBounds.left;
       ruler.style.setProperty("--ruler-indicator-position", `${markerPosition}px`);
-      ruler.style.setProperty("--ruler-tick-offset", `${markerPosition}px`);
+      ruler.style.setProperty("--ruler-tick-offset", `${markerPosition % 8}px`);
     };
 
-    updateRuler();
+    requestAnimationFrame(updateRuler);
     nav.addEventListener("scroll", updateRuler, { passive: true });
     window.addEventListener("resize", updateRuler);
     const observer = new ResizeObserver(updateRuler);
     observer.observe(nav);
     observer.observe(activeLink);
+    observer.observe(ruler);
 
     return () => {
       nav.removeEventListener("scroll", updateRuler);
@@ -60,13 +61,13 @@ export const PortfolioHeader = () => {
       <div ref={rulerRef} className="portfolio-ruler" aria-hidden="true" />
       <nav ref={navRef} className="portfolio-nav" aria-label="Primary navigation">
         <LayoutGroup id="portfolio-navigation">
-          {navigation.map((item) => {
-            const isActive = activePath === item.to;
+          {navigation.map(({ label, to }) => {
+            const isActive = activePath === to;
 
             return (
               <Link
-                key={item.to}
-                to={item.to}
+                key={to}
+                to={to}
                 className="portfolio-nav-link"
                 aria-current={isActive ? "page" : undefined}
                 ref={isActive ? activeLinkRef : undefined}
@@ -83,7 +84,7 @@ export const PortfolioHeader = () => {
                     aria-hidden="true"
                   />
                 )}
-                <span className="portfolio-nav-label">{item.label}</span>
+                <span className="portfolio-nav-label">{label}</span>
               </Link>
             );
           })}
