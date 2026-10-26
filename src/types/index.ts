@@ -30,6 +30,14 @@ export interface ProjectImage {
 
 export type ProjectCategory = "fine-arts" | "design" | "photography-video";
 
+export interface CollectionContent {
+  category: ProjectCategory;
+  title: string;
+  titleKo?: string;
+  description: string;
+  descriptionKo?: string;
+}
+
 export interface Project {
   id: string;
   slug: string;
@@ -66,6 +74,7 @@ export interface Project {
   tags?: string[];
   medium?: string[];
   mediumKo?: string[];
+  heroSlideshowImages?: ProjectImage[];
 }
 
 export interface Testimonial {

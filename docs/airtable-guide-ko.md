@@ -33,6 +33,8 @@
 
 한 이미지 필드 칸에 첨부파일을 두 개 넣으면 첨부 순서대로 왼쪽·오른쪽에 나란히 표시한다. 한 개만 넣으면 전체 너비로 표시한다. 세 개 이상이면 첫 이미지를 크게 왼쪽에 두고 나머지를 오른쪽에 세로 타일로 쌓는다. 각 타일은 첨부 순서를 따른다. Markdown 접두사나 `**` 표시는 위치나 레이아웃을 제어하지 않는다.
 
+상세 페이지 대표 이미지와 화면 비율이 같은 `image 2`–`image 10` 사진은 대표 이미지 영역에서 1.5초 간격으로 자동 전환한다. 비율이 다른 사진은 자동 전환에서 제외하고 상세 이미지로만 표시한다.
+
 `top description`은 대표 이미지 뒤, `middle description`은 상세 이미지 가운데, `bottom description`은 마지막 이미지 뒤에 표시한다.
 
 `client`와 `medium`의 한국어 값은 각각 `client ko`, `medium ko`에 입력한다. 사이트는 이 값을 영어 값 아래에 표시한다. 클라이언트 접두어는 표시하지 않는다. 개인 작업, 개인 외주, 협업은 Airtable `client` 필드에 적은 이름이나 설명만 표시한다.
@@ -52,8 +54,8 @@
 | 필드 | Airtable 유형 | 용도 |
 | --- | --- | --- |
 | `order` | 긴 텍스트 | CV 항목 순서. 숫자를 입력 |
-| `year` | 긴 텍스트 | 연도 또는 기간 |
-| `project` | 서식 있는 텍스트 | 영문 활동명 |
+| `project term` | 긴 텍스트 | 연도 또는 기간 |
+| `project name` | 서식 있는 텍스트 | 영문 활동명 |
 | `project ko` | 서식 있는 텍스트 | 한국어 활동명 |
 | `organization` | 긴 텍스트 | 회사, 학교, 기관 |
 | `organization ko` | 긴 텍스트 | 한국어 회사, 학교, 기관 |
@@ -62,19 +64,27 @@
 | `postscript` | 긴 텍스트 | 영문 추가 소개 |
 | `postscript ko` | 긴 텍스트 | 한국어 추가 소개 |
 
-`order`가 작은 항목부터 표시한다. 비어 있는 행은 표시하지 않는다.
+`order`가 작은 항목부터 표시한다. 비어 있는 행은 표시하지 않는다. 기존 `year`와 `project` 열은 Airtable AI로 이름을 바꾸고, 기존 값을 보존한다.
 
 ## 소개 테이블: `intro`
 
-소개글은 한 행에서 관리한다.
+소개글과 세 분야 문구는 한 행에서 관리한다.
 
 | 필드 | Airtable 유형 | 용도 |
 | --- | --- | --- |
 | `intro` | 긴 텍스트 | 영문 프로필 소개 |
 | `intro ko` | 긴 텍스트 | 한국어 프로필 소개 |
 | `postscript ko` | 긴 텍스트 | 한국어 추가 소개 |
+| `design title` / `design title ko` | 한 줄 텍스트 | Design 분야 제목 |
+| `design description` / `design description ko` | 긴 텍스트 | Design 분야 설명 |
+| `fine arts title` / `fine arts title ko` | 한 줄 텍스트 | Fine Arts 분야 제목 |
+| `fine arts description` / `fine arts description ko` | 긴 텍스트 | Fine Arts 분야 설명 |
+| `photography video title` / `photography video title ko` | 한 줄 텍스트 | Photography & Video 분야 제목 |
+| `photography video description` / `photography video description ko` | 긴 텍스트 | Photography & Video 분야 설명 |
 
 영문 `postscript`는 `cv` 테이블의 `postscript` 필드에서 읽는다.
+분야 문구 필드가 Airtable에 생기기 전까지는 현재 문구를 유지한다.
+분야 페이지는 영어 제목 왼쪽, 영어·한국어 설명 오른쪽에 표시한다. 문구를 바꾸려면 `intro` 행의 해당 분야 필드를 수정한다.
 
 ## 분야 페이지 문구
 

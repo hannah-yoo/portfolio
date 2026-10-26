@@ -5,9 +5,9 @@ import { PageTransition } from "@/components/animations/PageTransition";
 import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
 import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 import { getAllProjects, loadProjects } from "@/data/projects";
-import collections from "@/data/airtable-collections.json";
 import { Project } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
+import { getCollections } from "@/data/projects";
 
 type CollectionKind = "design" | "fine-arts" | "photography-video";
 
@@ -43,15 +43,15 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
         )}
         <div className="work-card-caption">
           <div>
-            <h2>{project.title}</h2>
-            {project.titleKo && <p lang="ko">{project.titleKo}</p>}
-            {project.subtitle && <p>{project.subtitle}</p>}
-            {project.subtitleKo && <p lang="ko">{project.subtitleKo}</p>}
-            {project.medium && project.medium.length > 0 && (
-              <p className="work-card-medium">{project.medium.join(" · ")}</p>
-            )}
-            {project.mediumKo && project.mediumKo.length > 0 && (
-              <p className="work-card-medium" lang="ko">{project.mediumKo.join(" · ")}</p>
+            <h2 className="project-bilingual-line">
+              <span>{project.title}</span>
+              {project.titleKo && <span className="project-inline-ko" lang="ko">{project.titleKo}</span>}
+            </h2>
+            {(project.subtitle || project.subtitleKo) && (
+              <p className="project-bilingual-line">
+                {project.subtitle && <span>{project.subtitle}</span>}
+                {project.subtitleKo && <span className="project-inline-ko" lang="ko">{project.subtitleKo}</span>}
+              </p>
             )}
           </div>
           <span>{project.year}</span>
@@ -64,7 +64,7 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
 const Collection = ({ kind }: CollectionProps) => {
   const [projects, setProjects] = useState<Project[]>(getAllProjects());
   const prefersReducedMotion = useReducedMotion();
-  const details = collections.find((collection) => collection.category === kind);
+  const details = getCollections().find((collection) => collection.category === kind);
 
   useEffect(() => {
     let active = true;

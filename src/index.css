@@ -273,7 +273,7 @@ All colors MUST be HSL.
 
 .portfolio-ruler {
   position: relative;
-  height: 20px;
+  height: 12px;
   background-image: repeating-linear-gradient(
     90deg,
     transparent 0 12px,
@@ -298,13 +298,14 @@ All colors MUST be HSL.
   align-items: center;
   flex-wrap: wrap;
   gap: clamp(12px, 4vw, 48px);
-  padding: 18px 0;
+  padding: 12px 0;
   font-family: "IBM Plex Sans", Inter, sans-serif;
   letter-spacing: normal;
 }
 
 .portfolio-nav-link {
   position: relative;
+  flex: 0 0 auto;
   isolation: isolate;
   border-radius: 999px;
   padding: 8px 14px;
@@ -371,6 +372,24 @@ All colors MUST be HSL.
   font-size: 0.58em;
   font-weight: 400;
   letter-spacing: -0.03em;
+}
+
+.project-title-bilingual .project-inline-ko {
+  color: #777;
+  font-size: 0.58em;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.project-bilingual-line {
+  display: block;
+}
+
+.project-inline-ko {
+  margin-inline-start: 0.55em;
+  color: #777;
+  font-size: 0.94em;
+  font-weight: 400;
 }
 
 .bilingual-secondary {
@@ -542,26 +561,32 @@ All colors MUST be HSL.
 }
 
 .portfolio-page-heading {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
-  align-items: center;
-  gap: 24px;
+  display: block;
   margin-bottom: 26px;
 }
 
-.portfolio-page-heading .portfolio-title {
+.collection-heading-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.48fr);
+  align-items: baseline;
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.collection-heading-copy > * {
+  min-width: 0;
+}
+
+.collection-heading-copy .portfolio-title {
+  grid-column: 1;
+  grid-row: 1;
   margin: 0;
 }
 
-.collection-heading-copy {
-  display: contents;
-}
-
-.collection-heading-copy .portfolio-title span {
-  color: #777;
-  font-size: 0.58em;
-  font-weight: 400;
-  white-space: nowrap;
+.collection-heading-copy .collection-description {
+  display: grid;
+  grid-column: 2;
+  grid-row: 1;
+  gap: 4px;
 }
 
 .collection-description {
@@ -638,6 +663,10 @@ All colors MUST be HSL.
   line-height: 1.5;
 }
 
+.work-card-caption .project-inline-ko {
+  font-size: 0.9em;
+}
+
 .work-card-caption > span {
   color: #777;
   font-size: 13px;
@@ -711,6 +740,23 @@ All colors MUST be HSL.
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
+}
+
+.project-hero-slideshow {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-hero-slide > div {
+  width: 100%;
+  height: 100%;
 }
 
 main.portfolio-project > .portfolio-project-gallery {
@@ -815,7 +861,8 @@ main.portfolio-project > .portfolio-project-gallery {
 }
 
 .portfolio-project-medium {
-  margin: 10px 0 0;
+  width: min(100%, 960px);
+  margin: -30px auto 40px;
   color: #777;
   font-size: 13px;
 }
@@ -914,7 +961,7 @@ main.portfolio-project > .portfolio-project-gallery {
     justify-content: flex-start;
     flex-wrap: nowrap;
     gap: 4px;
-    padding: 14px 0;
+    padding: 10px 0;
     overflow-x: auto;
     scrollbar-width: none;
   }
@@ -953,9 +1000,32 @@ main.portfolio-project > .portfolio-project-gallery {
     font-size: clamp(34px, 10vw, 44px);
   }
 
-  .portfolio-page-heading {
+  .collection-heading-copy .portfolio-title {
+    max-width: 100%;
+    font-size: clamp(28px, 9vw, 38px);
+    line-height: 1.08;
+    overflow-wrap: normal;
+  }
+
+  .project-title-bilingual .project-inline-ko,
+  .work-card-caption h2 .project-inline-ko {
+    display: block;
+    margin-inline-start: 0;
+    margin-top: 0.12em;
+  }
+
+  .collection-heading-copy {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .collection-heading-copy .portfolio-title,
+  .collection-heading-copy .collection-description {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .portfolio-page-heading {
     margin-bottom: 22px;
   }
 
@@ -988,6 +1058,11 @@ main.portfolio-project > .portfolio-project-gallery {
 
   .portfolio-project-copy {
     padding: 24px 0;
+  }
+
+  .portfolio-project-medium {
+    margin-top: -20px;
+    margin-bottom: 32px;
   }
 
   .portfolio-project-meta {

@@ -31,6 +31,7 @@ const baseId = process.env.AIRTABLE_BASE_ID || "app1rO1j6Asf3Ltjp";
 const tableName = process.env.AIRTABLE_TABLE_NAME || "collections";
 const airtableViewId = process.env.AIRTABLE_VIEW_ID || "viwraXnT87X1NKzpC";
 const outputPath = path.join(rootDir, "src", "data", "airtable-projects.json");
+const collectionsOutputPath = path.join(rootDir, "src", "data", "airtable-collections.json");
 const cvTableName = process.env.AIRTABLE_CV_TABLE_NAME || "cv";
 const cvOutputPath = path.join(rootDir, "src", "data", "airtable-cv.json");
 const introTableName = process.env.AIRTABLE_INTRO_TABLE_NAME || "intro";
@@ -121,8 +122,8 @@ const cvFieldAliases = {
   postscript: ["postscript", "ps", "post script"],
   postscriptKo: ["postscript ko", "postscript korean", "korean postscript", "추가 소개 한국어"],
   order: ["order", "sort", "순서"],
-  year: ["year", "period", "연도", "기간"],
-  title: ["title", "project", "role", "position", "degree", "활동", "직함", "학위"],
+  year: ["project term", "year", "period", "연도", "기간"],
+  title: ["project name", "project", "title", "role", "position", "degree", "활동", "직함", "학위"],
   titleKo: ["title ko", "project ko", "title korean", "korean title", "직함 한국어", "활동 한국어"],
   organization: ["organization", "company", "school", "client", "기관", "회사", "학교"],
   organizationKo: ["organization ko", "organization korean", "korean organization", "기관 한국어"],
@@ -209,20 +210,46 @@ const normalizeCvRecords = (records) => {
   };
 };
 
-const normalizeIntroRecords = (records) => {
+const collectionFields = [
+  { category: "design", field: "title", aliases: ["design title"] },
+  { category: "design", field: "titleKo", aliases: ["design title ko"] },
+  { category: "design", field: "description", aliases: ["design description"] },
+  { category: "design", field: "descriptionKo", aliases: ["design description ko"] },
+  { category: "fine-arts", field: "title", aliases: ["fine arts title"] },
+  { category: "fine-arts", field: "titleKo", aliases: ["fine arts title ko"] },
+  { category: "fine-arts", field: "description", aliases: ["fine arts description"] },
+  { category: "fine-arts", field: "descriptionKo", aliases: ["fine arts description ko"] },
+  { category: "photography-video", field: "title", aliases: ["photography video title"] },
+  { category: "photography-video", field: "titleKo", aliases: ["photography video title ko"] },
+  { category: "photography-video", field: "description", aliases: ["photography video description"] },
+  { category: "photography-video", field: "descriptionKo", aliases: ["photography video description ko"] },
+];
+
+const normalizeIntroRecords = (records, fallbackCollections) => {
   let intro = "";
   let introKo = "";
   let postscript = "";
   let postscriptKo = "";
+  const collections = structuredClone(fallbackCollections);
+  let hasCollectionFields = false;
 
   for (const { fields = {} } of records) {
     intro ||= asText(findField(fields, cvFieldAliases.intro));
     introKo ||= asText(findField(fields, cvFieldAliases.introKo));
     postscript ||= asText(findField(fields, cvFieldAliases.postscript));
     postscriptKo ||= asText(findField(fields, cvFieldAliases.postscriptKo));
+    for (const config of collectionFields) {
+      const matchingField = Object.keys(fields).find((name) =>
+        config.aliases.includes(normalizeKey(name))
+      );
+      if (!matchingField) continue;
+      hasCollectionFields = true;
+      collections.find((item) => item.category === config.category)[config.field] =
+        asText(fields[matchingField]);
+    }
   }
 
-  return { intro, introKo, postscript, postscriptKo };
+  return { intro, introKo, postscript, postscriptKo, collections: hasCollectionFields ? collections : fallbackCollections };
 };
 
 const normalizeRecord = async ({ id, fields }) => {
@@ -281,6 +308,26 @@ const normalizeRecord = async ({ id, fields }) => {
     heroImage = images[0].url;
     heroThumbnail = images[0].thumbnailUrl || "";
   }
+  const heroAttachment = Array.isArray(heroValue) ? heroValue[0] : heroValue;
+  const heroSlideshowImages = heroAttachment?.width && heroAttachment?.height
+    ? numberedImages
+        .flatMap(({ value }) => Array.isArray(value) ? value : value ? [value] : [])
+        .filter(
+          (attachment) =>
+            attachment?.url &&
+            Math.abs(
+              attachment.width / attachment.height -
+              heroAttachment.width / heroAttachment.height
+            ) < 0.01
+        )
+        .map((attachment, index) => ({
+          id: `${slug}-hero-slide-${index + 1}`,
+          url: attachment.url,
+          alt: attachment.filename || title,
+          width: "full",
+          layout: "single",
+        }))
+    : [];
 
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
   if (["engineering", "broadcast", "broadcasts"].includes(categoryRaw.trim())) return null;
@@ -336,6 +383,7 @@ const normalizeRecord = async ({ id, fields }) => {
     heroThumbnail,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
+    heroSlideshowImages,
     tags: asText(findField(fields, fieldAliases.tags))
       .split(",")
       .map((tag) => tag.trim())
@@ -466,7 +514,12 @@ async function syncAirtable() {
           introOffset = introPayload.offset;
         } while (introOffset);
 
-        introContent = normalizeIntroRecords(introRecords);
+        const fallbackCollections = JSON.parse(await readFile(collectionsOutputPath, "utf8"));
+        introContent = normalizeIntroRecords(introRecords, fallbackCollections);
+        await writeFile(
+          collectionsOutputPath,
+          `${JSON.stringify(introContent.collections, null, 2)}\n`
+        );
         console.log(`✅ [Sync] Successfully synced intro from ${introTableName}`);
       } catch (introError) {
         console.warn(`⚠️  [Sync] Could not sync intro table ${introTableName}: ${introError.message}`);

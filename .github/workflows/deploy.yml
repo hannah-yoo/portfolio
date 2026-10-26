@@ -40,6 +40,7 @@ jobs:
           PORTFOLIO_TOKEN: ${{ secrets.PORTFOLIO_TOKEN || secrets.AIRTABLE_API_KEY || secrets.AIRTABLE_TOKEN }}
           BASE_URL: /portfolio/
           AIRTABLE_TABLE_NAME: collections
+          AIRTABLE_VIEW_ID: viwraXnT87X1NKzpC
           AIRTABLE_CV_TABLE_NAME: cv
           AIRTABLE_INTRO_TABLE_NAME: intro
 

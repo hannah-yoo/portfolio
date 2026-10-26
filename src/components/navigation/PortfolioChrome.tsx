@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LayoutGroup, motion, useReducedMotion } from "framer-motion";
 import { designer } from "@/data/designer";
@@ -13,10 +14,27 @@ export const PortfolioHeader = () => {
   const { pathname } = useLocation();
   const activePath = pathname === "/about" || pathname === "/cv" ? "/" : pathname;
   const prefersReducedMotion = useReducedMotion();
+  const navRef = useRef<HTMLElement>(null);
+  const activeLinkRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    const activeLink = activeLinkRef.current;
+    if (!nav || !activeLink) return;
+
+    const navBounds = nav.getBoundingClientRect();
+    const linkBounds = activeLink.getBoundingClientRect();
+    if (linkBounds.left < navBounds.left) {
+      nav.scrollLeft += linkBounds.left - navBounds.left;
+    } else if (linkBounds.right > navBounds.right) {
+      nav.scrollLeft += linkBounds.right - navBounds.right;
+    }
+  }, [activePath]);
 
   return (
     <header className="portfolio-header">
-      <nav className="portfolio-nav" aria-label="Primary navigation">
+      <div className="portfolio-ruler" aria-hidden="true" />
+      <nav ref={navRef} className="portfolio-nav" aria-label="Primary navigation">
         <LayoutGroup id="portfolio-navigation">
           {navigation.map((item) => {
             const isActive = activePath === item.to;
@@ -27,6 +45,7 @@ export const PortfolioHeader = () => {
                 to={item.to}
                 className="portfolio-nav-link"
                 aria-current={isActive ? "page" : undefined}
+                ref={isActive ? activeLinkRef : undefined}
               >
                 {isActive && (
                   <motion.span
@@ -46,7 +65,6 @@ export const PortfolioHeader = () => {
           })}
         </LayoutGroup>
       </nav>
-      <div className="portfolio-ruler" aria-hidden="true" />
     </header>
   );
 };

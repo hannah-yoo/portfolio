@@ -1,5 +1,6 @@
 import { Project, ProjectImage } from "@/types";
 import airtableProjects from "./airtable-projects.json";
+import airtableCollections from "./airtable-collections.json";
 
 const normalizeImageWidth = (width: string): ProjectImage["width"] => {
   if (width === "full" || width === "half") return width;
@@ -73,3 +74,5 @@ export const getNextProject = (currentSlug: string): Project | null => {
   }
   return projects[currentIndex + 1];
 };
+
+export const getCollections = () => airtableCollections;

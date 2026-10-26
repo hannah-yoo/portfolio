@@ -1,5 +1,6 @@
 import { Fragment, type CSSProperties } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getAllProjects, getNextProject, loadProjects } from "@/data/projects";
@@ -38,7 +39,6 @@ const ProjectDetail = () => {
 
   const project = slug ? projects.find((item) => item.slug === slug) : undefined;
   const nextProject = slug ? getNextProject(slug) : null;
-  const [heroAspectRatio, setHeroAspectRatio] = useState(16 / 9);
 
   if (!project && isLoading) {
     return (
@@ -105,17 +105,15 @@ const ProjectDetail = () => {
         <main id="main-content" className="portfolio-project">
           <FadeIn>
             {project.year && <p className="portfolio-eyebrow">{project.year}</p>}
-            <h1 className="portfolio-title">
+            <h1 className="portfolio-title project-title-bilingual">
               {project.title}
-              {project.titleKo && <span className="bilingual-secondary" lang="ko">{project.titleKo}</span>}
+              {project.titleKo && <span className="project-inline-ko" lang="ko">{project.titleKo}</span>}
             </h1>
-            {project.subtitle && <p className="portfolio-lede">{project.subtitle}</p>}
-            {project.subtitleKo && <p className="bilingual-secondary" lang="ko">{project.subtitleKo}</p>}
-            {project.medium && project.medium.length > 0 && (
-              <p className="portfolio-project-medium">{project.medium.join(" · ")}</p>
-            )}
-            {project.mediumKo && project.mediumKo.length > 0 && (
-              <p className="portfolio-project-medium" lang="ko">{project.mediumKo.join(" · ")}</p>
+            {(project.subtitle || project.subtitleKo) && (
+              <p className="portfolio-lede project-bilingual-line">
+                {project.subtitle && <span>{project.subtitle}</span>}
+                {project.subtitleKo && <span className="project-inline-ko" lang="ko">{project.subtitleKo}</span>}
+              </p>
             )}
             {project.externalUrl && (
               <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
@@ -128,17 +126,17 @@ const ProjectDetail = () => {
           {project.heroImage && (
             <section className="portfolio-project-hero">
               <FadeIn>
-                <div style={{ aspectRatio: heroAspectRatio }}>
-                  <ProjectImageFrame
-                    src={resolveAssetUrl(project.heroImage)}
-                    alt={`${project.title} hero image`}
-                    onDimensionsLoad={({ width, height }) => {
-                      if (width > 0 && height > 0) setHeroAspectRatio(width / height);
-                    }}
-                  />
-                </div>
+                <HeroSlideshow project={project} />
               </FadeIn>
             </section>
+          )}
+          {(project.medium?.length || project.mediumKo?.length) && (
+            <p className="portfolio-project-medium project-bilingual-line">
+              {project.medium && project.medium.length > 0 && <span>{project.medium.join(" · ")}</span>}
+              {project.mediumKo?.length ? (
+                <span className="project-inline-ko" lang="ko">{project.mediumKo.join(" · ")}</span>
+              ) : null}
+            </p>
           )}
 
         {/* Project details */}
@@ -146,14 +144,24 @@ const ProjectDetail = () => {
           <FadeIn>
             <div className="portfolio-project-meta">
               <div>
-                {project.role && <h2>{project.role.split(",")[0]}</h2>}
-                {project.roleKo && <p lang="ko">{project.roleKo}</p>}
-                {[project.team, project.timeline].filter(Boolean).length > 0 && (
-                  <p>{[project.team, project.timeline].filter(Boolean).join(" · ")}</p>
+                {(project.role || project.roleKo) && (
+                  <h2 className="project-bilingual-line">
+                    {project.role && <span>{project.role.split(",")[0]}</span>}
+                    {project.roleKo && <span className="project-inline-ko" lang="ko">{project.roleKo}</span>}
+                  </h2>
                 )}
-                {(localizedTeam || localizedTimeline) && (
-                  <p lang="ko">
-                    {[localizedTeam, localizedTimeline].filter(Boolean).join(" · ")}
+                {[project.team, project.timeline].filter(Boolean).length > 0 && (
+                  <p className="project-bilingual-line">
+                    {project.team && <span>Client: {project.team}</span>}
+                    {project.team && project.timeline && <span> · </span>}
+                    {project.timeline && <span>{project.timeline}</span>}
+                    {(localizedTeam || localizedTimeline) && (
+                      <span className="project-inline-ko" lang="ko">
+                        {localizedTeam && <span>클라이언트: {localizedTeam}</span>}
+                        {localizedTeam && localizedTimeline && <span> · </span>}
+                        {localizedTimeline && <span>{localizedTimeline}</span>}
+                      </span>
+                    )}
                   </p>
                 )}
               </div>
@@ -288,10 +296,60 @@ const ProjectDescription = ({
   descriptionKo?: string;
 }) => (
   <div className="portfolio-project-gallery-description">
-    {description && <p className="portfolio-project-description">{description}</p>}
-    {descriptionKo && <p className="portfolio-project-description" lang="ko">{descriptionKo}</p>}
+    {(description || descriptionKo) && (
+      <p className="portfolio-project-description">
+        {description && <span>{description}</span>}
+        {descriptionKo && <span className="project-inline-ko" lang="ko">{descriptionKo}</span>}
+      </p>
+    )}
   </div>
 );
+
+const HeroSlideshow = ({ project }: { project: Project }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
+  const prefersReducedMotion = useReducedMotion();
+  const slides = [
+    { id: `${project.slug}-hero`, url: project.heroImage, alt: `${project.title} hero image` },
+    ...(project.heroSlideshowImages ?? []).map((image) => ({
+      id: image.id,
+      url: image.url,
+      alt: image.alt,
+    })),
+  ];
+
+  useEffect(() => {
+    if (prefersReducedMotion || slides.length < 2) return;
+    const intervalId = window.setInterval(
+      () => setActiveIndex((index) => (index + 1) % slides.length),
+      1500
+    );
+    return () => window.clearInterval(intervalId);
+  }, [prefersReducedMotion, slides.length]);
+
+  return (
+    <div className="project-hero-slideshow" style={{ aspectRatio }}>
+      <AnimatePresence initial={false} mode="sync">
+        <motion.div
+          key={slides[activeIndex].id}
+          className="project-hero-slide"
+          initial={prefersReducedMotion ? false : { x: "8%", opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={prefersReducedMotion ? undefined : { x: "-8%", opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        >
+          <ProjectImageFrame
+            src={resolveAssetUrl(slides[activeIndex].url)}
+            alt={slides[activeIndex].alt}
+            onDimensionsLoad={({ width, height }) => {
+              if (width > 0 && height > 0) setAspectRatio(width / height);
+            }}
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+};
 
 /**
  * Project image with a full-image fit and lazy loading.
