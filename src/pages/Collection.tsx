@@ -33,7 +33,7 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
         {project.heroImage && (
           <div className="work-image" style={{ aspectRatio: imageAspectRatio }}>
             <ProjectImageFrame
-              src={resolveAssetUrl(project.heroThumbnail || project.heroImage)}
+              src={resolveAssetUrl(project.heroImage)}
               alt={project.title}
               onDimensionsLoad={({ width, height }) => {
                 if (width > 0 && height > 0) setImageAspectRatio(width / height);

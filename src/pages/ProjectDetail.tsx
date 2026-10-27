@@ -55,7 +55,8 @@ const ProjectDetail = () => {
     return <Navigate to="/404" replace />;
   }
 
-  const media = project.images ?? [];
+  const projectWithLimitedGifs = limitDetailGifs(project);
+  const media = projectWithLimitedGifs.images ?? [];
   const localizedTeam = project.teamKo !== project.team ? project.teamKo : "";
   const localizedTimeline =
     project.timelineKo !== project.timeline ? project.timelineKo : "";
@@ -124,9 +125,10 @@ const ProjectDetail = () => {
       ? media.filter((item) => item.groupId === image.groupId)
       : [];
     const groupEnd = groupStart + groupImages.length - 1;
+    const visibleGroupImages = groupImages.filter((groupImage) => groupImage.url);
     const canRenderMosaic =
       groupImages[0]?.layout === "mosaic-lead" &&
-      groupImages.length > 2 &&
+      visibleGroupImages.length > 2 &&
       !media
         .slice(groupStart + 1, groupEnd + 1)
         .some((_, offset) => hasDescriptionAfter(groupStart + offset + 1));
@@ -142,6 +144,12 @@ const ProjectDetail = () => {
       continue;
     }
 
+    if (!image.url) {
+      galleryBlocks.push({ start: index, end: index, kind: "skip" });
+      index++;
+      continue;
+    }
+
     const matchingRatioIndexes = [index];
     const aspectRatio = image.aspectRatio;
     if (aspectRatio) {
@@ -149,6 +157,7 @@ const ProjectDetail = () => {
         if (hasDescriptionAfter(candidateIndex - 1)) break;
         const candidate = media[candidateIndex];
         if (
+          candidate.url &&
           candidate.layout === "single" &&
           candidate.aspectRatio &&
           Math.abs(candidate.aspectRatio - aspectRatio) < 0.01
@@ -228,10 +237,10 @@ const ProjectDetail = () => {
           </FadeIn>
 
         {/* Project cover */}
-          {project.heroImage && (
+          {projectWithLimitedGifs.heroImage && (
             <section className="portfolio-project-hero">
               <FadeIn>
-                <HeroSlideshow project={project} />
+                <HeroSlideshow project={projectWithLimitedGifs} />
               </FadeIn>
             </section>
           )}
@@ -269,6 +278,7 @@ const ProjectDetail = () => {
                 const blockImages = imageIndexes
                   ? imageIndexes.map((imageIndex) => media[imageIndex])
                   : media.slice(start, end + 1);
+                const visibleBlockImages = blockImages.filter((image) => image.url);
                 const firstImage = media[start];
                 return (
                   <Fragment key={firstImage.id}>
@@ -277,26 +287,16 @@ const ProjectDetail = () => {
                         <div
                           className="portfolio-project-mosaic"
                           style={{
-                            gridTemplateRows: `repeat(${blockImages.length - 1}, minmax(150px, 1fr))`,
+                            gridTemplateRows: `repeat(${Math.ceil(visibleBlockImages.length / 3)}, minmax(0, 1fr))`,
                           }}
                         >
-                          {blockImages.map((groupImage, groupIndex) => (
+                          {visibleBlockImages.map((groupImage) => (
                             <ProjectImage
                               key={groupImage.id}
                               src={groupImage.url}
                               alt={groupImage.alt}
                               caption={groupImage.caption}
-                              figureClassName={
-                                groupIndex === 0
-                                  ? "portfolio-project-mosaic-lead"
-                                  : "portfolio-project-mosaic-tile"
-                              }
-                              figureStyle={
-                                groupIndex === 0
-                                  ? { gridRow: `span ${blockImages.length - 1}` }
-                                  : undefined
-                              }
-                              imageFit="cover"
+                              figureClassName="portfolio-project-mosaic-tile"
                             />
                           ))}
                         </div>
@@ -306,7 +306,7 @@ const ProjectDetail = () => {
                         <GallerySlideshow images={blockImages} />
                       </FadeIn>
                     ) : kind === "pair" ? (
-                      blockImages.map((pairImage) => (
+                      visibleBlockImages.map((pairImage) => (
                         <FadeIn className="portfolio-gallery-item" key={pairImage.id}>
                           <ProjectImage
                             src={pairImage.url}
@@ -367,6 +367,30 @@ const ProjectDescription = ({
     )}
   </div>
 );
+
+const isAnimatedGif = (image: { url: string; alt: string; isAnimatedGif?: boolean }) =>
+  image.isAnimatedGif ?? /\.gif(?:$|[?#])/i.test(`${image.alt} ${image.url}`);
+
+const limitDetailGifs = (project: Project): Project => {
+  let gifCount = project.heroImageIsGif ? 1 : 0;
+  const countedUrls = new Set(project.heroImageIsGif ? [project.heroImage] : []);
+  const limitImages = (images: Project["images"] = []) =>
+    images.map((image) => {
+      if (!isAnimatedGif(image) || countedUrls.has(image.url)) return image;
+      if (gifCount < 2) {
+        gifCount++;
+        countedUrls.add(image.url);
+        return image;
+      }
+      return { ...image, url: "" };
+    });
+
+  return {
+    ...project,
+    images: limitImages(project.images),
+    heroSlideshowImages: limitImages(project.heroSlideshowImages).filter((image) => image.url),
+  };
+};
 
 const HeroSlideshow = ({ project }: { project: Project }) => {
   const [activeIndex, setActiveIndex] = useState(0);

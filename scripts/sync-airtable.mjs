@@ -150,6 +150,7 @@ const extractImages = (value, projectSlug, groupId) => {
           ? item.thumbnails.full.url
           : rawUrl,
       alt: typeof item === "object" && item.filename ? item.filename : projectSlug,
+      isAnimatedGif: typeof item === "object" && /\.gif$/i.test(item.filename || ""),
       width: item.layoutWidth || "full",
       aspectRatio:
         typeof item === "object" && item.width > 0 && item.height > 0
@@ -321,6 +322,7 @@ const normalizeRecord = async ({ id, fields }) => {
           id: `${slug}-hero-slide-${index + 1}`,
           url: attachment.url,
           alt: attachment.filename || title,
+          isAnimatedGif: /\.gif$/i.test(attachment.filename || ""),
           width: "full",
           layout: "single",
         }))
@@ -377,6 +379,9 @@ const normalizeRecord = async ({ id, fields }) => {
     timeline: asText(findField(fields, fieldAliases.timeline)),
     timelineKo: asText(findField(fields, fieldAliases.timelineKo)),
     heroImage,
+    heroImageIsGif: /\.gif$/i.test(
+      heroAttachment?.filename || (heroImage === images[0]?.url ? images[0]?.alt : "")
+    ),
     heroThumbnail,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,

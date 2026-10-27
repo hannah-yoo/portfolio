@@ -636,21 +636,20 @@ All colors MUST be HSL.
 }
 
 .work-grid {
-  columns: 2;
-  column-gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 38px 24px;
 }
 
 @media (min-width: 1100px) {
   .work-grid {
-    columns: 3;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 .work-card-shell {
-  display: inline-block;
+  display: block;
   width: 100%;
-  margin-bottom: 38px;
-  break-inside: avoid;
 }
 
 .work-card {
@@ -779,6 +778,11 @@ All colors MUST be HSL.
   border-radius: 24px;
 }
 
+.portfolio-project-hero .project-hero-slideshow {
+  height: min(70vh, 680px);
+  aspect-ratio: auto !important;
+}
+
 .project-hero-slideshow {
   position: relative;
   overflow: hidden;
@@ -841,9 +845,11 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 }
 
 .portfolio-project-mosaic {
+  height: min(70vh, 680px);
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -857,15 +863,23 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 
 .portfolio-gallery-slideshow .project-hero-slideshow {
   width: 100%;
+  height: min(70vh, 680px);
+  aspect-ratio: auto !important;
   border: 1px solid #eee;
   border-radius: 18px;
 }
 
 .portfolio-project-mosaic figure {
   min-width: 0;
+  min-height: 0;
 }
 
 .portfolio-project-mosaic-frame {
+  height: 100%;
+  aspect-ratio: auto !important;
+}
+
+.portfolio-project-mosaic-frame > div {
   height: 100%;
   aspect-ratio: auto !important;
 }
@@ -902,6 +916,11 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
+}
+
+.portfolio-project-gallery figure:not(.portfolio-gallery-slideshow):not(.portfolio-project-mosaic-tile) > div > div {
+  height: min(70vh, 680px);
+  aspect-ratio: auto !important;
 }
 
 .portfolio-gallery-slideshow figcaption {
@@ -1146,12 +1165,8 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .portfolio-project-mosaic-lead {
-    grid-row: auto !important;
-  }
-
   .work-grid {
-    columns: 1;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .article-row {
