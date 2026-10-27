@@ -79,12 +79,7 @@ CV 항목은 `cv` 테이블의 `Grid view` 행 순서대로 표시한다. Airtab
 | `photography video description` / `photography video description ko` | 긴 텍스트 | Photography & Video 분야 설명 |
 
 영문 `postscript`는 `cv` 테이블의 `postscript` 필드에서 읽는다.
-분야 문구 필드가 Airtable에 생기기 전까지는 현재 문구를 유지한다.
 분야 페이지는 영어 제목 왼쪽, 영어·한국어 설명 오른쪽에 표시한다. 제목은 사이트 코드에 고정되어 있고 설명만 `intro` 행의 해당 분야 필드에서 관리한다.
-
-## 분야 페이지 문구
-
-분야 페이지 제목과 설명은 Airtable이 아니라 `src/data/airtable-collections.json`에서 관리한다. 영어와 한국어 문구를 바꾸려면 해당 파일을 수정한다.
 
 ## 동기화와 배포
 
@@ -104,4 +99,37 @@ AIRTABLE_INTRO_TABLE_NAME=intro
 
 로컬에서 `npm run sync`를 실행하면 `src/data/airtable-projects.json`, `src/data/airtable-cv.json`을 갱신한다. 스크립트는 Airtable 레코드를 수정하지 않는다.
 
-GitHub Actions 배포 workflow도 위 테이블 이름을 사용한다. GitHub 저장소의 Actions secret에 `PORTFOLIO_TOKEN`을 설정한다.
+GitHub Actions 배포 workflow도 위 테이블 이름을 사용한다. GitHub 저장소의 Actions secret에 `PORTFOLIO_TOKEN`을 설정한다. 배포는 매시간 자동 실행되며, 아래 Airtable 자동화를 설정하면 `intro` 변경 직후에도 실행된다.
+
+### `intro` 변경 시 자동 배포
+
+GitHub 저장소에 `airtable_updated` repository dispatch를 보내도록 Airtable 자동화를 설정한다. GitHub 토큰은 Airtable 자동화의 secret으로 저장하고 스크립트 코드나 필드에는 넣지 않는다.
+
+1. GitHub에서 fine-grained personal access token을 만든다. 대상은 `hannah-yoo/portfolio` 저장소 하나로 제한하고 `Contents: Read and write` 권한만 준다.
+2. Airtable Automations에서 `When record updated` 트리거를 만든다. `intro` 테이블과 `design description`, `design description ko`, `fine arts description`, `fine arts description ko`, `photography video description`, `photography video description ko` 필드를 지정한다.
+3. `Run a script` 작업을 추가한다. 입력 변수 `recordId`를 트리거 레코드의 Airtable record ID에 연결하고, secret 이름을 `githubToken`으로 등록한다.
+4. 아래 스크립트를 붙여넣고 자동화를 켠다.
+
+```js
+const { recordId } = input.config();
+const githubToken = input.secret("githubToken");
+
+const response = await fetch("https://api.github.com/repos/hannah-yoo/portfolio/dispatches", {
+  method: "POST",
+  headers: {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${githubToken}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+  },
+  body: JSON.stringify({
+    event_type: "airtable_updated",
+    client_payload: { record_id: recordId },
+  }),
+});
+
+if (!response.ok) {
+  throw new Error(`GitHub dispatch failed (${response.status}): ${await response.text()}`);
+}
+```
+
+GitHub Actions가 Airtable 최신 데이터를 다시 읽어 사이트를 빌드·배포한다. 배포에는 보통 1–2분이 걸린다. 매시간 자동 배포는 자동화 실패 시를 위한 예비 동기화로 유지한다. `collections`나 `cv`도 즉시 반영하려면 해당 테이블을 감시하는 별도 Airtable 자동화를 만들고 같은 dispatch를 보낸다.

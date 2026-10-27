@@ -6,6 +6,8 @@ on:
   schedule:
     - cron: "15 * * * *"
   workflow_dispatch:
+  repository_dispatch:
+    types: [airtable_updated]
 
 permissions:
   contents: read
