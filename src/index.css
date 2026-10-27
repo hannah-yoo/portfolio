@@ -636,20 +636,21 @@ All colors MUST be HSL.
 }
 
 .work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 38px 24px;
+  columns: 2;
+  column-gap: 24px;
 }
 
 @media (min-width: 1100px) {
   .work-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    columns: 3;
   }
 }
 
 .work-card-shell {
-  display: block;
+  display: inline-block;
   width: 100%;
+  margin-bottom: 38px;
+  break-inside: avoid;
 }
 
 .work-card {
@@ -778,24 +779,17 @@ All colors MUST be HSL.
   border-radius: 24px;
 }
 
-.portfolio-project-hero .project-hero-slideshow {
+.portfolio-project-hero .project-hero-image {
   height: min(70vh, 680px);
   aspect-ratio: auto !important;
 }
 
-.project-hero-slideshow {
+.project-hero-image {
   position: relative;
   overflow: hidden;
 }
 
-.project-hero-slide {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.project-hero-slide > div {
+.project-hero-image > div {
   width: 100%;
   height: 100%;
 }
@@ -839,53 +833,18 @@ main.portfolio-project > section.portfolio-project-gallery {
 
 main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
-  gap: 18px;
-}
-
-.portfolio-project-mosaic {
-  height: min(70vh, 680px);
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 16px;
+  gap: 24px;
 }
 
 .portfolio-gallery-item {
   min-width: 0;
+  grid-column: 1 / -1;
 }
 
 .portfolio-gallery-wide {
   grid-column: 1 / -1;
-}
-
-.portfolio-gallery-slideshow .project-hero-slideshow {
-  width: 100%;
-  height: min(70vh, 680px);
-  aspect-ratio: auto !important;
-  border: 1px solid #eee;
-  border-radius: 18px;
-}
-
-.portfolio-project-mosaic figure {
-  min-width: 0;
-  min-height: 0;
-}
-
-.portfolio-project-mosaic-frame {
-  height: 100%;
-  aspect-ratio: auto !important;
-}
-
-.portfolio-project-mosaic-frame > div {
-  height: 100%;
-  aspect-ratio: auto !important;
-}
-
-.portfolio-project-mosaic-frame img {
-  height: 100%;
 }
 
 .portfolio-project-gallery-description {
@@ -918,15 +877,31 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
   border-radius: 24px;
 }
 
-.portfolio-project-gallery figure:not(.portfolio-gallery-slideshow):not(.portfolio-project-mosaic-tile) > div > div {
+.portfolio-project-gallery figure > div > div {
   height: min(70vh, 680px);
   aspect-ratio: auto !important;
 }
 
-.portfolio-gallery-slideshow figcaption {
+.portfolio-project-website {
+  margin: 28px 0;
+}
+
+.portfolio-project-website iframe {
+  display: block;
+  width: 100%;
+  height: min(80vh, 900px);
+  min-height: 560px;
+  border: 1px solid #eee;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.portfolio-project-website a {
+  display: inline-block;
   margin-top: 10px;
-  color: #777;
+  color: #555;
   font-size: 13px;
+  text-underline-offset: 3px;
 }
 
 .portfolio-project-gallery figcaption {
@@ -1156,17 +1131,13 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     margin-bottom: 22px;
   }
 
-  main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-  }
-
-  .portfolio-project-mosaic {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .work-grid {
-    grid-template-columns: minmax(0, 1fr);
+    columns: 1;
+  }
+
+  .portfolio-project-website iframe {
+    height: 70vh;
+    min-height: 420px;
   }
 
   .article-row {

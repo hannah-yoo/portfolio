@@ -1,6 +1,5 @@
-import { Fragment, type CSSProperties } from "react";
+import { Fragment } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
 import { getAllProjects, getNextProject, loadProjects } from "@/data/projects";
@@ -55,8 +54,8 @@ const ProjectDetail = () => {
     return <Navigate to="/404" replace />;
   }
 
-  const projectWithLimitedGifs = limitDetailGifs(project);
-  const media = projectWithLimitedGifs.images ?? [];
+  const projectWithStaticGalleryGifs = withStaticGalleryGifs(project);
+  const media = projectWithStaticGalleryGifs.images ?? [];
   const localizedTeam = project.teamKo !== project.team ? project.teamKo : "";
   const localizedTimeline =
     project.timelineKo !== project.timeline ? project.timelineKo : "";
@@ -65,6 +64,9 @@ const ProjectDetail = () => {
     Boolean(project.team) &&
     !/personal\s*(work|freelance|commission)|개인\s*(작업|외주)/.test(teamText) &&
     !/collaboration|협업/.test(teamText);
+  const websiteUrl = isWebDesignProject(project)
+    ? extractWebsiteUrl(project.topDescription) ?? extractWebsiteUrl(project.topDescriptionKo)
+    : undefined;
   const descriptions = [
     {
       afterImage: project.topDescriptionAfterImage ?? 0,
@@ -81,18 +83,14 @@ const ProjectDetail = () => {
       description: project.bottomDescription,
       descriptionKo: project.bottomDescriptionKo,
     },
-  ].map((item) => ({
+  ].map((item, index) => ({
     ...item,
+    websiteUrl: index === 0 ? websiteUrl : undefined,
     afterImage: Math.max(
       0,
       Math.min(media.length, Number.isInteger(item.afterImage) ? item.afterImage : media.length)
     ),
   }));
-  const hasDescriptionAfter = (imageCount: number) =>
-    descriptions.some(
-      ({ afterImage, description, descriptionKo }) =>
-        afterImage === imageCount && (description || descriptionKo)
-    );
   const descriptionsAfter = (imageCount: number) =>
     descriptions
       .filter(
@@ -101,97 +99,16 @@ const ProjectDetail = () => {
       )
       .map((item, index) => (
         <FadeIn key={`${imageCount}-${index}`} className="portfolio-gallery-wide">
-          <ProjectDescription description={item.description} descriptionKo={item.descriptionKo} />
+          <ProjectDescription
+            description={item.description}
+            descriptionKo={item.descriptionKo}
+            websiteUrl={item.websiteUrl}
+          />
+          {item.websiteUrl && (
+            <ProjectWebsiteEmbed url={item.websiteUrl} title={project.title} />
+          )}
         </FadeIn>
       ));
-  const galleryBlocks: Array<{
-    start: number;
-    end: number;
-    kind: "mosaic" | "slideshow" | "pair" | "single" | "skip";
-    imageIndexes?: number[];
-  }> = [];
-  const slideshowImageIndexes = new Set<number>();
-  for (let index = 0; index < media.length;) {
-    const image = media[index];
-    if (slideshowImageIndexes.has(index)) {
-      galleryBlocks.push({ start: index, end: index, kind: "skip" });
-      index++;
-      continue;
-    }
-    const groupStart = image.groupId
-      ? media.findIndex((item) => item.groupId === image.groupId)
-      : index;
-    const groupImages = image.groupId
-      ? media.filter((item) => item.groupId === image.groupId)
-      : [];
-    const groupEnd = groupStart + groupImages.length - 1;
-    const visibleGroupImages = groupImages.filter((groupImage) => groupImage.url);
-    const canRenderMosaic =
-      groupImages[0]?.layout === "mosaic-lead" &&
-      visibleGroupImages.length > 2 &&
-      !media
-        .slice(groupStart + 1, groupEnd + 1)
-        .some((_, offset) => hasDescriptionAfter(groupStart + offset + 1));
-
-    if (image.layout === "mosaic-tile" && canRenderMosaic) {
-      index++;
-      continue;
-    }
-
-    if (canRenderMosaic) {
-      galleryBlocks.push({ start: index, end: groupEnd, kind: "mosaic" });
-      index = groupEnd + 1;
-      continue;
-    }
-
-    if (!image.url) {
-      galleryBlocks.push({ start: index, end: index, kind: "skip" });
-      index++;
-      continue;
-    }
-
-    const matchingRatioIndexes = [index];
-    const aspectRatio = image.aspectRatio;
-    if (aspectRatio) {
-      for (let candidateIndex = index + 1; candidateIndex < media.length; candidateIndex++) {
-        if (hasDescriptionAfter(candidateIndex - 1)) break;
-        const candidate = media[candidateIndex];
-        if (
-          candidate.url &&
-          candidate.layout === "single" &&
-          candidate.aspectRatio &&
-          Math.abs(candidate.aspectRatio - aspectRatio) < 0.01
-        ) {
-          matchingRatioIndexes.push(candidateIndex);
-          slideshowImageIndexes.add(candidateIndex);
-        }
-      }
-    }
-    if (matchingRatioIndexes.length > 1) {
-      galleryBlocks.push({
-        start: index,
-        end: index,
-        kind: "slideshow",
-        imageIndexes: matchingRatioIndexes,
-      });
-      index++;
-      continue;
-    }
-
-    const canPair =
-      image.width === "half" &&
-      media[index + 1]?.width === "half" &&
-      !hasDescriptionAfter(index + 1);
-    if (canPair) {
-      galleryBlocks.push({ start: index, end: index + 1, kind: "pair" });
-      index += 2;
-      continue;
-    }
-
-    galleryBlocks.push({ start: index, end: index, kind: "single" });
-    index++;
-  }
-
   return (
     <PageTransition>
       <div className="portfolio-shell">
@@ -237,10 +154,10 @@ const ProjectDetail = () => {
           </FadeIn>
 
         {/* Project cover */}
-          {projectWithLimitedGifs.heroImage && (
+          {project.heroImage && (
             <section className="portfolio-project-hero">
               <FadeIn>
-                <HeroSlideshow project={projectWithLimitedGifs} />
+                <ProjectHeroImage project={project} />
               </FadeIn>
             </section>
           )}
@@ -274,60 +191,16 @@ const ProjectDetail = () => {
           <FadeInStagger staggerDelay={0.15}>
             <div className="portfolio-project-gallery">
               {descriptionsAfter(0)}
-              {galleryBlocks.map(({ start, end, kind, imageIndexes }) => {
-                const blockImages = imageIndexes
-                  ? imageIndexes.map((imageIndex) => media[imageIndex])
-                  : media.slice(start, end + 1);
-                const visibleBlockImages = blockImages.filter((image) => image.url);
-                const firstImage = media[start];
-                return (
-                  <Fragment key={firstImage.id}>
-                    {kind === "skip" ? null : kind === "mosaic" ? (
-                      <FadeIn className="portfolio-gallery-wide">
-                        <div
-                          className="portfolio-project-mosaic"
-                          style={{
-                            gridTemplateRows: `repeat(${Math.ceil(visibleBlockImages.length / 3)}, minmax(0, 1fr))`,
-                          }}
-                        >
-                          {visibleBlockImages.map((groupImage) => (
-                            <ProjectImage
-                              key={groupImage.id}
-                              src={groupImage.url}
-                              alt={groupImage.alt}
-                              caption={groupImage.caption}
-                              figureClassName="portfolio-project-mosaic-tile"
-                            />
-                          ))}
-                        </div>
-                      </FadeIn>
-                    ) : kind === "slideshow" ? (
-                      <FadeIn className="portfolio-gallery-item">
-                        <GallerySlideshow images={blockImages} />
-                      </FadeIn>
-                    ) : kind === "pair" ? (
-                      visibleBlockImages.map((pairImage) => (
-                        <FadeIn className="portfolio-gallery-item" key={pairImage.id}>
-                          <ProjectImage
-                            src={pairImage.url}
-                            alt={pairImage.alt}
-                            caption={pairImage.caption}
-                          />
-                        </FadeIn>
-                      ))
-                    ) : (
-                      <FadeIn className="portfolio-gallery-item">
-                        <ProjectImage
-                          src={firstImage.url}
-                          alt={firstImage.alt}
-                          caption={firstImage.caption}
-                        />
-                      </FadeIn>
-                    )}
-                    {descriptionsAfter(end + 1)}
-                  </Fragment>
-                );
-              })}
+              {media.map((image, index) => (
+                <Fragment key={image.id}>
+                  {image.url && (
+                    <FadeIn className="portfolio-gallery-item">
+                      <ProjectImage src={image.url} alt={image.alt} caption={image.caption} />
+                    </FadeIn>
+                  )}
+                  {descriptionsAfter(index + 1)}
+                </Fragment>
+              ))}
             </div>
           </FadeInStagger>
         </section>
@@ -354,133 +227,95 @@ const ProjectDetail = () => {
 const ProjectDescription = ({
   description,
   descriptionKo,
+  websiteUrl,
 }: {
   description?: string;
   descriptionKo?: string;
+  websiteUrl?: string;
 }) => (
   <div className="portfolio-project-gallery-description">
     {(description || descriptionKo) && (
       <p className="portfolio-project-description">
-        {description && <span>{description}</span>}
-        {descriptionKo && <span className="project-inline-ko" lang="ko">{descriptionKo}</span>}
+        {description && <span>{removeWebsiteUrl(description, websiteUrl)}</span>}
+        {descriptionKo && <span className="project-inline-ko" lang="ko">{removeWebsiteUrl(descriptionKo, websiteUrl)}</span>}
       </p>
     )}
   </div>
 );
 
-const isAnimatedGif = (image: { url: string; alt: string; isAnimatedGif?: boolean }) =>
-  image.isAnimatedGif ?? /\.gif(?:$|[?#])/i.test(`${image.alt} ${image.url}`);
-
-const limitDetailGifs = (project: Project): Project => {
-  let gifCount = project.heroImageIsGif ? 1 : 0;
-  const countedUrls = new Set(project.heroImageIsGif ? [project.heroImage] : []);
-  const limitImages = (images: Project["images"] = []) =>
-    images.map((image) => {
-      if (!isAnimatedGif(image) || countedUrls.has(image.url)) return image;
-      if (gifCount < 2) {
-        gifCount++;
-        countedUrls.add(image.url);
-        return image;
-      }
-      return { ...image, url: "" };
-    });
-
-  return {
-    ...project,
-    images: limitImages(project.images),
-    heroSlideshowImages: limitImages(project.heroSlideshowImages).filter((image) => image.url),
-  };
-};
-
-const HeroSlideshow = ({ project }: { project: Project }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(16 / 9);
-  const prefersReducedMotion = useReducedMotion();
-  const slides = [
-    { id: `${project.slug}-hero`, url: project.heroImage, alt: `${project.title} hero image` },
-    ...(project.heroSlideshowImages ?? []).map((image) => ({
-      id: image.id,
-      url: image.url,
-      alt: image.alt,
-    })),
-  ];
-
-  useEffect(() => {
-    if (prefersReducedMotion || slides.length < 2) return;
-    const intervalId = window.setInterval(
-      () => setActiveIndex((index) => (index + 1) % slides.length),
-      1500
-    );
-    return () => window.clearInterval(intervalId);
-  }, [prefersReducedMotion, slides.length]);
+const ProjectWebsiteEmbed = ({ url, title }: { url: string; title: string }) => {
+  const canEmbed = new URL(url).origin !== window.location.origin;
 
   return (
-    <div className="project-hero-slideshow" style={{ aspectRatio }}>
-      <AnimatePresence initial={false} mode="sync">
-        <motion.div
-          key={slides[activeIndex].id}
-          className="project-hero-slide"
-          initial={prefersReducedMotion ? false : { x: "8%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={prefersReducedMotion ? undefined : { x: "-8%", opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
-        >
-          <ProjectImageFrame
-            src={resolveAssetUrl(slides[activeIndex].url)}
-            alt={slides[activeIndex].alt}
-            onDimensionsLoad={({ width, height }) => {
-              if (width > 0 && height > 0) setAspectRatio(width / height);
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+    <div className="portfolio-project-website">
+      {canEmbed && (
+        <iframe
+          src={url}
+          title={`${title} website preview`}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          sandbox="allow-forms allow-popups allow-scripts allow-same-origin"
+        />
+      )}
+      <a href={url} target="_blank" rel="noreferrer">
+        Open website in a new tab
+      </a>
     </div>
   );
 };
 
-const GallerySlideshow = ({
-  images,
-}: {
-  images: Project["images"];
-}) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(images[0]?.aspectRatio ?? 16 / 9);
-  const prefersReducedMotion = useReducedMotion();
+const isWebDesignProject = (project: Project) =>
+  [...(project.medium ?? []), ...(project.tags ?? []), project.role]
+    .join(" ")
+    .toLowerCase()
+    .replace(/[_-]+/g, " ")
+    .split(/[,;|]/)
+    .some((value) => /\bweb(?:site)?\s+design\b|웹(?:사이트)?\s*디자인/i.test(value.trim()));
 
-  useEffect(() => {
-    if (prefersReducedMotion || images.length < 2) return;
-    const intervalId = window.setInterval(
-      () => setActiveIndex((index) => (index + 1) % images.length),
-      1500
-    );
-    return () => window.clearInterval(intervalId);
-  }, [images.length, prefersReducedMotion]);
+const extractWebsiteUrl = (description?: string) => {
+  const match = description?.match(/https?:\/\/[^\s<>"']+/i)?.[0];
+  if (!match) return undefined;
+  const candidate = match.replace(/[),.;!?]+$/, "");
 
-  const image = images[activeIndex];
+  try {
+    const url = new URL(candidate);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+const removeWebsiteUrl = (description: string, websiteUrl?: string) =>
+  websiteUrl
+    ? description.replace(/https?:\/\/[^\s<>"']+/i, "").trim()
+    : description;
+
+const isAnimatedGif = (image: { url: string; alt: string; isAnimatedGif?: boolean }) =>
+  image.isAnimatedGif ??
+  [image.alt, image.url].some((source) => /\.gif(?:$|[?#])/i.test(source));
+
+const withStaticGalleryGifs = (project: Project): Project => ({
+  ...project,
+  images: (project.images ?? []).map((image) =>
+    isAnimatedGif(image)
+      ? { ...image, url: image.thumbnailUrl && image.thumbnailUrl !== image.url ? image.thumbnailUrl : "" }
+      : image
+  ),
+});
+
+const ProjectHeroImage = ({ project }: { project: Project }) => {
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
+
   return (
-    <figure className="portfolio-gallery-slideshow">
-      <div className="project-hero-slideshow" style={{ aspectRatio }}>
-        <AnimatePresence initial={false} mode="sync">
-          <motion.div
-            key={image.id}
-            className="project-hero-slide"
-            initial={prefersReducedMotion ? false : { x: "8%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={prefersReducedMotion ? undefined : { x: "-8%", opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          >
-            <ProjectImageFrame
-              src={resolveAssetUrl(image.url)}
-              alt={image.alt}
-              onDimensionsLoad={({ width, height }) => {
-                if (width > 0 && height > 0) setAspectRatio(width / height);
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-      {image.caption && <figcaption>{image.caption}</figcaption>}
-    </figure>
+    <div className="project-hero-image" style={{ aspectRatio }}>
+      <ProjectImageFrame
+        src={resolveAssetUrl(project.heroImage)}
+        alt={`${project.title} hero image`}
+        onDimensionsLoad={({ width, height }) => {
+          if (width > 0 && height > 0) setAspectRatio(width / height);
+        }}
+      />
+    </div>
   );
 };
 
@@ -491,19 +326,9 @@ interface ProjectImageProps {
   src: string;
   alt: string;
   caption?: string;
-  figureClassName?: string;
-  figureStyle?: CSSProperties;
-  imageFit?: "contain" | "cover";
 }
 
-const ProjectImage = ({
-  src,
-  alt,
-  caption,
-  figureClassName,
-  figureStyle,
-  imageFit = "contain",
-}: ProjectImageProps) => {
+const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageAspectRatio, setImageAspectRatio] = useState(16 / 9);
   const [ref, isIntersecting] = useIntersectionObserver({
@@ -512,8 +337,8 @@ const ProjectImage = ({
   });
 
   return (
-    <figure className={figureClassName} style={figureStyle}>
-      <div className={figureClassName ? "portfolio-project-mosaic-frame" : undefined}>
+    <figure>
+      <div>
         <div ref={ref} style={{ aspectRatio: imageAspectRatio }}>
           {isIntersecting && src ? (
             <ProjectImageFrame
@@ -526,7 +351,6 @@ const ProjectImage = ({
               }}
               imageClassName={cn(
                 "transition-all duration-500",
-                imageFit === "cover" && "object-cover",
                 imageLoaded ? "opacity-100" : "opacity-0 blur-sm"
               )}
             />

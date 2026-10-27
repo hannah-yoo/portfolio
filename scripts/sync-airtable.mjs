@@ -306,28 +306,6 @@ const normalizeRecord = async ({ id, fields }) => {
     heroImage = images[0].url;
     heroThumbnail = images[0].thumbnailUrl || "";
   }
-  const heroAttachment = Array.isArray(heroValue) ? heroValue[0] : heroValue;
-  const heroSlideshowImages = heroAttachment?.width && heroAttachment?.height
-    ? numberedImages
-        .flatMap(({ value }) => Array.isArray(value) ? value : value ? [value] : [])
-        .filter(
-          (attachment) =>
-            attachment?.url &&
-            Math.abs(
-              attachment.width / attachment.height -
-              heroAttachment.width / heroAttachment.height
-            ) < 0.01
-        )
-        .map((attachment, index) => ({
-          id: `${slug}-hero-slide-${index + 1}`,
-          url: attachment.url,
-          alt: attachment.filename || title,
-          isAnimatedGif: /\.gif$/i.test(attachment.filename || ""),
-          width: "full",
-          layout: "single",
-        }))
-    : [];
-
   const categoryRaw = asText(findField(fields, fieldAliases.category), "").toLowerCase();
   if (["engineering", "broadcast", "broadcasts"].includes(categoryRaw.trim())) return null;
   if (!categoryRaw.trim()) return null;
@@ -379,13 +357,9 @@ const normalizeRecord = async ({ id, fields }) => {
     timeline: asText(findField(fields, fieldAliases.timeline)),
     timelineKo: asText(findField(fields, fieldAliases.timelineKo)),
     heroImage,
-    heroImageIsGif: /\.gif$/i.test(
-      heroAttachment?.filename || (heroImage === images[0]?.url ? images[0]?.alt : "")
-    ),
     heroThumbnail,
     externalUrl: asText(findField(fields, fieldAliases.externalUrl)),
     images,
-    heroSlideshowImages,
     tags: asText(findField(fields, fieldAliases.tags))
       .split(",")
       .map((tag) => tag.trim())

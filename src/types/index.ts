@@ -22,6 +22,7 @@ export interface ProjectImage {
   id: string;
   url: string;
   alt: string;
+  thumbnailUrl?: string;
   isAnimatedGif?: boolean;
   width: "full" | "half";
   aspectRatio?: number;
@@ -66,7 +67,6 @@ export interface Project {
   timeline: string;
   timelineKo?: string;
   heroImage: string;
-  heroImageIsGif?: boolean;
   heroThumbnail?: string;
   externalUrl?: string;
   images: ProjectImage[];
@@ -77,7 +77,6 @@ export interface Project {
   tags?: string[];
   medium?: string[];
   mediumKo?: string[];
-  heroSlideshowImages?: ProjectImage[];
 }
 
 export interface Testimonial {
