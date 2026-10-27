@@ -243,11 +243,15 @@ const ProjectDescription = ({
 );
 
 const ProjectWebsiteEmbed = ({ url, title }: { url: string; title: string }) => {
-  const canEmbed = new URL(url).origin !== window.location.origin;
+  const targetUrl = new URL(url);
+  const appBasePath = new URL(import.meta.env.BASE_URL, window.location.origin).pathname;
+  const isPortfolioPage =
+    targetUrl.origin === window.location.origin &&
+    (appBasePath === "/" || targetUrl.pathname.startsWith(appBasePath));
 
   return (
     <div className="portfolio-project-website">
-      {canEmbed && (
+      {!isPortfolioPage && (
         <iframe
           src={url}
           title={`${title} website preview`}
@@ -318,6 +322,7 @@ const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
               src={resolveAssetUrl(src)}
               alt={alt}
               loading="lazy"
+              fillBackground={false}
               onLoad={() => setImageLoaded(true)}
               onDimensionsLoad={({ width, height }) => {
                 if (width > 0 && height > 0) setImageAspectRatio(width / height);

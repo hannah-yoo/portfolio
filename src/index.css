@@ -844,19 +844,23 @@ main.portfolio-project > section.portfolio-project-gallery {
 }
 
 main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-  gap: 24px;
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  padding-inline: clamp(12px, 2vw, 28px);
+  columns: 2;
+  column-gap: 24px;
 }
 
 .portfolio-gallery-item {
-  min-width: 0;
-  grid-column: 1 / -1;
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 24px;
+  break-inside: avoid;
 }
 
 .portfolio-gallery-wide {
-  grid-column: 1 / -1;
+  column-span: all;
+  margin-bottom: 24px;
 }
 
 .portfolio-project-gallery-description {
@@ -884,14 +888,17 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 }
 
 .portfolio-project-gallery figure > div {
-  overflow: hidden;
-  border: 1px solid #eee;
-  border-radius: 24px;
+  overflow: visible;
 }
 
 .portfolio-project-gallery figure > div > div {
-  height: min(70vh, 680px);
-  aspect-ratio: auto !important;
+  height: auto;
+}
+
+@media (min-width: 1100px) {
+  main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
+    columns: 3;
+  }
 }
 
 .portfolio-project-website {
@@ -1186,7 +1193,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
   }
 
   .portfolio-project-hero,
-  .portfolio-project-gallery figure > div,
   .work-image {
     border-radius: 16px;
   }

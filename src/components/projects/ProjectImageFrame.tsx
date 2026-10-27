@@ -13,6 +13,7 @@ interface ProjectImageFrameProps {
   onLoad?: () => void;
   onDimensionsLoad?: (dimensions: ImageDimensions) => void;
   loading?: "lazy" | "eager";
+  fillBackground?: boolean;
 }
 
 /**
@@ -27,19 +28,26 @@ export const ProjectImageFrame = ({
   onLoad,
   onDimensionsLoad,
   loading,
+  fillBackground = true,
 }: ProjectImageFrameProps) => (
   <div
-    className={cn("protected-portfolio-image relative isolate h-full w-full overflow-hidden bg-neutral-100", className)}
+    className={cn(
+      "protected-portfolio-image relative isolate h-full w-full overflow-hidden",
+      fillBackground && "bg-neutral-100",
+      className
+    )}
     onContextMenu={(event) => event.preventDefault()}
     onDragStart={(event) => event.preventDefault()}
   >
-    <img
-      src={src}
-      alt=""
-      aria-hidden="true"
-      draggable={false}
-      className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-xl"
-    />
+    {fillBackground && (
+      <img
+        src={src}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-xl"
+      />
+    )}
     <img
       src={src}
       alt={alt}
