@@ -10,6 +10,7 @@ import { Project } from "@/types";
 import { ProjectImageFrame } from "@/components/projects/ProjectImageFrame";
 import { ArrowUpRight } from "lucide-react";
 import { PortfolioFooter } from "@/components/navigation/PortfolioChrome";
+import { getProjectWebsiteUrl, removeProjectWebsiteUrl } from "@/lib/projectWebsite";
 
 /**
  * ProjectDetail Page
@@ -64,9 +65,7 @@ const ProjectDetail = () => {
     Boolean(project.team) &&
     !/personal\s*(work|freelance|commission)|개인\s*(작업|외주)/.test(teamText) &&
     !/collaboration|협업/.test(teamText);
-  const websiteUrl = isWebDesignProject(project)
-    ? extractWebsiteUrl(project.topDescription) ?? extractWebsiteUrl(project.topDescriptionKo)
-    : undefined;
+  const websiteUrl = getProjectWebsiteUrl(project);
   const descriptions = [
     {
       afterImage: project.topDescriptionAfterImage ?? 0,
@@ -236,8 +235,8 @@ const ProjectDescription = ({
   <div className="portfolio-project-gallery-description">
     {(description || descriptionKo) && (
       <p className="portfolio-project-description">
-        {description && <span>{removeWebsiteUrl(description, websiteUrl)}</span>}
-        {descriptionKo && <span className="project-inline-ko" lang="ko">{removeWebsiteUrl(descriptionKo, websiteUrl)}</span>}
+        {description && <span>{removeProjectWebsiteUrl(description, websiteUrl)}</span>}
+        {descriptionKo && <span className="project-inline-ko" lang="ko">{removeProjectWebsiteUrl(descriptionKo, websiteUrl)}</span>}
       </p>
     )}
   </div>
@@ -263,32 +262,6 @@ const ProjectWebsiteEmbed = ({ url, title }: { url: string; title: string }) => 
     </div>
   );
 };
-
-const isWebDesignProject = (project: Project) =>
-  [...(project.medium ?? []), ...(project.tags ?? []), project.role]
-    .join(" ")
-    .toLowerCase()
-    .replace(/[_-]+/g, " ")
-    .split(/[,;|]/)
-    .some((value) => /\bweb(?:site)?\s+design\b|웹(?:사이트)?\s*디자인/i.test(value.trim()));
-
-const extractWebsiteUrl = (description?: string) => {
-  const match = description?.match(/https?:\/\/[^\s<>"']+/i)?.[0];
-  if (!match) return undefined;
-  const candidate = match.replace(/[),.;!?]+$/, "");
-
-  try {
-    const url = new URL(candidate);
-    return url.protocol === "http:" || url.protocol === "https:" ? url.href : undefined;
-  } catch {
-    return undefined;
-  }
-};
-
-const removeWebsiteUrl = (description: string, websiteUrl?: string) =>
-  websiteUrl
-    ? description.replace(/https?:\/\/[^\s<>"']+/i, "").trim()
-    : description;
 
 const isAnimatedGif = (image: { url: string; alt: string; isAnimatedGif?: boolean }) =>
   image.isAnimatedGif ??

@@ -671,6 +671,18 @@ All colors MUST be HSL.
   transition: transform 450ms ease;
 }
 
+.work-image > .work-site-thumbnail {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 300%;
+  height: 300%;
+  transform: scale(0.333333);
+  transform-origin: top left;
+  border: 0;
+  pointer-events: none;
+  background: #fff;
+}
+
 .work-card-caption {
   display: flex;
   justify-content: space-between;

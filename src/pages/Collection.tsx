@@ -8,6 +8,7 @@ import { getAllProjects, loadProjects } from "@/data/projects";
 import { Project } from "@/types";
 import { resolveAssetUrl } from "@/lib/utils";
 import { getCollections } from "@/data/projects";
+import { getProjectWebsiteUrl } from "@/lib/projectWebsite";
 
 type CollectionKind = "design" | "fine-arts" | "photography-video";
 
@@ -18,6 +19,7 @@ interface CollectionProps {
 const WorkCard = ({ project, index }: { project: Project; index: number }) => {
   const [imageAspectRatio, setImageAspectRatio] = useState(1.5);
   const prefersReducedMotion = useReducedMotion();
+  const websiteUrl = getProjectWebsiteUrl(project);
 
   return (
     <motion.div
@@ -30,15 +32,28 @@ const WorkCard = ({ project, index }: { project: Project; index: number }) => {
       transition={{ duration: 0.65, delay: (index % 4) * 0.07, ease: [0.22, 0.61, 0.36, 1] }}
     >
       <Link className="work-card group" to={`/projects/${project.slug}`}>
-        {project.heroImage && (
+        {(websiteUrl || project.heroImage) && (
           <div className="work-image" style={{ aspectRatio: imageAspectRatio }}>
-            <ProjectImageFrame
-              src={resolveAssetUrl(project.heroImage)}
-              alt={project.title}
-              onDimensionsLoad={({ width, height }) => {
-                if (width > 0 && height > 0) setImageAspectRatio(width / height);
-              }}
-            />
+            {websiteUrl ? (
+              <iframe
+                className="work-site-thumbnail"
+                src={websiteUrl}
+                title={`${project.title} website thumbnail`}
+                loading="lazy"
+                tabIndex={-1}
+                aria-hidden="true"
+                referrerPolicy="no-referrer"
+                sandbox="allow-forms allow-popups allow-scripts allow-same-origin"
+              />
+            ) : (
+              <ProjectImageFrame
+                src={resolveAssetUrl(project.heroImage)}
+                alt={project.title}
+                onDimensionsLoad={({ width, height }) => {
+                  if (width > 0 && height > 0) setImageAspectRatio(width / height);
+                }}
+              />
+            )}
           </div>
         )}
         <div className="work-card-caption">
