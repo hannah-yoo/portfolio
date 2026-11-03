@@ -942,9 +942,13 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 
 .portfolio-project-medium {
   width: 100%;
-  margin: -20px 0 28px;
+  margin: 16px 0 28px;
   color: #777;
   font-size: 13px;
+}
+
+.portfolio-project-hero + .portfolio-project-medium {
+  margin-top: -20px;
 }
 
 .portfolio-project-top-meta {
@@ -1184,7 +1188,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
   }
 
   .portfolio-project-medium {
-    margin-top: -20px;
     margin-bottom: 32px;
   }
 
