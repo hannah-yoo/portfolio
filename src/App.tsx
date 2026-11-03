@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { SkipToContent } from "@/components/accessibility/SkipToContent";
 import { PortfolioHeader } from "@/components/navigation/PortfolioChrome";
@@ -33,6 +34,17 @@ function AnimatedRoutes() {
   ]);
   const showPortfolioHeader =
     portfolioRoutes.has(location.pathname) || location.pathname.startsWith("/projects/");
+
+  const surface =
+    location.pathname === "/design" ? "design" : location.pathname === "/fine-arts" ? "fine-arts" : "";
+
+  useEffect(() => {
+    if (surface) document.body.dataset.surface = surface;
+    else delete document.body.dataset.surface;
+    return () => {
+      delete document.body.dataset.surface;
+    };
+  }, [surface]);
 
   return (
     <>

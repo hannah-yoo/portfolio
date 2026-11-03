@@ -263,6 +263,18 @@ All colors MUST be HSL.
   letter-spacing: -0.02em;
 }
 
+body[data-surface] .portfolio-shell {
+  background: transparent;
+}
+
+body[data-surface="fine-arts"] {
+  background: #f4efe4 url("./assets/textures/canvas-cloth.svg") top left / 320px 320px repeat;
+}
+
+body[data-surface="design"] {
+  background: #f6f6f6 url("./assets/textures/design-bitmap.svg") top left / 288px 288px repeat;
+}
+
 [lang="ko"] {
   font-family: "PyeojinGothic", Inter, sans-serif;
 }
