@@ -664,7 +664,6 @@ All colors MUST be HSL.
   position: relative;
   overflow: hidden;
   border: 1px solid #eee;
-  border-radius: 24px;
   background: #fafafa;
 }
 
@@ -1215,9 +1214,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     grid-template-columns: 1fr;
   }
 
-  .work-image {
-    border-radius: 16px;
-  }
 
   .portfolio-footer {
     align-items: flex-start;
