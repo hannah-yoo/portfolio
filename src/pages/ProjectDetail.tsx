@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, type CSSProperties } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { FadeIn, FadeInStagger } from "@/components/animations/FadeIn";
 import { PageTransition } from "@/components/animations/PageTransition";
@@ -284,10 +284,11 @@ const ProjectHeroImage = ({ project }: { project: Project }) => {
   const [aspectRatio, setAspectRatio] = useState(16 / 9);
 
   return (
-    <div className="project-hero-image" style={{ aspectRatio }}>
+    <div className="project-hero-image" style={{ aspectRatio, "--hero-ratio": aspectRatio } as CSSProperties}>
       <ProjectImageFrame
         src={resolveAssetUrl(project.heroImage)}
         alt={`${project.title} hero image`}
+        fillBackground={false}
         onDimensionsLoad={({ width, height }) => {
           if (width > 0 && height > 0) setAspectRatio(width / height);
         }}

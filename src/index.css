@@ -787,14 +787,12 @@ All colors MUST be HSL.
 .portfolio-project-hero {
   width: 100%;
   margin: 28px 0 32px;
-  overflow: hidden;
-  border: 1px solid #eee;
-  border-radius: 24px;
 }
 
 .portfolio-project-hero .project-hero-image {
-  height: min(70vh, 680px);
-  aspect-ratio: auto !important;
+  width: min(100%, calc(min(70vh, 680px) * var(--hero-ratio, 1.5)));
+  height: auto;
+  margin-right: auto;
 }
 
 .project-hero-image {
@@ -845,9 +843,7 @@ main.portfolio-project > section.portfolio-project-gallery {
 }
 
 main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
-  width: min(100%, 1440px);
-  margin-inline: auto;
-  padding-inline: clamp(12px, 2vw, 28px);
+  width: 100%;
   columns: 2;
   column-gap: 24px;
 }
@@ -894,12 +890,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 
 .portfolio-project-gallery figure > div > div {
   height: auto;
-}
-
-@media (min-width: 1100px) {
-  main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
-    columns: 3;
-  }
 }
 
 .portfolio-project-website {
@@ -1196,7 +1186,6 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     gap: 18px;
   }
 
-  .portfolio-project-hero,
   .work-image {
     border-radius: 16px;
   }
