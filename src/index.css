@@ -277,12 +277,12 @@ body[data-surface="design"] {
 
 body[data-surface="design"],
 body[data-surface="design"] * {
-  cursor: url("./assets/cursors/pixel.svg") 0 0, auto;
+  cursor: url("./assets/cursors/pixel.svg") 9 6, auto;
 }
 
 body[data-surface="fine-arts"],
 body[data-surface="fine-arts"] * {
-  cursor: url("./assets/cursors/pencil.svg") 2 62, auto;
+  cursor: url("./assets/cursors/pencil.png") 4 6, auto;
 }
 
 body[data-surface="photography-video"],
