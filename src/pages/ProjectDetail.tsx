@@ -194,7 +194,7 @@ const ProjectDetail = () => {
                 <Fragment key={image.id}>
                   {image.url && (
                     <FadeIn className="portfolio-gallery-item">
-                      <ProjectImage src={image.url} alt={image.alt} caption={image.caption} />
+                      <ProjectImage src={image.url} alt={image.alt} caption={image.caption} aspectRatio={image.aspectRatio} />
                     </FadeIn>
                   )}
                   {descriptionsAfter(index + 1)}
@@ -303,11 +303,12 @@ interface ProjectImageProps {
   src: string;
   alt: string;
   caption?: string;
+  aspectRatio?: number;
 }
 
-const ProjectImage = ({ src, alt, caption }: ProjectImageProps) => {
+const ProjectImage = ({ src, alt, caption, aspectRatio }: ProjectImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageAspectRatio, setImageAspectRatio] = useState(16 / 9);
+  const [imageAspectRatio, setImageAspectRatio] = useState(aspectRatio || 16 / 9);
   const [ref, isIntersecting] = useIntersectionObserver({
     rootMargin: "150px",
     threshold: 0.1,

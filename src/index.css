@@ -661,6 +661,7 @@ All colors MUST be HSL.
 }
 
 .work-image {
+  position: relative;
   overflow: hidden;
   border: 1px solid #eee;
   border-radius: 24px;
