@@ -36,7 +36,13 @@ function AnimatedRoutes() {
     portfolioRoutes.has(location.pathname) || location.pathname.startsWith("/projects/");
 
   const surface =
-    location.pathname === "/design" ? "design" : location.pathname === "/fine-arts" ? "fine-arts" : "";
+    location.pathname === "/design"
+      ? "design"
+      : location.pathname === "/fine-arts"
+        ? "fine-arts"
+        : location.pathname === "/photography-video"
+          ? "photography-video"
+          : "";
 
   useEffect(() => {
     if (surface) document.body.dataset.surface = surface;

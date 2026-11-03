@@ -272,7 +272,22 @@ body[data-surface="fine-arts"] {
 }
 
 body[data-surface="design"] {
-  background: #f6f6f6 url("./assets/textures/design-bitmap.svg") top left / 288px 288px repeat;
+  background: #f2f2f2 url("./assets/textures/design-bitmap.svg") top left / 96px 96px repeat;
+}
+
+body[data-surface="design"],
+body[data-surface="design"] * {
+  cursor: url("./assets/cursors/pixel.svg") 0 0, auto;
+}
+
+body[data-surface="fine-arts"],
+body[data-surface="fine-arts"] * {
+  cursor: url("./assets/cursors/pencil.svg") 2 62, auto;
+}
+
+body[data-surface="photography-video"],
+body[data-surface="photography-video"] * {
+  cursor: url("./assets/cursors/camera.svg") 32 26, auto;
 }
 
 [lang="ko"] {
