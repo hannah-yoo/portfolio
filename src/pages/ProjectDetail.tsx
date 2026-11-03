@@ -108,96 +108,101 @@ const ProjectDetail = () => {
           )}
         </FadeIn>
       ));
+  const breakpoints = [...new Set(descriptions.filter((item) => item.description || item.descriptionKo).map((item) => item.afterImage))].filter((value) => value > 0).sort((x, y) => x - y);
+  const segments = [...new Set([...breakpoints, media.length])]
+    .filter((end) => end > 0)
+    .map((end, index, ends) => {
+      const start = index === 0 ? 0 : ends[index - 1];
+      return { key: `${start}-${end}`, end, images: media.slice(start, end).filter((image) => image.url) };
+    });
   return (
     <PageTransition>
       <div className="portfolio-shell">
         {/* Project Title Section */}
         <main id="main-content" className="portfolio-project">
-          <FadeIn>
-            {project.year && <p className="portfolio-eyebrow">{project.year}</p>}
-            <h1 className="portfolio-title project-title-bilingual">
-              {project.title}
-              {project.titleKo && <span className="project-inline-ko" lang="ko">{project.titleKo}</span>}
-            </h1>
-            {(project.subtitle || project.subtitleKo) && (
-              <p className="portfolio-lede project-bilingual-line">
-                {project.subtitle && <span>{project.subtitle}</span>}
-                {project.subtitleKo && <span className="project-inline-ko" lang="ko">{project.subtitleKo}</span>}
-              </p>
+          <div className={cn("portfolio-project-intro", project.heroImage && "has-hero")}>
+            {project.heroImage && (
+              <section className="portfolio-project-hero">
+                <FadeIn>
+                  <ProjectHeroImage project={project} />
+                </FadeIn>
+              </section>
             )}
-            {[project.team, project.timeline].some(Boolean) && (
-              <p className="portfolio-project-top-meta project-bilingual-line">
-                {project.team && (
-                  <span>{showClientLabel ? `Client: ${project.team}` : project.team}</span>
-                )}
-                {localizedTeam && (
-                  <span className="project-inline-ko" lang="ko">
-                    {showClientLabel ? `클라이언트: ${localizedTeam}` : localizedTeam}
-                  </span>
-                )}
-                {project.timeline && (
-                  <span>{project.team ? ` · ${project.timeline}` : project.timeline}</span>
-                )}
-                {localizedTimeline && (
-                  <span className="project-inline-ko" lang="ko">
-                    {project.timeline && project.team ? ` · ${localizedTimeline}` : localizedTimeline}
-                  </span>
-                )}
-              </p>
-            )}
-            {project.externalUrl && (
-              <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
-                Open original <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
-              </a>
-            )}
-          </FadeIn>
-
-        {/* Project cover */}
-          {project.heroImage && (
-            <section className="portfolio-project-hero">
+            <div className="portfolio-project-info">
               <FadeIn>
-                <ProjectHeroImage project={project} />
-              </FadeIn>
-            </section>
-          )}
-          {(project.medium?.length || project.mediumKo?.length) && (
-            <p className="portfolio-project-medium project-bilingual-line">
-              {project.medium && project.medium.length > 0 && <span>{project.medium.join(" · ")}</span>}
-              {project.mediumKo?.length ? (
-                <span className="project-inline-ko" lang="ko">{project.mediumKo.join(" · ")}</span>
-              ) : null}
-            </p>
-          )}
-
-        {/* Project details */}
-        <section className="portfolio-project-copy">
-          <FadeIn>
-            <div className="portfolio-project-meta">
-              <div>
+                {project.year && <p className="portfolio-eyebrow">{project.year}</p>}
+                <h1 className="portfolio-title project-title-bilingual">
+                  {project.title}
+                  {project.titleKo && <span className="project-inline-ko" lang="ko">{project.titleKo}</span>}
+                </h1>
+                {(project.subtitle || project.subtitleKo) && (
+                  <p className="portfolio-lede project-bilingual-line">
+                    {project.subtitle && <span>{project.subtitle}</span>}
+                    {project.subtitleKo && <span className="project-inline-ko" lang="ko">{project.subtitleKo}</span>}
+                  </p>
+                )}
+                {[project.team, project.timeline].some(Boolean) && (
+                  <p className="portfolio-project-top-meta project-bilingual-line">
+                    {project.team && (
+                      <span>{showClientLabel ? `Client: ${project.team}` : project.team}</span>
+                    )}
+                    {localizedTeam && (
+                      <span className="project-inline-ko" lang="ko">
+                        {showClientLabel ? `클라이언트: ${localizedTeam}` : localizedTeam}
+                      </span>
+                    )}
+                    {project.timeline && (
+                      <span>{project.team ? ` · ${project.timeline}` : project.timeline}</span>
+                    )}
+                    {localizedTimeline && (
+                      <span className="project-inline-ko" lang="ko">
+                        {project.timeline && project.team ? ` · ${localizedTimeline}` : localizedTimeline}
+                      </span>
+                    )}
+                  </p>
+                )}
+                {project.externalUrl && (
+                  <a className="portfolio-project-link" href={project.externalUrl} target="_blank" rel="noreferrer">
+                    Open original <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                )}
+                {(project.medium?.length || project.mediumKo?.length) && (
+                  <p className="portfolio-project-medium project-bilingual-line">
+                    {project.medium && project.medium.length > 0 && <span>{project.medium.join(" · ")}</span>}
+                    {project.mediumKo?.length ? (
+                      <span className="project-inline-ko" lang="ko">{project.mediumKo.join(" · ")}</span>
+                    ) : null}
+                  </p>
+                )}
                 {(project.role || project.roleKo) && (
-                  <h2 className="project-bilingual-line">
+                  <h2 className="portfolio-project-role project-bilingual-line">
                     {project.role && <span>{project.role.split(",")[0]}</span>}
                     {project.roleKo && <span className="project-inline-ko" lang="ko">{project.roleKo}</span>}
                   </h2>
                 )}
-              </div>
+              </FadeIn>
             </div>
-          </FadeIn>
-        </section>
+          </div>
 
         {/* Additional project images */}
         <section className="portfolio-project-gallery">
           <FadeInStagger staggerDelay={0.15}>
             <div className="portfolio-project-gallery">
               {descriptionsAfter(0)}
-              {media.map((image, index) => (
-                <Fragment key={image.id}>
-                  {image.url && (
-                    <FadeIn className="portfolio-gallery-item">
-                      <ProjectImage src={image.url} alt={image.alt} caption={image.caption} aspectRatio={image.aspectRatio} />
-                    </FadeIn>
-                  )}
-                  {descriptionsAfter(index + 1)}
+              {segments.map((segment) => (
+                <Fragment key={segment.key}>
+                  <div className="portfolio-gallery-columns">
+                    {splitColumns(segment.images).map((column, columnIndex) => (
+                      <div className="portfolio-gallery-column" key={columnIndex}>
+                        {column.map((image) => (
+                          <FadeIn key={image.id} className="portfolio-gallery-item">
+                            <ProjectImage src={image.url} alt={image.alt} caption={image.caption} aspectRatio={image.aspectRatio} />
+                          </FadeIn>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  {descriptionsAfter(segment.end)}
                 </Fragment>
               ))}
             </div>
@@ -221,6 +226,17 @@ const ProjectDetail = () => {
       </div>
     </PageTransition>
   );
+};
+
+const splitColumns = (images: Project["images"]) => {
+  const columns: Project["images"][] = [[], []];
+  const heights = [0, 0];
+  (images ?? []).forEach((image) => {
+    const target = heights[0] <= heights[1] ? 0 : 1;
+    columns[target].push(image);
+    heights[target] += 1 / (image.aspectRatio || 1.5);
+  });
+  return columns;
 };
 
 const ProjectDescription = ({

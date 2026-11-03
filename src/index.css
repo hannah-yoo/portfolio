@@ -784,15 +784,38 @@ All colors MUST be HSL.
   margin-bottom: 18px;
 }
 
+.portfolio-project-intro {
+  display: block;
+}
+
+.portfolio-project-intro.has-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: 32px;
+}
+
+.portfolio-project-intro.has-hero .portfolio-project-info {
+  position: sticky;
+  top: 24px;
+}
+
 .portfolio-project-hero {
   width: 100%;
-  margin: 28px 0 32px;
+  margin: 0;
 }
 
 .portfolio-project-hero .project-hero-image {
-  width: min(100%, calc(min(70vh, 680px) * var(--hero-ratio, 1.5)));
+  width: min(100%, calc(min(80vh, 760px) * var(--hero-ratio, 1.5)));
   height: auto;
-  margin-right: auto;
+}
+
+.portfolio-project-role {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .project-hero-image {
@@ -844,15 +867,25 @@ main.portfolio-project > section.portfolio-project-gallery {
 
 main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-project-gallery {
   width: 100%;
-  columns: 2;
-  column-gap: 24px;
+}
+
+.portfolio-gallery-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.portfolio-gallery-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
 }
 
 .portfolio-gallery-item {
-  display: inline-block;
-  width: 100%;
-  margin: 0 0 24px;
-  break-inside: avoid;
+  min-width: 0;
 }
 
 .portfolio-gallery-wide {
@@ -932,13 +965,9 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 
 .portfolio-project-medium {
   width: 100%;
-  margin: 16px 0 28px;
+  margin: 16px 0 12px;
   color: #777;
   font-size: 13px;
-}
-
-.portfolio-project-hero + .portfolio-project-medium {
-  margin-top: -20px;
 }
 
 .portfolio-project-top-meta {
@@ -1177,13 +1206,13 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
     padding: 24px 0;
   }
 
-  .portfolio-project-medium {
-    margin-bottom: 32px;
-  }
-
   .portfolio-project-meta {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+
+  .portfolio-gallery-columns {
+    grid-template-columns: 1fr;
   }
 
   .work-image {
@@ -1197,5 +1226,15 @@ main.portfolio-project > section.portfolio-project-gallery > div > .portfolio-pr
 
   .portfolio-footer nav {
     gap: 6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .portfolio-project-intro.has-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-project-intro.has-hero .portfolio-project-info {
+    position: static;
   }
 }
