@@ -191,17 +191,30 @@ const ProjectDetail = () => {
               {descriptionsAfter(0)}
               {segments.map((segment) => (
                 <Fragment key={segment.key}>
-                  <div className="portfolio-gallery-columns">
-                    {splitColumns(segment.images).map((column, columnIndex) => (
-                      <div className="portfolio-gallery-column" key={columnIndex}>
-                        {column.map((image) => (
-                          <FadeIn key={image.id} className="portfolio-gallery-item">
-                            <ProjectImage src={image.url} alt={image.alt} caption={image.caption} aspectRatio={image.aspectRatio} />
-                          </FadeIn>
+                  {splitGalleryRows(segment.images).map((row, rowIndex) =>
+                    row.type === "wide" ? (
+                      <FadeIn key={`${row.images[0].id}-${rowIndex}`} className="portfolio-gallery-wide-image">
+                        <ProjectImage
+                          src={row.images[0].url}
+                          alt={row.images[0].alt}
+                          caption={row.images[0].caption}
+                          aspectRatio={row.images[0].aspectRatio}
+                        />
+                      </FadeIn>
+                    ) : (
+                      <div className="portfolio-gallery-columns" key={`columns-${rowIndex}`}>
+                        {splitColumns(row.images).map((column, columnIndex) => (
+                          <div className="portfolio-gallery-column" key={columnIndex}>
+                            {column.map((image) => (
+                              <FadeIn key={image.id} className="portfolio-gallery-item">
+                                <ProjectImage src={image.url} alt={image.alt} caption={image.caption} aspectRatio={image.aspectRatio} />
+                              </FadeIn>
+                            ))}
+                          </div>
                         ))}
                       </div>
-                    ))}
-                  </div>
+                    )
+                  )}
                   {descriptionsAfter(segment.end)}
                 </Fragment>
               ))}
@@ -226,6 +239,30 @@ const ProjectDetail = () => {
       </div>
     </PageTransition>
   );
+};
+
+const splitGalleryRows = (images: Project["images"]) => {
+  const rows: Array<{ type: "columns" | "wide"; images: Project["images"] }> = [];
+  let columnImages: Project["images"] = [];
+
+  const flushColumns = () => {
+    if (columnImages.length) {
+      rows.push({ type: "columns", images: columnImages });
+      columnImages = [];
+    }
+  };
+
+  (images ?? []).forEach((image) => {
+    if ((image.aspectRatio ?? 1.5) >= 2.4) {
+      flushColumns();
+      rows.push({ type: "wide", images: [image] });
+    } else {
+      columnImages.push(image);
+    }
+  });
+
+  flushColumns();
+  return rows;
 };
 
 const splitColumns = (images: Project["images"]) => {
