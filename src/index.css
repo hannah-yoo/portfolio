@@ -257,22 +257,14 @@ All colors MUST be HSL.
 .portfolio-shell {
   container-type: inline-size;
   min-height: 100vh;
-  background: #fff;
+  background: #f8f8f6;
   color: #111;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   letter-spacing: -0.02em;
 }
 
-body[data-surface] .portfolio-shell {
-  background: transparent;
-}
-
-body[data-surface="fine-arts"] {
-  background: #f4efe4 url("./assets/textures/canvas-cloth.svg") top left / 320px 320px repeat;
-}
-
-body[data-surface="design"] {
-  background: #f2f2f2 url("./assets/textures/design-bitmap.svg") top left / 96px 96px repeat;
+body[data-surface] {
+  background: #f8f8f6;
 }
 
 body[data-surface="design"],
@@ -287,7 +279,7 @@ body[data-surface="fine-arts"] * {
 
 body[data-surface="photography-video"],
 body[data-surface="photography-video"] * {
-  cursor: url("./assets/cursors/camera.svg") 32 26, auto;
+  cursor: url("./assets/cursors/camera-cursor.png") 8 7, auto;
 }
 
 [lang="ko"] {
