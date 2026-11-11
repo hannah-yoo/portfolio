@@ -1,5 +1,204 @@
 [
   {
+    "id": "reciNFi98C994dnt2",
+    "slug": "field-notes-on-gwanak",
+    "title": "Field Notes on Gwanak",
+    "titleKo": "관악 관찰",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2025",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Seoul Youth Center Gwanak branch",
+    "teamKo": "서울 광역청년센터 관악",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/dmgBMCFmU4v8qdiG2d-sJg/je6yB3QUIOkiyEfV-eabY0CHG7J39Tje0JuG91HKQ6yriH1pGLDgTpo4QUzqDrQT-KMKMP5ElEvte264KXuYGU-2JC1fh48fIiHomFZ7z4yrzM7QjRfFPuUd8AY5BbGENaH218o-DtWwFuqnLHaebg/c4oZTLzalel-0kTj1s15PDBaSscLkVUmfMQtK9k9Jjk",
+    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/4YIq8QQquDVb-EsjzRRPMg/UiNsOMPnHFTbJZLVRAVWiUEgTp0mzldUrYjMV63HaPOKUMwRCLnZd_LF-6XmahmLJtxDUJ4HDKBVcVWEbRC2dZQe0dnEL-Jc-GKOyDbK67Wl7DHPppNNgzOnySMeGEZJAsWnCsdIc3YpuWBgWZg_rg/kOHxlm5fxNpfeXWH6cFbgl8I1sHSQRTBdBDc8XayH90",
+    "externalUrl": "",
+    "images": [
+      {
+        "id": "field-notes-on-gwanak-2-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/m42exl4CNZvjPFeV2N3aJw/uEeZk7L5KDJ25COyljxTEPl5UwPY6-YeMjn7-saQe1eA9TCRej8FdWnTiqtbbvCx3k7u8-PSw7kdYQL-iTjVKZKNaAGlYrbljXPXMOeWKW6xz4rkqZGBn94yE7Mh9IKuK20P1B4X_Om3Jogz2Ar70UAz6UH0Lxy3GB4WFesZt6k/LDXonlhA8ac0hsbfh7_frO4QRom2SuuBmXndErXM08w",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/srfq_JjCZ0Pok3kcHkkdMw/FQQMLeogpqQjT6qbZgA7we14INdcZlf3nU4tY40OeLAFHOIw4djUYLRM8QDQa2_ukOPLHUWEUaWiYLxGjkyhYELebIyfZqh_cWg3zwp8A9sRp64nYrxjZKd7_f93OpklE2QDcOf4U2cHHHlaZE6KLw/1PQ4vbK0oPQ6LMmS36_HWjq50I-M_q3-4HEc4MIaGAM",
+        "alt": "스캔20250901_08.jpg",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.3856562922868743,
+        "groupId": "field-notes-on-gwanak-2",
+        "layout": "single"
+      },
+      {
+        "id": "field-notes-on-gwanak-3-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/xBpbG4LTAD3kO27OTga75Q/1phv2lo8YWlgYNLN-wd39ISm3TziSCI54nDbWoS16q9vHwIojb1ifexIbwvWBIhfn7u1vyWSfoCtyRWGEetbowyDkognBnjtLZ86GAG3CkOnxo_l5wqLRbsWEYaxaWH_6Us3WYqWssx1I0JQ5PD5uzVLverp1227oV-676idX2o/P5gVkU9-hjbrpxdnCE4uNkgK4ivo6JMl2-oFCXk_NS8",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/juM5IeUHbTRU1l87CZW2WA/Y_J4V_5qv2SjaCW0tiK600tCjNw0MY6TWB6ebvPKfuBza6LiC4Cd24heLF70AR7gGCZCbxWaodz8kjzP0N8Np88ubgHxUDt5lhU7dJz1xQen_Yv-3emrU4nn0U66cDXumPDfV9iZ73OxrS7D9hdtog/7VAdzZ2n88KIsj8zhHKrIQTttNtjsB7i6Tvg534JupI",
+        "alt": "스캔20250901_06.jpg",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.4104683195592287,
+        "groupId": "field-notes-on-gwanak-3",
+        "layout": "single"
+      }
+    ],
+    "tags": [],
+    "medium": [
+      "Editorial Design"
+    ],
+    "mediumKo": [
+      "편집 디자인"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "design"
+  },
+  {
+    "id": "reccbrLfcctrOya8Z",
+    "slug": "up",
+    "title": "UP",
+    "titleKo": "업",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2026",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "https://hannah-yoo.github.io/up/",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Personal work",
+    "teamKo": "개인 작업",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "",
+    "heroThumbnail": "",
+    "externalUrl": "",
+    "images": [],
+    "tags": [
+      "Web Design"
+    ],
+    "medium": [
+      "Web Design"
+    ],
+    "mediumKo": [
+      "웹 디자인"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "design"
+  },
+  {
+    "id": "recLx0gdWJg8UDPrY",
+    "slug": "indie-novel-doggy-b",
+    "title": "Indie Novel 「Doggy B****」",
+    "titleKo": "인디 소설 「개같은 X」",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2026",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Boksun",
+    "teamKo": "작가 복순",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/5LMGoOvowfz9gAC09t8NjQ/WSika7yKPim5xGD0bt_ZOShigL5O_0OoayxK8_ltOWPDblnHUYadi6afxolqMiAy8zOGZ4Des-tTeoCAEO2bLx6l79LKoxvj7THVJ_SXRIwsIqM197ols0_GkykM2pyqxxjbfzv__eFqSMrnKNf24nq3M6t_ds7pay19lBt8QKg/ich3k1RqADIkFxi1EkMeDHkfps7RIJD3y46AUwuGD5o",
+    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/JGeT_jgE-bFyl1BVj3LUfg/oFrbpFRPm-YLqjPYkAER5YGA8rZ3sGE3TJxU1MdwprgfiymvveVzfgyAY8sowQjZakaLG5mMjAjU2Ii3xD5NLRLQRAYkMnRm48x5KYy2cEQp1C7D00bVy2nH46u_lPKhSK-dM-dKrcQBvV56kjG9cA/14GyYJkLUdIi4LMS2ZP5K_dojrUf7naDj1OIzEbwIfo",
+    "externalUrl": "",
+    "images": [
+      {
+        "id": "indie-novel-doggy-b-2-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/emLHvcZ9IBheAmDXeKHMTw/gWDXyvSYVGlr4RnPf8l71GGkcfBKmy8kNknio_2PfMbIsyEF_25lNPKfTziENbxXZ_w9v78PrHdeisMDTI8c-Sx98d2Atk6p1LWLOqFKVn2GMH45hRLR467O9SmQjlx1FvsTV6PZpaoNDO5Tr_WZPILYCH4YA6SOHvvS7zf0UaU/a_sbWmEbcS_R6HWt5ubBmBZdY_MilqPnVSqDi5OHirw",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/GgEa7gvlrdpzNBxcDBrIug/xw5dc0HsBCubDgRgyo26P_rQMOOWPpk3euivbxlkSLoI6NCLV-srtaqmmSyibJHx-91Yt0MaVSF1PU6ilBmmufmZSHjipAzqDuH1A7eoQ6rN1UCoHO2DMZbsoImXgxq0pTRPBaeH5FkZ_rwBr2uX-A/lWQSD_dqGuuXjpbTuAmtZmdXtoR6T4FrQFexopWuE_0",
+        "alt": "Frame 2.jpg",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.5,
+        "groupId": "indie-novel-doggy-b-2",
+        "layout": "single"
+      },
+      {
+        "id": "indie-novel-doggy-b-3-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/1y5cIAcNVhnjfjjLJh6VdA/1V2otJ_7Rkx6qI9oSWLZ44ir8iU2LwGJ72i521nnwZO6seDn7gDVKd-vavo0N_54AZdvNHjO_KeygbiFqaFu0hg7ISFBojdZSV6iRRens5TsHAllMjf2LWEpwsS5GsdHwLqE4pxD75ptfQWz9iO3L4Mc4BslBvCIkaXIZo05IFA/sEDRc2AMotK_kWkbNroSA5MdR_80kRS11WFmBiTIHyo",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/HZ5CEfKsWrCAHoIa0WKvug/4Csf95UnnbOCzV7cn-zkKfPb5iin0QOvsyCIBZp_h15w6m00RrQ0TNe7M_B_fqw6bDTSelVRXUh5hod4jolWNgERJ1PaoH4xcK7TQb1xSxXWhko-AsZ-UtAnNkOyeIJPZ5iDfZuv_iExf8vjVE0Ndw/g-BEUWwDZWcMhB9ju4fwzmNmS22Owv7o3JASvMSYYm0",
+        "alt": "Frame 1.jpg",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 3.5676767676767676,
+        "groupId": "indie-novel-doggy-b-3",
+        "layout": "single"
+      }
+    ],
+    "tags": [],
+    "medium": [
+      "Book cover Design",
+      "Goods Design"
+    ],
+    "mediumKo": [
+      "책표지와 엽서 디자인"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "design"
+  },
+  {
+    "id": "rec9VmIXdKokakWPN",
+    "slug": "floorings",
+    "title": "Floorings",
+    "titleKo": "이름 없는 장판들",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2026",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "https://hannah-yoo.github.io/flooring/",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Personal work",
+    "teamKo": "개인 작업",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "",
+    "heroThumbnail": "",
+    "externalUrl": "",
+    "images": [],
+    "tags": [
+      "Web Design"
+    ],
+    "medium": [
+      "Web Design"
+    ],
+    "mediumKo": [
+      "웹 디자인"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "design"
+  },
+  {
     "id": "recfyE7hurmPGEngy",
     "slug": "frozen-pollock-fisheries",
     "title": "Frozen Pollock Fisheries",
@@ -138,148 +337,6 @@
     "category": "design"
   },
   {
-    "id": "recErXXN26kjNNSPI",
-    "slug": "power-up-in-hk-seoul",
-    "title": "Power up in HK & Seoul",
-    "titleKo": "파워업 in 홍콩&서울",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2023",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Collaboration with PolyU School of Design",
-    "teamKo": "홍콩 국립 이공대학 디자인학부 협업",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/1SlwnCLBMGNChLqJbnZv6g/ZY0Q0VkvmkXK8ZTDR6j87e7WPq_HaqVi6urGbUR22ialf5IPRC_Dh8mOJcfn83-G8voTzp5lokv4KrL5cx4RolLxx94UdZKNXA3OiCV90zCPN2zX7e-U74gUuTDlyNUx0_HiA7haRN0cvrOyjNPl6QdBKG4E5HJoz0uafpZ2I2dB77KKr878G4zkpyyZ06mF/sp2jX3rZNMu9-busXGNH4V72eSEgCIyOrm1ysfvjQsI",
-    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/K2fnjFhRs-fAkbxTF8CHkQ/owQ_C1IQ6DOIKGBHBP5Q_VtBBd-Z-8L8LIJyP5jN2Fb_E74PigujBNkU7WHlvttdDqkckMzzjpkT6BgRP_ek-8UOdX8g4VHlEOJu_O00NLulVUOmyB7HSpg7TplRIkPkFyJWHM0Zuyb4ahwwCcZfJA/kyGt4FK5NDmTlPwecpekQsIyK-EE_FJprINZ_M0dIcw",
-    "externalUrl": "",
-    "images": [
-      {
-        "id": "power-up-in-hk-seoul-2-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/wwaaf6WQYwcwFb6s3S0HMw/sb8oH8BdxNDfkw0b01r_rbPoCEmQg2Kal8Xk6J4sWz3ZSA4Y7cZKxeMedNPgwfCT_GFaEvXY5KdfphFBu2B54_51x7UY5OETX2ifcS9Zzo2uLXkjH-mrENncmnuJp_vinSWdgwyi4TfMeUJe27TxWeFdoNUb9oomI0dw1XkRuHM/WRQEQcpz73uwGX31BE39eGVOfCPEohmQp12HpvjaIVI",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qyaUpgaaP-7RBJHe3sy-1g/5y-lQ0lAbZH_8Z-5xhrlOtVYty6cNPmGAMXhaO9l3st9pkOobcnkHD8WUi3v9hWlwjv_YyYjDUhD_WDKQGRLmb0EXN1nqS2wvHG12gbN80jt-tjMrDYqvTiyvglvDtTsW51c8bxkXC30YfHdU0ULUA/oY9tK8lo1vP0Payw-kxBsV6hSm1PUN9hDGiVM8qVuoo",
-        "alt": "purple.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.2837238758708043,
-        "groupId": "power-up-in-hk-seoul-2",
-        "layout": "single"
-      },
-      {
-        "id": "power-up-in-hk-seoul-3-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/TC95wLt7rPqqy4hWQSHATA/PFnW2XqRqFcAdWZfOkmgi0KJ94gE0zUZfH1A-bT5aG_U7rg7TKU0FHDKND0CXE4w5QdZAZr1LlcAeTbxG2zGr-Q2qguXTrtqsmjIDeQc4iJBlIdMm0VyDthFHbhmTB03EZzcv_u_NarquqmBodZ3cyG06_YrWH7G1YcgvQKMfYM/0aP5d4jdXcbZ3B1un8deFlcMGT7DP4VG5Uhyz8-LVgg",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/WigtkmAH8rbTBXMRZF3r1Q/SD75H4AZ-3XfSFVEltphOSHJLDFA_YKce7996npWkriE5sd9i6rnQsT2L-zWrEYVZD5lDokJirSjKeOjwo-xqNYfWT9ObnVUUWfov_hc0Xjc8QKpKGMdPRWVK25L5MwBc1DtcWYWi4l2UO3DtqJiQg/OWNw2TnlBP5sgJMqSRkJw8dThIZFuSBZBHoW7ahQwrI",
-        "alt": "Green mockup.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.2797619047619047,
-        "groupId": "power-up-in-hk-seoul-3",
-        "layout": "single"
-      },
-      {
-        "id": "power-up-in-hk-seoul-4-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/73E9-hRE9AuHqMpoGtQ4Uw/E9AHkZDqMRgJf3f5GRt0hgxg1SzEIoi5XWIJJ7GpPy28JHRn6x-tkiH826xBwkwsh0aKChzFX4wF8jl-fgbV6tgaKSfFOP7uRZiWIZQjfggMDf-Cl82vchxpKwYU_JhrYcFcX6sHFXh24XuShFTRbg/FAwZ8PTNc6AmOFV8UXgj1X30u74aYVfXJb7lteEqxQE",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/dY4IkYaPQYlbtQGxD6YoFg/4QRRdv-NteL066zKDGZ6NxG0RRUqqgvQhI0W3VLsvBf3Y8qfGhFsIOkTLL7-viO9D38US_X4MLrxxMZEUYSGJQ2tM8iPQPcvsQZ7LLw_Xw4TWzFyKgBz0T_NXTEugdbdPixQ0WgR-UbpWBiJiOVIqg/1ph8Xft6-xzlGRDgV8mBIyENaJiiLhUO1AqrkqiNmak",
-        "alt": "보라 목업.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.4085281980742779,
-        "groupId": "power-up-in-hk-seoul-4",
-        "layout": "single"
-      },
-      {
-        "id": "power-up-in-hk-seoul-5-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/5lj0mykAQ8j0RchxMlBivg/qPkKWUwZkMP3xLUaqCwjFarpQx4p4xrKfnCmBdvTu549D2V4x2tYJxwkY1mwMHXJovpBlmY0ojBHaXuOiI5z7ekD-_O23nv0dAmoKmM7isIxkhdgGc-Gj-KLbMWhEhohIJemo0hHq2NeBGYATJqIYA/4-3zv5-QQ1kMG38UupSZuNXmc23ST0FhWC6tXE7W-_k",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/KmzLslEMw3m_G96rtiuv_g/TF_hh64Mc4IsQnIU1RgxCml5_cbAkBYY-3RXwUFsQhHa-qrSHUGmgAEIdr878gIGdGTJBMsSCi0QxVUNja77lOchFtJUCbLRgFxStCDktA5Vt8JmkAI2lG5KFqSxx3r2v4Gm2s9w0MraRJGGMtsPoA/43zcYinhj_Tzv_qMnQDF8RT5vTe0j4CJF9JU8YuP7a0",
-        "alt": "폰 목업.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.4166666666666667,
-        "groupId": "power-up-in-hk-seoul-5",
-        "layout": "single"
-      }
-    ],
-    "tags": [],
-    "medium": [
-      "Poster Design"
-    ],
-    "mediumKo": [
-      "포스터 디자인"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "design"
-  },
-  {
-    "id": "reciNFi98C994dnt2",
-    "slug": "field-notes-on-gwanak",
-    "title": "Field Notes on Gwanak",
-    "titleKo": "관악 관찰",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2025",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Seoul Youth Center Gwanak branch",
-    "teamKo": "서울 광역청년센터 관악",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/EHrmx9QcO3ad8jRxqIfbbQ/gwkQ-LyIQHRkqU089bmuCSPt3qjsdfFoyf0bbxI_K9TNnHcebLpEGFsYt3Pq6gwJwMCn7-INiXkF9iWu2G6agG42-2_0ip3P2UHuYMbqojsOY69hvNXP9bcwFC74FhXt7hgM7ot3jXmA7s--uPVYcA/ozO6SVGZpF7IRohV2dBu48aW-mHkRoNBVE6Xjjlo1_c",
-    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/rRek-wI_WcMTRbWbvKwQuw/z_eobtYMYh4tbW4DGKhyi1zecDwLdxWIBmMDeT_64tl07OmwDz_FdziZ9b30IDIKRnhhaOogCauMKJoqJqNgAMXeSmpRJh4V2wkDAADPv_PKovLdh0ujch7i3HcKVTMloUJuy9P_eDsoEb3xvwKSrw/WLcL50cQ4vPKZFeo0Cae51ndwDVwPH5fLsis_0Wrylk",
-    "externalUrl": "",
-    "images": [
-      {
-        "id": "field-notes-on-gwanak-2-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/m42exl4CNZvjPFeV2N3aJw/uEeZk7L5KDJ25COyljxTEPl5UwPY6-YeMjn7-saQe1eA9TCRej8FdWnTiqtbbvCx3k7u8-PSw7kdYQL-iTjVKZKNaAGlYrbljXPXMOeWKW6xz4rkqZGBn94yE7Mh9IKuK20P1B4X_Om3Jogz2Ar70UAz6UH0Lxy3GB4WFesZt6k/LDXonlhA8ac0hsbfh7_frO4QRom2SuuBmXndErXM08w",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/srfq_JjCZ0Pok3kcHkkdMw/FQQMLeogpqQjT6qbZgA7we14INdcZlf3nU4tY40OeLAFHOIw4djUYLRM8QDQa2_ukOPLHUWEUaWiYLxGjkyhYELebIyfZqh_cWg3zwp8A9sRp64nYrxjZKd7_f93OpklE2QDcOf4U2cHHHlaZE6KLw/1PQ4vbK0oPQ6LMmS36_HWjq50I-M_q3-4HEc4MIaGAM",
-        "alt": "스캔20250901_08.jpg",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.3856562922868743,
-        "groupId": "field-notes-on-gwanak-2",
-        "layout": "single"
-      },
-      {
-        "id": "field-notes-on-gwanak-3-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/xBpbG4LTAD3kO27OTga75Q/1phv2lo8YWlgYNLN-wd39ISm3TziSCI54nDbWoS16q9vHwIojb1ifexIbwvWBIhfn7u1vyWSfoCtyRWGEetbowyDkognBnjtLZ86GAG3CkOnxo_l5wqLRbsWEYaxaWH_6Us3WYqWssx1I0JQ5PD5uzVLverp1227oV-676idX2o/P5gVkU9-hjbrpxdnCE4uNkgK4ivo6JMl2-oFCXk_NS8",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/juM5IeUHbTRU1l87CZW2WA/Y_J4V_5qv2SjaCW0tiK600tCjNw0MY6TWB6ebvPKfuBza6LiC4Cd24heLF70AR7gGCZCbxWaodz8kjzP0N8Np88ubgHxUDt5lhU7dJz1xQen_Yv-3emrU4nn0U66cDXumPDfV9iZ73OxrS7D9hdtog/7VAdzZ2n88KIsj8zhHKrIQTttNtjsB7i6Tvg534JupI",
-        "alt": "스캔20250901_06.jpg",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 1.4104683195592287,
-        "groupId": "field-notes-on-gwanak-3",
-        "layout": "single"
-      }
-    ],
-    "tags": [],
-    "medium": [
-      "Editorial Design"
-    ],
-    "mediumKo": [
-      "편집 디자인"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "design"
-  },
-  {
     "id": "recXXpi7Tq0WakJWt",
     "slug": "derinkuyu",
     "title": "Derinkuyu",
@@ -362,45 +419,6 @@
     "category": "design"
   },
   {
-    "id": "recLx0gdWJg8UDPrY",
-    "slug": "indie-novel",
-    "title": "Indie Novel",
-    "titleKo": "인디 소설",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2026",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Boksun",
-    "teamKo": "작가 복순",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "",
-    "heroThumbnail": "",
-    "externalUrl": "",
-    "images": [],
-    "tags": [],
-    "medium": [
-      "Book cover Design",
-      "Goods Design"
-    ],
-    "mediumKo": [
-      "책표지",
-      "인쇄물 디자인"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "design"
-  },
-  {
     "id": "recZS7fVhSHKqsMEb",
     "slug": "sincerly",
     "title": "Sincerly,",
@@ -438,91 +456,13 @@
     "category": "design"
   },
   {
-    "id": "rec9VmIXdKokakWPN",
-    "slug": "floorings",
-    "title": "Floorings",
-    "titleKo": "이름 없는 장판들",
+    "id": "recErXXN26kjNNSPI",
+    "slug": "power-up-in-hk-seoul",
+    "title": "Power up in HK & Seoul",
+    "titleKo": "파워업 in 홍콩&서울",
     "subtitle": "",
     "subtitleKo": "",
-    "year": "2026",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "https://hannah-yoo.github.io/flooring/",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Personal work",
-    "teamKo": "개인 작업",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "",
-    "heroThumbnail": "",
-    "externalUrl": "",
-    "images": [],
-    "tags": [
-      "Web Design"
-    ],
-    "medium": [
-      "Web Design"
-    ],
-    "mediumKo": [
-      "웹 디자인"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "design"
-  },
-  {
-    "id": "reccbrLfcctrOya8Z",
-    "slug": "up",
-    "title": "UP",
-    "titleKo": "업",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2026",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "https://hannah-yoo.github.io/up/",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Personal work",
-    "teamKo": "개인 작업",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "",
-    "heroThumbnail": "",
-    "externalUrl": "",
-    "images": [],
-    "tags": [
-      "Web Design"
-    ],
-    "medium": [
-      "Web Design"
-    ],
-    "mediumKo": [
-      "웹 디자인"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "design"
-  },
-  {
-    "id": "recql6dtFwmDrfE3y",
-    "slug": "nobody-home",
-    "title": "Nobody Home",
-    "titleKo": "노바디 홈",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2024",
+    "year": "2023",
     "description": "",
     "descriptionKo": "",
     "topDescription": "",
@@ -533,20 +473,147 @@
     "bottomDescriptionKo": "",
     "role": "",
     "roleKo": "",
-    "team": "Personal work",
+    "team": "Collaboration with PolyU School of Design",
+    "teamKo": "홍콩 국립 이공대학 디자인학부 협업",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/1SlwnCLBMGNChLqJbnZv6g/ZY0Q0VkvmkXK8ZTDR6j87e7WPq_HaqVi6urGbUR22ialf5IPRC_Dh8mOJcfn83-G8voTzp5lokv4KrL5cx4RolLxx94UdZKNXA3OiCV90zCPN2zX7e-U74gUuTDlyNUx0_HiA7haRN0cvrOyjNPl6QdBKG4E5HJoz0uafpZ2I2dB77KKr878G4zkpyyZ06mF/sp2jX3rZNMu9-busXGNH4V72eSEgCIyOrm1ysfvjQsI",
+    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/K2fnjFhRs-fAkbxTF8CHkQ/owQ_C1IQ6DOIKGBHBP5Q_VtBBd-Z-8L8LIJyP5jN2Fb_E74PigujBNkU7WHlvttdDqkckMzzjpkT6BgRP_ek-8UOdX8g4VHlEOJu_O00NLulVUOmyB7HSpg7TplRIkPkFyJWHM0Zuyb4ahwwCcZfJA/kyGt4FK5NDmTlPwecpekQsIyK-EE_FJprINZ_M0dIcw",
+    "externalUrl": "",
+    "images": [
+      {
+        "id": "power-up-in-hk-seoul-2-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/wwaaf6WQYwcwFb6s3S0HMw/sb8oH8BdxNDfkw0b01r_rbPoCEmQg2Kal8Xk6J4sWz3ZSA4Y7cZKxeMedNPgwfCT_GFaEvXY5KdfphFBu2B54_51x7UY5OETX2ifcS9Zzo2uLXkjH-mrENncmnuJp_vinSWdgwyi4TfMeUJe27TxWeFdoNUb9oomI0dw1XkRuHM/WRQEQcpz73uwGX31BE39eGVOfCPEohmQp12HpvjaIVI",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qyaUpgaaP-7RBJHe3sy-1g/5y-lQ0lAbZH_8Z-5xhrlOtVYty6cNPmGAMXhaO9l3st9pkOobcnkHD8WUi3v9hWlwjv_YyYjDUhD_WDKQGRLmb0EXN1nqS2wvHG12gbN80jt-tjMrDYqvTiyvglvDtTsW51c8bxkXC30YfHdU0ULUA/oY9tK8lo1vP0Payw-kxBsV6hSm1PUN9hDGiVM8qVuoo",
+        "alt": "purple.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.2837238758708043,
+        "groupId": "power-up-in-hk-seoul-2",
+        "layout": "single"
+      },
+      {
+        "id": "power-up-in-hk-seoul-3-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/TC95wLt7rPqqy4hWQSHATA/PFnW2XqRqFcAdWZfOkmgi0KJ94gE0zUZfH1A-bT5aG_U7rg7TKU0FHDKND0CXE4w5QdZAZr1LlcAeTbxG2zGr-Q2qguXTrtqsmjIDeQc4iJBlIdMm0VyDthFHbhmTB03EZzcv_u_NarquqmBodZ3cyG06_YrWH7G1YcgvQKMfYM/0aP5d4jdXcbZ3B1un8deFlcMGT7DP4VG5Uhyz8-LVgg",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/WigtkmAH8rbTBXMRZF3r1Q/SD75H4AZ-3XfSFVEltphOSHJLDFA_YKce7996npWkriE5sd9i6rnQsT2L-zWrEYVZD5lDokJirSjKeOjwo-xqNYfWT9ObnVUUWfov_hc0Xjc8QKpKGMdPRWVK25L5MwBc1DtcWYWi4l2UO3DtqJiQg/OWNw2TnlBP5sgJMqSRkJw8dThIZFuSBZBHoW7ahQwrI",
+        "alt": "Green mockup.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.2797619047619047,
+        "groupId": "power-up-in-hk-seoul-3",
+        "layout": "single"
+      },
+      {
+        "id": "power-up-in-hk-seoul-4-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/73E9-hRE9AuHqMpoGtQ4Uw/E9AHkZDqMRgJf3f5GRt0hgxg1SzEIoi5XWIJJ7GpPy28JHRn6x-tkiH826xBwkwsh0aKChzFX4wF8jl-fgbV6tgaKSfFOP7uRZiWIZQjfggMDf-Cl82vchxpKwYU_JhrYcFcX6sHFXh24XuShFTRbg/FAwZ8PTNc6AmOFV8UXgj1X30u74aYVfXJb7lteEqxQE",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/dY4IkYaPQYlbtQGxD6YoFg/4QRRdv-NteL066zKDGZ6NxG0RRUqqgvQhI0W3VLsvBf3Y8qfGhFsIOkTLL7-viO9D38US_X4MLrxxMZEUYSGJQ2tM8iPQPcvsQZ7LLw_Xw4TWzFyKgBz0T_NXTEugdbdPixQ0WgR-UbpWBiJiOVIqg/1ph8Xft6-xzlGRDgV8mBIyENaJiiLhUO1AqrkqiNmak",
+        "alt": "보라 목업.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.4085281980742779,
+        "groupId": "power-up-in-hk-seoul-4",
+        "layout": "single"
+      },
+      {
+        "id": "power-up-in-hk-seoul-5-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/5lj0mykAQ8j0RchxMlBivg/qPkKWUwZkMP3xLUaqCwjFarpQx4p4xrKfnCmBdvTu549D2V4x2tYJxwkY1mwMHXJovpBlmY0ojBHaXuOiI5z7ekD-_O23nv0dAmoKmM7isIxkhdgGc-Gj-KLbMWhEhohIJemo0hHq2NeBGYATJqIYA/4-3zv5-QQ1kMG38UupSZuNXmc23ST0FhWC6tXE7W-_k",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/KmzLslEMw3m_G96rtiuv_g/TF_hh64Mc4IsQnIU1RgxCml5_cbAkBYY-3RXwUFsQhHa-qrSHUGmgAEIdr878gIGdGTJBMsSCi0QxVUNja77lOchFtJUCbLRgFxStCDktA5Vt8JmkAI2lG5KFqSxx3r2v4Gm2s9w0MraRJGGMtsPoA/43zcYinhj_Tzv_qMnQDF8RT5vTe0j4CJF9JU8YuP7a0",
+        "alt": "폰 목업.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 1.4166666666666667,
+        "groupId": "power-up-in-hk-seoul-5",
+        "layout": "single"
+      }
+    ],
+    "tags": [],
+    "medium": [
+      "Poster Design"
+    ],
+    "mediumKo": [
+      "포스터 디자인"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "design"
+  },
+  {
+    "id": "rec9JK3uTOqVC6nhW",
+    "slug": "abstracted-things",
+    "title": "Abstracted things",
+    "titleKo": "추상한 것들",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2023",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Personal Work",
     "teamKo": "개인 작업",
     "timeline": "",
     "timelineKo": "",
-    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/paLC7Y3MzUkhJnidoUt0TA/ZA3-NRfDJ0lJDudCieSiWHej8YGY1NyEnoHoLSXtPfZpL_rooWBV6LS9Z7R03vi0jbs3uv5AeW6WgMEr4syWLxFZCK_5_0K13UrnX9Fhje3lZ448GYrT3GuFRV6thrxD2vbIEUJ56GyOEeDxwHlq3g/dC0gFi-Fqjw-hymg3ngxaiYHHx8F3mC4G0wMPxDc2N0",
-    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/_gDkkzycuWHErX3_hmJTaw/wEiqgza6IcyFp9Je8sYiPwJ2yiu-I3Bv-UxNOAMOAcwtgtOhBy1BQ5rxEtM-H2zxHj2kot9IVU21yddbk1k15bkpRQ2dDxJuqZgJbJAItX5MtwWbzlkaTFwJ_hF0hpQ0EoXk9IwogcZn7T7-T25VLQ/Q6lPLiNXBJaT3fLGh3h16jHEEw7FNxEyk-exXj_2VYs",
+    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/ifs95Uihd1n85rbOp-oj1w/-NMKqGZ6LJkdmjVV28xFy4epAXfR9Zw-6AeDl0qEAyAUmyRQ6SVIWCY8Qxkk0Sx0OyFWdGLfPXc7PUUfZg9jKfhsinPFRRmTI0GTv4rRcdTq-5NTpaOmHMmSnIldJWYOTtkTqJIje-EQUaZd0yrt9RwdKWW1iYfSgsyexJCCnY0/fS8lT6Q81wX8DKvhKpYXgl3SYJoDZabcrAVyTlkFZhw",
+    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/Q5yz1KIvcUAOjGH1QJvQGA/byF6AH5thi4i0ZxDLhczs96oDBslDPXrMHZNVbaqT_IUg-lnPY5Snwu_B_oXMAUi_8Z5LniK9mTVS1qqWu-rSjNUc5FM-HVIkIHmjHvHNTY3G7n15PRb0msPPGW8lFv0U0LcNcPjF-BjaRP8Rt4naw/fPCOoCHaH1tHhvZGKcBm5mTEuJ8Ra5unZcJ_7l0ZobI",
     "externalUrl": "",
-    "images": [],
+    "images": [
+      {
+        "id": "abstracted-things-2-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/1vN5R_M1BRiruZjSFLTxSA/iFhySoLggXmueUfJ0GtDdfkQpP4U3X4WoY7rPHutt-gaH2hZ0a4gGYvRWZix-FOcbzeAIvHmZDEMhmXcWX9zid6DD4jN_EloFON5CwI_IHdzVsOUJClwz1Bl0-Pu2qRnpVpyAJGvXUL96aE3IqIn3mcwfEryYUJsCI6q1Mkrf-8/bfITLxDU1sOSjcJRu9l-eW5vm0YizMRqJuu3pUce-3k",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/VuEy9o88sAltTz5z49Jcxg/v0Wd7c5fFJG5IPZoFPYLm5HnnOQaVRzvgF9jKCXlTNRh3MMFPg9KHsxl95pr48pmaw1KSzvh-O9qM5mzggNb52Vq5QdsMA6-KvOX90wIkYYFMrM3y6j74o7Cr3E3yDvZk2hYkbxPwOKwOBUrSetoQA/lzzIC0iWeIFNoT893FfXtsVGoid4rWypAHHWo7Bmg7o",
+        "alt": "IMG_9178-Edit-Edit.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 0.7072808320950966,
+        "groupId": "abstracted-things-2",
+        "layout": "single"
+      },
+      {
+        "id": "abstracted-things-3-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qrsYVd4X9BR1Ftktt2hLCQ/_KfHN5TiRXVlYGZci60ksCsZroeIsjj0myq80Eqe1DvaNF3ZfRyPQfjZ1eaN1eq9XAAVNbcY72ChwRJEyo4KGypaeZzUKumqPvDMWgC1qVULNUBwG9jW8ySLKtZY-QOJnd4S8b3OIC8XRxVQ54c40RVljVQajof2EH5LJ4Y8-V8/FvzTUJbhqqlzPc8KzIyfeQqLICj1jQdKsEkpHCG2i2A",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/70d3nWpewQQdUoDQ2OXzLA/pQBCYyk-7bFwcI4j9fLRIMhweXz233RfSf7mSEjCsrW9zgCd_73uVIozHvqGuaB4L_IoQ7b384yenqE9Euts072U1dx521q3Ge5mTibeuLZCzgphitw6e1Q2anYXkDdyCAgaJMGEwQ2SL6vL527kPQ/KjB8mPELxbKVgZE5MXoJ_cjp4fIOH15hH060g3GWjjQ",
+        "alt": "IMG_9176-Edit-Edit.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 0.7069440195778526,
+        "groupId": "abstracted-things-3",
+        "layout": "single"
+      },
+      {
+        "id": "abstracted-things-4-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/BGBxxyfS3qT3VNp44zOBiA/C9qNyAETXUObkVJutFCHjGM5rg5NVdMAb0-n3azDrXHmxdWSfWhFpKKX7cJNagcErt3AMm2xK8gWdZYIik3-KccWT-CNNZHLFqGDez1us2AgR_o9exRQu-mlVM3TOGeEbTvDjiFgLjNI5f1WyzCpmjHeTqe8JXjUYL2if1WtsIE/5TlHdG4nL5tZIZvTRJ_ciBc4kDe-XDsQ1Jc4KmTmDwM",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/fQr7rwtEmGFus3lJLAF9Ow/9tUQdrR0N7tAXo1H77ietPxunpPfRllSUlxJZpRecNIxiuj7ZtuacR3Hl-BmZuGHNkPBgMVhmpeMmWx4Kw3afK0dbE6dsTR0TFFvmVd9qsmhBvSkf-TBn7ywYrabm2LbznjcKQ__Ww15MUCZUWK9rw/QzcQkroHRvedb7It0zKKrTDE4NeMnjkX9TnRUknPCs8",
+        "alt": "IMG_9180-Edit.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 0.7069607562303065,
+        "groupId": "abstracted-things-4",
+        "layout": "single"
+      },
+      {
+        "id": "abstracted-things-5-1",
+        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qyuc5bas6pavl1AZNbCe9A/Wvx0ASw5nwTFqUn60U2G3Onf2_P_y-YUz_i_Q4DCQCtVKua-XZI3vAxfoMINF439kVyvJE3hVQvjgC1cr6UVGglh20zq2bqjBFS9jMl25MQ3LcCEB19_w-eNjXf8bh9Il6wEXhM-WHg9LgdrYJf3rfcz10Kbj6dYAuZW6gvjD13SWsOveKcoZAcO9qICNEtp/roqr8DdLiUeebSWWVYqwS6B1-NMLgttvIJ9DWHPv7nc",
+        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/amqkBkiOgluT8N3_kJP0uw/m7A2mAPBHdozhV-P7KjuWsCg_bOk2MVDPO0uWBtDQuq1yLAtBUqG9UJZ6jFyuHxtLSTVm1Pfg3z5hC-XS6PhhWD8jfj7MBZ0zOLL995vtZzoDIbfTsoneIWItvQA0uOmkGrYhwZd-GtGZ2Gb-EmQ9Q/p9WUiJEyyBkzzgi9tHMS9HAkust-Oy4VLdT1iNwdKmw",
+        "alt": "IMG_9182-Edit-Edit-Edit.webp",
+        "isAnimatedGif": false,
+        "width": "full",
+        "aspectRatio": 0.7067099567099567,
+        "groupId": "abstracted-things-5",
+        "layout": "single"
+      }
+    ],
     "tags": [],
     "medium": [
-      "Book Arts"
+      "Silkscreen on canvas"
     ],
     "mediumKo": [
-      "아트북"
+      "캔버스에 실크스크린"
     ],
     "gridWidth": 6,
     "featured": false,
@@ -875,88 +942,6 @@
     "category": "fine-arts"
   },
   {
-    "id": "rec9JK3uTOqVC6nhW",
-    "slug": "abstracted-things",
-    "title": "Abstracted things",
-    "titleKo": "추상한 것들",
-    "subtitle": "",
-    "subtitleKo": "",
-    "year": "2023",
-    "description": "",
-    "descriptionKo": "",
-    "topDescription": "",
-    "topDescriptionKo": "",
-    "middleDescription": "",
-    "middleDescriptionKo": "",
-    "bottomDescription": "",
-    "bottomDescriptionKo": "",
-    "role": "",
-    "roleKo": "",
-    "team": "Personal Work",
-    "teamKo": "개인 작업",
-    "timeline": "",
-    "timelineKo": "",
-    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/ifs95Uihd1n85rbOp-oj1w/-NMKqGZ6LJkdmjVV28xFy4epAXfR9Zw-6AeDl0qEAyAUmyRQ6SVIWCY8Qxkk0Sx0OyFWdGLfPXc7PUUfZg9jKfhsinPFRRmTI0GTv4rRcdTq-5NTpaOmHMmSnIldJWYOTtkTqJIje-EQUaZd0yrt9RwdKWW1iYfSgsyexJCCnY0/fS8lT6Q81wX8DKvhKpYXgl3SYJoDZabcrAVyTlkFZhw",
-    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/Q5yz1KIvcUAOjGH1QJvQGA/byF6AH5thi4i0ZxDLhczs96oDBslDPXrMHZNVbaqT_IUg-lnPY5Snwu_B_oXMAUi_8Z5LniK9mTVS1qqWu-rSjNUc5FM-HVIkIHmjHvHNTY3G7n15PRb0msPPGW8lFv0U0LcNcPjF-BjaRP8Rt4naw/fPCOoCHaH1tHhvZGKcBm5mTEuJ8Ra5unZcJ_7l0ZobI",
-    "externalUrl": "",
-    "images": [
-      {
-        "id": "abstracted-things-2-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/1vN5R_M1BRiruZjSFLTxSA/iFhySoLggXmueUfJ0GtDdfkQpP4U3X4WoY7rPHutt-gaH2hZ0a4gGYvRWZix-FOcbzeAIvHmZDEMhmXcWX9zid6DD4jN_EloFON5CwI_IHdzVsOUJClwz1Bl0-Pu2qRnpVpyAJGvXUL96aE3IqIn3mcwfEryYUJsCI6q1Mkrf-8/bfITLxDU1sOSjcJRu9l-eW5vm0YizMRqJuu3pUce-3k",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/VuEy9o88sAltTz5z49Jcxg/v0Wd7c5fFJG5IPZoFPYLm5HnnOQaVRzvgF9jKCXlTNRh3MMFPg9KHsxl95pr48pmaw1KSzvh-O9qM5mzggNb52Vq5QdsMA6-KvOX90wIkYYFMrM3y6j74o7Cr3E3yDvZk2hYkbxPwOKwOBUrSetoQA/lzzIC0iWeIFNoT893FfXtsVGoid4rWypAHHWo7Bmg7o",
-        "alt": "IMG_9178-Edit-Edit.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 0.7072808320950966,
-        "groupId": "abstracted-things-2",
-        "layout": "single"
-      },
-      {
-        "id": "abstracted-things-3-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qrsYVd4X9BR1Ftktt2hLCQ/_KfHN5TiRXVlYGZci60ksCsZroeIsjj0myq80Eqe1DvaNF3ZfRyPQfjZ1eaN1eq9XAAVNbcY72ChwRJEyo4KGypaeZzUKumqPvDMWgC1qVULNUBwG9jW8ySLKtZY-QOJnd4S8b3OIC8XRxVQ54c40RVljVQajof2EH5LJ4Y8-V8/FvzTUJbhqqlzPc8KzIyfeQqLICj1jQdKsEkpHCG2i2A",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/70d3nWpewQQdUoDQ2OXzLA/pQBCYyk-7bFwcI4j9fLRIMhweXz233RfSf7mSEjCsrW9zgCd_73uVIozHvqGuaB4L_IoQ7b384yenqE9Euts072U1dx521q3Ge5mTibeuLZCzgphitw6e1Q2anYXkDdyCAgaJMGEwQ2SL6vL527kPQ/KjB8mPELxbKVgZE5MXoJ_cjp4fIOH15hH060g3GWjjQ",
-        "alt": "IMG_9176-Edit-Edit.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 0.7069440195778526,
-        "groupId": "abstracted-things-3",
-        "layout": "single"
-      },
-      {
-        "id": "abstracted-things-4-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/BGBxxyfS3qT3VNp44zOBiA/C9qNyAETXUObkVJutFCHjGM5rg5NVdMAb0-n3azDrXHmxdWSfWhFpKKX7cJNagcErt3AMm2xK8gWdZYIik3-KccWT-CNNZHLFqGDez1us2AgR_o9exRQu-mlVM3TOGeEbTvDjiFgLjNI5f1WyzCpmjHeTqe8JXjUYL2if1WtsIE/5TlHdG4nL5tZIZvTRJ_ciBc4kDe-XDsQ1Jc4KmTmDwM",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/fQr7rwtEmGFus3lJLAF9Ow/9tUQdrR0N7tAXo1H77ietPxunpPfRllSUlxJZpRecNIxiuj7ZtuacR3Hl-BmZuGHNkPBgMVhmpeMmWx4Kw3afK0dbE6dsTR0TFFvmVd9qsmhBvSkf-TBn7ywYrabm2LbznjcKQ__Ww15MUCZUWK9rw/QzcQkroHRvedb7It0zKKrTDE4NeMnjkX9TnRUknPCs8",
-        "alt": "IMG_9180-Edit.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 0.7069607562303065,
-        "groupId": "abstracted-things-4",
-        "layout": "single"
-      },
-      {
-        "id": "abstracted-things-5-1",
-        "url": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/qyuc5bas6pavl1AZNbCe9A/Wvx0ASw5nwTFqUn60U2G3Onf2_P_y-YUz_i_Q4DCQCtVKua-XZI3vAxfoMINF439kVyvJE3hVQvjgC1cr6UVGglh20zq2bqjBFS9jMl25MQ3LcCEB19_w-eNjXf8bh9Il6wEXhM-WHg9LgdrYJf3rfcz10Kbj6dYAuZW6gvjD13SWsOveKcoZAcO9qICNEtp/roqr8DdLiUeebSWWVYqwS6B1-NMLgttvIJ9DWHPv7nc",
-        "thumbnailUrl": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/amqkBkiOgluT8N3_kJP0uw/m7A2mAPBHdozhV-P7KjuWsCg_bOk2MVDPO0uWBtDQuq1yLAtBUqG9UJZ6jFyuHxtLSTVm1Pfg3z5hC-XS6PhhWD8jfj7MBZ0zOLL995vtZzoDIbfTsoneIWItvQA0uOmkGrYhwZd-GtGZ2Gb-EmQ9Q/p9WUiJEyyBkzzgi9tHMS9HAkust-Oy4VLdT1iNwdKmw",
-        "alt": "IMG_9182-Edit-Edit-Edit.webp",
-        "isAnimatedGif": false,
-        "width": "full",
-        "aspectRatio": 0.7067099567099567,
-        "groupId": "abstracted-things-5",
-        "layout": "single"
-      }
-    ],
-    "tags": [],
-    "medium": [
-      "Silkscreen on canvas"
-    ],
-    "mediumKo": [
-      "캔버스에 실크스크린"
-    ],
-    "gridWidth": 6,
-    "featured": false,
-    "category": "fine-arts"
-  },
-  {
     "id": "rec6B1dgKyLo6PPcq",
     "slug": "fish-market",
     "title": "Fish Market",
@@ -1044,6 +1029,43 @@
     ],
     "mediumKo": [
       "종이에 실크스크린"
+    ],
+    "gridWidth": 6,
+    "featured": false,
+    "category": "fine-arts"
+  },
+  {
+    "id": "recql6dtFwmDrfE3y",
+    "slug": "nobody-home",
+    "title": "Nobody Home",
+    "titleKo": "노바디 홈",
+    "subtitle": "",
+    "subtitleKo": "",
+    "year": "2024",
+    "description": "",
+    "descriptionKo": "",
+    "topDescription": "",
+    "topDescriptionKo": "",
+    "middleDescription": "",
+    "middleDescriptionKo": "",
+    "bottomDescription": "",
+    "bottomDescriptionKo": "",
+    "role": "",
+    "roleKo": "",
+    "team": "Personal work",
+    "teamKo": "개인 작업",
+    "timeline": "",
+    "timelineKo": "",
+    "heroImage": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/paLC7Y3MzUkhJnidoUt0TA/ZA3-NRfDJ0lJDudCieSiWHej8YGY1NyEnoHoLSXtPfZpL_rooWBV6LS9Z7R03vi0jbs3uv5AeW6WgMEr4syWLxFZCK_5_0K13UrnX9Fhje3lZ448GYrT3GuFRV6thrxD2vbIEUJ56GyOEeDxwHlq3g/dC0gFi-Fqjw-hymg3ngxaiYHHx8F3mC4G0wMPxDc2N0",
+    "heroThumbnail": "https://v5.airtableusercontent.com/v3/u/59/59/1794376800000/_gDkkzycuWHErX3_hmJTaw/wEiqgza6IcyFp9Je8sYiPwJ2yiu-I3Bv-UxNOAMOAcwtgtOhBy1BQ5rxEtM-H2zxHj2kot9IVU21yddbk1k15bkpRQ2dDxJuqZgJbJAItX5MtwWbzlkaTFwJ_hF0hpQ0EoXk9IwogcZn7T7-T25VLQ/Q6lPLiNXBJaT3fLGh3h16jHEEw7FNxEyk-exXj_2VYs",
+    "externalUrl": "",
+    "images": [],
+    "tags": [],
+    "medium": [
+      "Book Arts"
+    ],
+    "mediumKo": [
+      "아트북"
     ],
     "gridWidth": 6,
     "featured": false,
